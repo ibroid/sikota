@@ -1,6 +1,9 @@
 .DS_Store
 
 application/cache/*
+uploads
+rtf
+application/config/database.php
 !application/cache/index.html
 
 application/logs/*
