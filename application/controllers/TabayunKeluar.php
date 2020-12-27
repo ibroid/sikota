@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require 'vendor/autoload.php';
+
 require_once APPPATH . 'libraries/Validation.php';
 require_once APPPATH . 'libraries/Notifikasi.php';
 require_once APPPATH . 'models/Tabayun_keluar.php';
@@ -172,6 +174,31 @@ class TabayunKeluar extends CI_Controller
     } else {
       return $filename . $this->upload->data()['file_ext'];
     }
+  }
+  public function debug()
+  {
+    echo json_encode(Tabayun_keluar::getWhere(['id' => 356])->row_array());
+  }
+
+  public function sendAPI()
+  {
+    // persiapkan curl
+    $ch = curl_init();
+
+    // set url 
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:5000/api/test");
+
+    // return the transfer as a string 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    // $output contains the output string 
+    $output = curl_exec($ch);
+
+    // tutup curl 
+    curl_close($ch);
+
+    // menampilkan hasil curl
+    echo $output;
   }
 }
 
