@@ -1,8 +1,8 @@
 .DS_Store
-
+.rtf
 application/cache/*
-uploads/*
-rtf/*
+uploads/
+rtf/
 application/config/database.php
 !application/cache/index.html
 
