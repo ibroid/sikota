@@ -15,20 +15,21 @@
         <div class="panel-body">
           <div class="container">
             <form action="<?= base_url() ?>TabayunKeluar/update" method="POST" enctype="multipart/form-data">
-              <input type="hidden" name="id" value="<?= $data['id'] ?>">
-              <input type="hidden" name="id_pn_asal" value="<?= $data['id_pn_asal'] ?>">
-              <input type="hidden" name="id_pn_tujuan" value="<?= $data['id_pn_tujuan'] ?>">
+              <input type="hidden" <?= dom()->formProses($data['id']) ?> name="id" value="<?= $data['id'] ?>">
+              <input type="hidden" <?= dom()->formProses($data['id_pn_asal']) ?> name="id_pn_asal" value="<?= $data['id_pn_asal'] ?>">
+              <input type="hidden" <?= dom()->formProses($data['id_pn_tujuan']) ?> name="id_pn_tujuan" value="<?= $data['id_pn_tujuan'] ?>">
+              <input type="hidden" <?= dom()->formProses($data['perkara_id']) ?> name="perkara_id" value="<?= $data['perkara_id'] ?>">
               <h4 style="margin-left: 200px ;">Status Delegasi Kirim</h4><br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nomor Perkara</label>
 
                   <div class="col-sm-6">
-                    <input disabled type="text" id="input-perkara" required autocomplete="off" value="<?= $data['nomor_perkara'] ?>" name="nomor_perkara" class="info form-control">
+                    <input <?= dom()->formProses($data['nomor_perkara']) ?> type="text" id="input-perkara" required autocomplete="off" value="<?= $data['nomor_perkara'] ?>" name="nomor_perkara" class="info form-control">
                   </div>
 
                   <div class="col-md-2">
-                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" disabled class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
+                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" <?= dom()->formProses($data['nomor_perkara']) ?> class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
                   </div>
 
                 </div>
@@ -39,7 +40,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Jenis Delegasi</label>
                   <div class="col-sm-8">
-                    <select required disabled name="jenis_delegasi_text" class="info form-control">
+                    <select required <?= dom()->formProses($data['jenis_delegasi_text']) ?> name="jenis_delegasi_text" class="info form-control">
                       <option><?= $data['jenis_delegasi_text']; ?></option>
                       <?php foreach ($this->SIPP->customAll('jenis_delegasi') as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
                       <?php endforeach ?>
@@ -53,7 +54,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Tujuan Delegasi</label>
                   <div class="col-sm-8">
-                    <input type="text" disabled required autocomplete="off" onblur="buttonradius()" id="perPN" value="<?= $data['pn_tujuan_text'] ?>" name="pn_tujuan_text" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['pn_tujuan_text']) ?> required autocomplete="off" onblur="buttonradius()" id="perPN" value="<?= $data['pn_tujuan_text'] ?>" name="pn_tujuan_text" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -69,10 +70,10 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nama & Agama Pihak</label>
                   <div class="col-sm-4">
-                    <input type="text" value="<?= $data['pihak'] ?>" disabled name="pihak" id="nama-pihak" class="info form-control">
+                    <input type="text" value="<?= $data['pihak'] ?>" <?= dom()->formProses($data['pihak']) ?> name="pihak" id="nama-pihak" class="info form-control">
                   </div>
                   <div class="col-sm-4">
-                    <input type="text" disabled name="agama_pihak" value="<?= $data['agama_pihak'] ?>" id="agama-pihak" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['agama_pihak']) ?> name="agama_pihak" value="<?= $data['agama_pihak'] ?>" id="agama-pihak" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -83,10 +84,10 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tempat & Tanggal Lahir </label>
                   <div class="col-sm-4">
-                    <input type="text" disabled value="<?= $data['tempat_lahir_pihak'] ?>" name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['tempat_lahir_pihak']) ?> value="<?= $data['tempat_lahir_pihak'] ?>" name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
                   </div>
                   <div class="col-sm-4">
-                    <input type="text" disabled value="<?= $data['tanggal_lahir_pihak'] ?>" name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['tanggal_lahir_pihak']) ?> value="<?= $data['tanggal_lahir_pihak'] ?>" name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -96,10 +97,10 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Pendidikan & Pekerjaan</label>
                   <div class="col-sm-4">
-                    <input type="text" disabled value="<?= $data['pendidikan_pihak'] ?>" name="pendidikan_pihak" id="pendidikan-pihak" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['pendidikan_pihak']) ?> value="<?= $data['pendidikan_pihak'] ?>" name="pendidikan_pihak" id="pendidikan-pihak" class="info form-control">
                   </div>
                   <div class="col-sm-4">
-                    <input type="text" disabled name="pekerjaan_pihak" value="pekerjaan_pihak" id="pekerjaan-pihak" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['pekerjaan_pihak']) ?> name="pekerjaan_pihak" value="pekerjaan_pihak" id="pekerjaan-pihak" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -110,7 +111,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Alamat Pihak </label>
                   <div class="col-sm-8">
-                    <textarea cols="10" disabled id="alamat-pihak" name="alamat_pihak" class="form-control info" rows="3"><?= $data['alamat_pihak']; ?></textarea>
+                    <textarea cols="10" <?= dom()->formProses($data['alamat_pihak']) ?> id="alamat-pihak" name="alamat_pihak" class="form-control info" rows="3"><?= $data['alamat_pihak']; ?></textarea>
                   </div>
                 </div>
               </div>
@@ -122,7 +123,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Nomor Surat </label>
                   <div class="col-sm-8">
-                    <input type="text" disabled required value="<?= $data['nomor_surat'] ?>" autocomplete="off" name="nomor_surat" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['nomor_surat']) ?> required value="<?= $data['nomor_surat'] ?>" autocomplete="off" name="nomor_surat" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -132,7 +133,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Surat </label>
                   <div class="col-sm-8">
-                    <input type="text" required autocomplete="off" disabled value="<?= $data['tgl_surat'] ?>" name="tgl_surat" class="info form-control datepicker">
+                    <input type="text" required autocomplete="off" <?= dom()->formProses($data['tgl_surat']) ?> value="<?= $data['tgl_surat'] ?>" name="tgl_surat" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -141,7 +142,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Delegasi </label>
                   <div class="col-sm-8">
-                    <input type="text" disabled required autocomplete="off" value="<?= $data['tgl_delegasi'] ?>" name="tgl_delegasi" class="info form-control datepicker">
+                    <input type="text" <?= dom()->formProses($data['tgl_delegasi']) ?> required autocomplete="off" value="<?= $data['tgl_delegasi'] ?>" name="tgl_delegasi" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -150,7 +151,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Sidang </label>
                   <div class="col-sm-8">
-                    <input type="text" disabled value="<?= $data['tgl_sidang'] ?>" required autocomplete="off" name="tgl_sidang" class="info form-control datepicker">
+                    <input type="text" <?= dom()->formProses($data['tgl_sidang']) ?> value="<?= $data['tgl_sidang'] ?>" required autocomplete="off" name="tgl_sidang" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -159,10 +160,10 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Biaya Delegasi </label>
                   <div class="col-sm-6">
-                    <input type="text" disabled value="<?= $data['biaya'] ?>" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['biaya']) ?> value="<?= $data['biaya'] ?>" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
                   </div>
                   <div class="col-sm-4">
-                    <button disabled onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
+                    <button <?= dom()->formProses($data['biaya']) ?> onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
                   </div>
                 </div>
               </div>
@@ -171,7 +172,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Catatan </label>
                   <div class="col-sm-8">
-                    <textarea required name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"><?= $data['catatan']; ?></textarea>
+                    <textarea required <?= dom()->formProses($data['catatan']) ?> name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"><?= $data['catatan']; ?></textarea>
                   </div>
                 </div>
               </div>
@@ -180,7 +181,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Nomor Resi </label>
                   <div class="col-sm-8">
-                    <input type="text" required value="<?= $data['nomor_resi'] ?>" name="nomor_resi" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['nomor_resi']) ?> required value="<?= $data['nomor_resi'] ?>" name="nomor_resi" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -189,7 +190,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Resi </label>
                   <div class="col-sm-8">
-                    <input type="text" required value="<?= $data['tgl_resi'] ?>" name="tgl_resi" class="info form-control datepicker">
+                    <input type="text" <?= dom()->formProses($data['tgl_resi']) ?> required value="<?= $data['tgl_resi'] ?>" name="tgl_resi" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -200,17 +201,35 @@
                   <div class="col-sm-8">
                     <?php if (empty($data['file'])) { ?>
                       <input type="file" required multiple name="document[]" class="info form-control">
-                    <?php } else {
-                      echo dom()->fileHasil($data['file']);
-                    } ?>
+                    <?php } else { ?>
+                      <table class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Nama File</th>
+                            <th>Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach ($data['file'] as $f => $v) { ?>
+                            <tr>
+                              <td><?= $f; ?></td>
+                              <td><a target="_blank" href="<?= base_url('uploads/surat/keluar/') . $v['file'] ?>"><?= $v['file'] ?></a></td>
+                              <td><button>Hapus</button></td>
+                            </tr>
+                          <?php } ?>
+                        </tbody>
+
+                      </table>
+                    <?php } ?>
                   </div>
                 </div>
               </div>
               <br>
               <a href="<?= base_url('TabayunKeluar/daftar') ?>" class="btn btn-secondary margin-right-2"><i class="fa fa-backward"></i> Kembali</a>
-              <button type="button" id="addUploadField" class="btn btn-secondary margin-right-2"><i class="fa fa-plus"></i> Tambah File Upload</button>
-              <button type="button" class="btn btn-warning margin-right-2"><i class="fa fa-pencil"></i> Edit</button>
+              <button type="button" id="edit" class="btn btn-warning margin-right-2"><i class="fa fa-pencil"></i> Edit</button>
               <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+              <?= dom()->siapProses($data['file']); ?>
             </form>
           </div>
         </div>
@@ -376,6 +395,14 @@
       return false;
     }
   }
+
+  document.getElementById('edit').addEventListener('click', function(e) {
+    const allForm = document.getElementsByClassName('form-control')
+    for (let i = 0; i < allForm.length; i++) {
+      const element = allForm[i];
+      element.removeAttribute('disabled')
+    }
+  })
 
   function placeRadius() {
     document.getElementById('rad').innerHTML = result

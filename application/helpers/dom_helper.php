@@ -12,6 +12,22 @@ function dom()
       }
       return '<ul>' . $hasil . '</ul>';
     }
+    function formProses($par = '')
+    {
+      if (!empty($par)) {
+        return 'disabled';
+      } else {
+        return false;
+      }
+    }
+    function siapProses($file = '')
+    {
+      if (!empty($file)) {
+        return '<button class="btn btn-danger" type="button"><i class="fa fa-paper-plane"></i> Kirim</button>';
+      } else {
+        return false;
+      }
+    }
   };
   return $dom;
 }

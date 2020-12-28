@@ -132,6 +132,11 @@ class TabayunKeluar extends CI_Controller
 
   public function update()
   {
+    if (empty(requestAll())) {
+      Notifikasi::flash('warning', 'Data Tidak ada yang berubah');
+      redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
+
     if (!in_array(4, $_FILES['document']['error'])) {
       for ($i = 0; $i < count($_FILES['document']['name']); $i++) {
         $_FILES['document' . $i] = array(
@@ -146,7 +151,8 @@ class TabayunKeluar extends CI_Controller
           'id_pn_asal' => request('id_pn_asal'),
           'id_pn_tujuan' => request('id_pn_tujuan'),
           'file' => $this->upload('document' . $i),
-          'status_file' => 'FALSE',
+          'status_file' => 1,
+          'perkara_id' => request('perkara_id'),
           'diinput_oleh' => 'Web Master',
           'diinput_tanggal' => date('yy-m-d')
         ]);
@@ -164,7 +170,7 @@ class TabayunKeluar extends CI_Controller
   {
     $filename = time();
     $config['upload_path'] = './uploads/surat/keluar';
-    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
     $config['max_size'] = '1024';
     $config['file_name'] = $filename;
     $this->load->library('upload', $config);
@@ -180,26 +186,15 @@ class TabayunKeluar extends CI_Controller
     echo json_encode(Tabayun_keluar::getWhere(['id' => 356])->row_array());
   }
 
-  public function sendAPI()
-  {
-    // persiapkan curl
-    $ch = curl_init();
-
-    // set url 
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:5000/api/test");
-
-    // return the transfer as a string 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // $output contains the output string 
-    $output = curl_exec($ch);
-
-    // tutup curl 
-    curl_close($ch);
-
-    // menampilkan hasil curl
-    echo $output;
-  }
+  // public function sendAPI()
+  // {
+  //   $client = new GuzzleHttp\Client(['base_uri' => 'http://sikota.online']);
+  //   $response = $client->post('/api/tabayun/request', [
+  //     GuzzleHttp\RequestOptions::JSON => ['identity_id' => 468]
+  //   ]);
+  //   echo "<pre>";
+  //   print_r($response->getBody()->getContents());
+  // }
 }
 
 /* End of file TabayunKeluar.php */
