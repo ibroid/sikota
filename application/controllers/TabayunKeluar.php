@@ -136,7 +136,7 @@ class TabayunKeluar extends CI_Controller
           'delegasi_id' => request('id'),
           'id_pn_asal' => request('id_pn_asal'),
           'id_pn_tujuan' => request('id_pn_tujuan'),
-          'file' => Uuid::uuid4()->toString() . '_' . $this->upload('document' . $i),
+          'file' =>  $this->upload('document' . $i),
           'status_file' => 1,
           'perkara_id' => request('perkara_id'),
           'diinput_oleh' => 'Web Master',
@@ -163,7 +163,7 @@ class TabayunKeluar extends CI_Controller
   }
   public function upload($par)
   {
-    $filename = time();
+    $filename = Uuid::uuid4()->toString() . '_' . time();
     $config['upload_path'] = './uploads/surat/keluar';
     $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
     $config['max_size'] = '1024';
