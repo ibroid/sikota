@@ -23,7 +23,7 @@ function dom()
     function siapProses($file = '')
     {
       if (!empty($file)) {
-        return '<button class="btn btn-danger" type="button"><i class="fa fa-paper-plane"></i> Kirim</button>';
+        return '<button class="btn btn-danger" id="siapProses" type="button"><i class="fa fa-paper-plane"></i> Kirim</button>';
       } else {
         return false;
       }

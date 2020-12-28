@@ -16,7 +16,7 @@
         <div class="panel-body">
           <div class="container">
             <form action="<?= base_url() ?>TabayunKeluar/update" method="POST" enctype="multipart/form-data">
-              <input type="hidden" name="id" value="<?= $data['id'] ?>">
+              <input type="hidden" id="idTabayun" name="id" value="<?= $data['id'] ?>">
               <input type="hidden" name="id_pn_asal" value="<?= $data['id_pn_asal'] ?>">
               <input type="hidden" name="id_pn_tujuan" value="<?= $data['id_pn_tujuan'] ?>">
               <input type="hidden" name="perkara_id" value="<?= $data['perkara_id'] ?>">
@@ -431,4 +431,17 @@
   function selectRadius(params) {
     document.getElementById('biaya').value = params
   }
+
+  document.getElementById('siapProses').addEventListener('click', function(e) {
+    const idTabayun = document.getElementById('idTabayun').value
+    confirmAlert().then(async (result) => {
+      if (result.isConfirmed) {
+        const hasil = await fetch(base_url + 'TabayunKeluar/sendData?data=' + idTabayun)
+          .then((response) => response.json())
+        notifAlert(hasil).then(() => {
+          location.href = base_url + 'TabayunKeluar/daftar'
+        })
+      }
+    })
+  })
 </script>

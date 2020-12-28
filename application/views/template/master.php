@@ -189,7 +189,18 @@
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Ya, Hapus!',
-      reverseButton: true
+    })
+  }
+
+  function confirmAlert() {
+    return Swal.fire({
+      title: 'Apa Anda Yakin?',
+      text: "Data Yang di Kirim Tidak Bisa di Ubah",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Kirim!',
     })
   }
 

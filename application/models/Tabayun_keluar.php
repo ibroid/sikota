@@ -54,7 +54,7 @@ class Tabayun_keluar extends Model
 		$self->_get_datatables_query();
 		if (request('length') != -1)
 			parent::instance()->db->limit(request('length'), request('start'));
-		$query = self::get();
+		$query = self::where('status_kirim', 0)->get();
 		return $query->result();
 	}
 

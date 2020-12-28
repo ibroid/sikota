@@ -60,7 +60,8 @@ class TabayunKeluar extends CI_Controller
     } else {
       $_POST['nomor_surat'] = Nomor_surat::tabayunKeluar();
       $this->db->insert('tabayun_keluar', array_merge(requestAll(), self::completingdata(), [
-        'created_by' => event()->inputBy()
+        'created_by' => event()->inputBy(),
+        'tanggal_pengiriman' => request('tgl_surat')
       ]));
       Nomor_surat::saveUpdate();
       Notifikasi::flash('success', 'Data Berhasil di Tambahkan');
@@ -97,8 +98,6 @@ class TabayunKeluar extends CI_Controller
       'jenis_perkara_text' => $perkara_id[0]->jenis_perkara_text
     ));
   }
-
-
   public function proses($id = '')
   {
     $this->list = Tabayun_keluar::getWhere(['id' => $id])->row_array();
@@ -130,7 +129,6 @@ class TabayunKeluar extends CI_Controller
           'error' => $_FILES['document']['error'][$i],
           'size' => $_FILES['document']['size'][$i],
         );
-
         Tabayun_file_keluar::insert([
           'delegasi_id' => request('id'),
           'id_pn_asal' => request('id_pn_asal'),
@@ -196,16 +194,37 @@ class TabayunKeluar extends CI_Controller
     }
   }
 
-
-  // public function sendAPI()
-  // {
-  //   $client = new GuzzleHttp\Client(['base_uri' => 'http://sikota.online']);
-  //   $response = $client->post('/api/tabayun/request', [
-  //     GuzzleHttp\RequestOptions::JSON => ['identity_id' => 468]
-  //   ]);
-  //   echo "<pre>";
-  //   print_r($response->getBody()->getContents());
-  // }
+  public function sendData()
+  {
+    if (!isset($_GET['data']) || !isset($_SERVER['HTTP_REFERER'])) {
+      $this->output->set_status_header(404);
+      echo 'Not found';
+      die;
+    }
+    if ($_SERVER['HTTP_REFERER'] != base_url() . 'TabayunKeluar/proses/' . request('data')) {
+      $this->output->set_status_header(404);
+      echo 'Not found <br>';
+      echo base_url() . 'TabayunKeluar/proses/' . request('data');
+      die;
+    }
+    $data = Tabayun_keluar::getWhere(['id' => request('data')])->row_array();
+    if (empty($data)) {
+      $this->output->set_status_header(404);
+      echo 'Not found';
+      die;
+    }
+    $data['id_from_client'] = $data['id'];
+    unset($data['id']);
+    $client = new GuzzleHttp\Client(['base_uri' => 'http://sikota.online']);
+    $response = $client->post('/api/tabayun/request', [
+      GuzzleHttp\RequestOptions::JSON => $data
+    ]);
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    if ($hasil['status'] == 200) {
+      Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
+      echo Notifikasi::swal('success', 'Data Tabayun Berhasil di Kirim');
+    };
+  }
 }
 
 /* End of file TabayunKeluar.php */

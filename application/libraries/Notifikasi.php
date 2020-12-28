@@ -16,6 +16,10 @@ class Notifikasi
   }
   public static function swal($type, $text)
   {
-    return '';
+    return json_encode(array(
+      'title' => ucfirst($type),
+      'text' => $text,
+      'icon' => $type,
+    ));
   }
 }
