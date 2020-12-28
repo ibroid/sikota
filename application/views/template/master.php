@@ -22,6 +22,12 @@
   <link href="<?= base_url('assets/backend/datatables/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <link href="<?= base_url('assets/backend/datatables/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <style>
+    .swal2-popup {
+      font-size: 1.4rem !important;
+    }
+  </style>
   <!-- end: Css -->
 
   <link rel="shortcut icon" href="<?= base_url('assets/backend/') ?>img/logomi.png">
@@ -116,11 +122,10 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <!-- plugins -->
 
-<!--suratkeluar-->
-<script src="<?php echo base_url('assets/backend/datatables/js/jquery.dataTables.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/backend/datatables/js/dataTables.bootstrap.min.js') ?>"></script>
+<!--Global-->
 <script src="<?php echo base_url('assets/backend/js/main.js') ?>"></script>
 <script>
+  var base_url = "<?= base_url() ?>";
   $(function() {
     $('.datepicker').daterangepicker({
       singleDatePicker: true,
@@ -173,7 +178,27 @@
         }, ],
       });
     }
+  }
 
+  function warningAlert() {
+    return Swal.fire({
+      title: 'Apa Anda Yakin?',
+      text: "Data Yang di Hapus Tidak akan Kembali",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Hapus!',
+      reverseButton: true
+    })
+  }
+
+  function notifAlert(params) {
+    return Swal.fire({
+      title: params.title,
+      text: params.text,
+      icon: params.icon
+    })
   }
 </script>
 </body>

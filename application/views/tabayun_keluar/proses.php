@@ -7,6 +7,7 @@
   <?= Components::load('panel') ?>
   <div class="col-md-12 padding-0">
     <div class="col-md-12">
+      <?= Notifikasi::showFlash('upload'); ?>
       <?= Notifikasi::showFlash('notif'); ?>
       <div class="panel">
         <div class="panel-heading">
@@ -15,10 +16,10 @@
         <div class="panel-body">
           <div class="container">
             <form action="<?= base_url() ?>TabayunKeluar/update" method="POST" enctype="multipart/form-data">
-              <input type="hidden" <?= dom()->formProses($data['id']) ?> name="id" value="<?= $data['id'] ?>">
-              <input type="hidden" <?= dom()->formProses($data['id_pn_asal']) ?> name="id_pn_asal" value="<?= $data['id_pn_asal'] ?>">
-              <input type="hidden" <?= dom()->formProses($data['id_pn_tujuan']) ?> name="id_pn_tujuan" value="<?= $data['id_pn_tujuan'] ?>">
-              <input type="hidden" <?= dom()->formProses($data['perkara_id']) ?> name="perkara_id" value="<?= $data['perkara_id'] ?>">
+              <input type="hidden" name="id" value="<?= $data['id'] ?>">
+              <input type="hidden" name="id_pn_asal" value="<?= $data['id_pn_asal'] ?>">
+              <input type="hidden" name="id_pn_tujuan" value="<?= $data['id_pn_tujuan'] ?>">
+              <input type="hidden" name="perkara_id" value="<?= $data['perkara_id'] ?>">
               <h4 style="margin-left: 200px ;">Status Delegasi Kirim</h4><br>
               <div class="row">
                 <div class="form-group">
@@ -202,6 +203,8 @@
                     <?php if (empty($data['file'])) { ?>
                       <input type="file" required multiple name="document[]" class="info form-control">
                     <?php } else { ?>
+                      <input type="file" required multiple name="document[]" class="info form-control">
+                      <br>
                       <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
@@ -213,9 +216,9 @@
                         <tbody>
                           <?php foreach ($data['file'] as $f => $v) { ?>
                             <tr>
-                              <td><?= $f; ?></td>
+                              <td><?= ++$f; ?></td>
                               <td><a target="_blank" href="<?= base_url('uploads/surat/keluar/') . $v['file'] ?>"><?= $v['file'] ?></a></td>
-                              <td><button>Hapus</button></td>
+                              <td><button data-id="<?= $v['id'] ?>" type="button" class="btn btn-danger hapus-file">Hapus</button></td>
                             </tr>
                           <?php } ?>
                         </tbody>
@@ -315,7 +318,6 @@
 
   autocomplete(document.getElementById('perPN'), "<?= base_url() ?>FormSupport/daftar_pn", () => {})
 
-
   async function pilihpihak(params) {
     const body = new FormData()
     body.append('value', input.value)
@@ -333,6 +335,23 @@
     const target = document.querySelector('div div.container-fluid')
     target.innerHTML = element
     afterplacing()
+  }
+
+
+  const hapusbtn = document.getElementsByClassName('hapus-file');
+  for (let y = 0; y < hapusbtn.length; y++) {
+    const element = hapusbtn[y];
+    element.addEventListener('click', function() {
+      warningAlert()
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            const hasil = await fetch(base_url + 'TabayunKeluar/deleteFile?id=' + this.dataset.id).then((hasil) => hasil.json())
+            notifAlert(hasil).then(() => {
+              location.reload()
+            })
+          }
+        })
+    })
   }
 
 

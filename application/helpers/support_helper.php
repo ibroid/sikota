@@ -47,3 +47,20 @@ function requestAll()
     return $these->input->get();
   }
 }
+
+function event()
+{
+  $evnt = new class
+  {
+    function inputBy()
+    {
+      return 'Web Master';
+    }
+
+    function updatedAt()
+    {
+      return date("Y-m-d h:i:sa");
+    }
+  };
+  return $evnt;
+}

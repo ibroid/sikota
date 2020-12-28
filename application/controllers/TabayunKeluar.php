@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require 'vendor/autoload.php';
 
+use Ramsey\Uuid\Uuid;
+
 require_once APPPATH . 'libraries/Validation.php';
 require_once APPPATH . 'libraries/Notifikasi.php';
 require_once APPPATH . 'models/Tabayun_keluar.php';
@@ -24,6 +26,7 @@ class TabayunKeluar extends CI_Controller
     $this->load->model('nomor_surat');
     $this->load->model('tabayun_file_keluar');
     $this->load->library('components');
+    $this->load->library('files');
     $this->submenu = $this->db->get_where('sub_menu', ['id_menu' => 2])->result();
   }
 
@@ -58,7 +61,9 @@ class TabayunKeluar extends CI_Controller
       redirect($_SERVER['HTTP_REFERER'], 'refresh');
     } else {
       $_POST['nomor_surat'] = Nomor_surat::tabayunKeluar();
-      $this->db->insert('tabayun_keluar', array_merge(requestAll(), self::completingdata(), $this->inputEvent()));
+      $this->db->insert('tabayun_keluar', array_merge(requestAll(), self::completingdata(), [
+        'created_by' => event()->inputBy()
+      ]));
       Nomor_surat::saveUpdate();
       Notifikasi::flash('success', 'Data Berhasil di Tambahkan');
       redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -68,7 +73,7 @@ class TabayunKeluar extends CI_Controller
   public static function completingdata()
   {
     $these = parent::get_instance();
-    $perkara_id = $these->SIPP->customWhere('perkara_id', [
+    $perkara_id = $these->SIPP->customWhere('perkara_id,jenis_perkara_text', [
       [
         'value' => req()->post()->nomor_perkara,
         'field' => 'nomor_perkara'
@@ -90,25 +95,11 @@ class TabayunKeluar extends CI_Controller
     return array_merge($identity, array(
       'kode_satker_tujuan' => $destination[0]->kode,
       'id_pn_tujuan' => $destination[0]->id,
-      'perkara_id' => $perkara_id[0]->perkara_id
+      'perkara_id' => $perkara_id[0]->perkara_id,
+      'jenis_perkara_text' => $perkara_id[0]->jenis_perkara_text
     ));
   }
 
-  public function inputEvent($e = '')
-  {
-    if ($e) {
-      return array(
-        // 'created_by' => $this->session->userdata()['userdata']['username'],
-        'created_by' => 'admin devel',
-        'updated_at' => date("Y-m-d h:i:sa")
-      );
-    } else {
-      return array(
-        // 'created_by' => $this->session->userdata()['userdata']['username']
-        'created_by' => 'admin devel',
-      );
-    }
-  }
 
   public function proses($id = '')
   {
@@ -132,11 +123,6 @@ class TabayunKeluar extends CI_Controller
 
   public function update()
   {
-    if (empty(requestAll())) {
-      Notifikasi::flash('warning', 'Data Tidak ada yang berubah');
-      redirect($_SERVER['HTTP_REFERER'], 'refresh');
-    }
-
     if (!in_array(4, $_FILES['document']['error'])) {
       for ($i = 0; $i < count($_FILES['document']['name']); $i++) {
         $_FILES['document' . $i] = array(
@@ -150,21 +136,30 @@ class TabayunKeluar extends CI_Controller
           'delegasi_id' => request('id'),
           'id_pn_asal' => request('id_pn_asal'),
           'id_pn_tujuan' => request('id_pn_tujuan'),
-          'file' => $this->upload('document' . $i),
+          'file' => Uuid::uuid4()->toString() . '_' . $this->upload('document' . $i),
           'status_file' => 1,
           'perkara_id' => request('perkara_id'),
           'diinput_oleh' => 'Web Master',
           'diinput_tanggal' => date('yy-m-d')
         ]);
       }
+      Notifikasi::flash('success', 'Upload Berhasil', 'upload');
     }
-    $id = request('id');
-    unset($_POST['id']);
-    Tabayun_keluar::update(requestAll(), [
-      'id' => $id
-    ]);
-    Notifikasi::flash('success', 'Data Berhasil di perbaharui');
-    redirect($_SERVER['HTTP_REFERER']);
+    if (count(requestAll()) == 4) {
+      Notifikasi::flash('warning', 'Data Tidak ada yang berubah');
+      redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    } else {
+      $id = request('id');
+      unset($_POST['id']);
+      Tabayun_keluar::update(array_merge(requestAll(), [
+        'created_by' => event()->inputBy(),
+        'updated_at' => event()->updatedAt()
+      ]), [
+        'id' => $id
+      ]);
+      Notifikasi::flash('success', 'Data Berhasil di perbaharui');
+      redirect($_SERVER['HTTP_REFERER']);
+    }
   }
   public function upload($par)
   {
@@ -181,10 +176,23 @@ class TabayunKeluar extends CI_Controller
       return $filename . $this->upload->data()['file_ext'];
     }
   }
-  public function debug()
+  public function deleteFile()
   {
-    echo json_encode(Tabayun_keluar::getWhere(['id' => 356])->row_array());
+    if (!request('id')) {
+      $this->output->set_status_header('404');
+      echo "404 - not found";
+    } else {
+      $filename = Tabayun_file_keluar::getWhere(['id' => request('id')])->row()->file;
+      Tabayun_file_keluar::delete(['id' => request('id')]);
+      Files::delete('uploads/surat/keluar/', $filename);
+      echo json_encode(array(
+        'title' => ucfirst('success'),
+        'text' => 'Sukses',
+        'icon' => 'success',
+      ));
+    }
   }
+
 
   // public function sendAPI()
   // {

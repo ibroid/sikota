@@ -11,6 +11,7 @@ class Satker extends CI_Controller
   {
     parent::__construct();
     $this->load->library('notifikasi');
+    $this->load->library('files');
     $this->load->model('identity');
   }
 
@@ -48,15 +49,7 @@ class Satker extends CI_Controller
   public static function deleteOldLogo()
   {
     $filename = Identity::getWhere(['name' => 'Logo'])->row()->value;
-    if (file_exists(FCPATH . 'assets/logo/' . $filename)) {
-      if (unlink(FCPATH . 'assets/logo/' . $filename)) {
-        return 'File Berhasil di Hapus';
-      } else {
-        return 'File Gagal di Hapus';
-      }
-    } else {
-      return 'File Tidak Ada';
-    }
+    FIles::delete('assets/logo/', $filename);
   }
   public function sync()
   {
