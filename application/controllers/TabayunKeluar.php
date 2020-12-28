@@ -3,8 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require 'vendor/autoload.php';
 
-use Ramsey\Uuid\Uuid;
-
 require_once APPPATH . 'libraries/Validation.php';
 require_once APPPATH . 'libraries/Notifikasi.php';
 require_once APPPATH . 'models/Tabayun_keluar.php';
@@ -124,7 +122,7 @@ class TabayunKeluar extends CI_Controller
   public function update()
   {
     if (!in_array(4, $_FILES['document']['error'])) {
-      for ($i = 0; $i < count($_FILES['document']['name']); $i++) {
+      foreach ($_FILES['document']['name'] as $i => $value) {
         $_FILES['document' . $i] = array(
           'name' => $_FILES['document']['name'][$i],
           'type' => $_FILES['document']['type'][$i],
@@ -132,6 +130,7 @@ class TabayunKeluar extends CI_Controller
           'error' => $_FILES['document']['error'][$i],
           'size' => $_FILES['document']['size'][$i],
         );
+
         Tabayun_file_keluar::insert([
           'delegasi_id' => request('id'),
           'id_pn_asal' => request('id_pn_asal'),
@@ -163,17 +162,21 @@ class TabayunKeluar extends CI_Controller
   }
   public function upload($par)
   {
-    $filename = Uuid::uuid4()->toString() . '_' . time();
+    if ($par == '') {
+      $this->output->set_status_header('404');
+      echo 'Not Found';
+      die;
+    }
     $config['upload_path'] = './uploads/surat/keluar';
     $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
-    $config['max_size'] = '1024';
-    $config['file_name'] = $filename;
+    $config['max_size'] = '2024';
+    $config['file_name'] = Ramsey\Uuid\Uuid::uuid1();
     $this->load->library('upload', $config);
     if (!$this->upload->do_upload($par)) {
       Notifikasi::flash('danger', $this->upload->display_errors());
       redirect($_SERVER['HTTP_REFERER'], 'refresh');
     } else {
-      return $filename . $this->upload->data()['file_ext'];
+      return $this->upload->data('file_name');
     }
   }
   public function deleteFile()

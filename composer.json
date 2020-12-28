@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.15",
 		"guzzlehttp/guzzle": "^7.0",
-		"ramsey/uuid": "^4.1"
+		"ramsey/uuid": "^4.1",
+		"ircmaxell/random-lib": "^1.2"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
