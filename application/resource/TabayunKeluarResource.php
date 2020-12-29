@@ -2,12 +2,20 @@
 require_once APPPATH . 'models/Tabayun_keluar.php';
 class TabayunkeluarResource
 {
+  static $list = [];
+  static $status;
+
+  public static function setDatatable($grid = 0)
+  {
+    self::$list = Tabayun_keluar::withStatus($grid)->datatables();
+    self::$status = $grid;
+    return new static;
+  }
   public static function datatableResource()
   {
-    $list = Tabayun_keluar::get_datatables();
     $data = array();
     $no = $_POST['start'];
-    foreach ($list as $tbk) {
+    foreach (self::$list as $tbk) {
       $no++;
       $row = array();
       $row[] = $no;
@@ -33,8 +41,8 @@ class TabayunkeluarResource
     }
     $output = array(
       "draw" => $_POST['draw'],
-      "recordsTotal" => Tabayun_keluar::count_all(),
-      "recordsFiltered" => Tabayun_keluar::count_filtered(),
+      "recordsTotal" => Tabayun_keluar::withStatus(self::$status)->count_all(),
+      "recordsFiltered" => Tabayun_keluar::withStatus(self::$status)->count_filtered(),
       "data" => $data,
     );
     echo json_encode($output);

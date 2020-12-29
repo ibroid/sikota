@@ -158,12 +158,13 @@
 
   function datatableserver(params) {
     if ($('#tListTabayun')) {
+      const status = document.getElementById('tListTabayun').dataset.filter
       $('#tListTabayun').DataTable({
         "processing": true,
         "serverSide": true,
         "order": [],
         "ajax": {
-          "url": "<?= base_url('TabayunKeluar/resource') ?>",
+          "url": "<?= base_url('TabayunKeluar/resource?status=') ?>" + status,
           "type": "POST",
           "data": function(data) {
             data.pn_tujuan_text = $('#pn_tujuan_text').val();

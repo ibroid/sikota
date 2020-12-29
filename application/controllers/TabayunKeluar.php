@@ -46,7 +46,7 @@ class TabayunKeluar extends CI_Controller
   public function daftar()
   {
     $this->title = 'Tabayun Keluar';
-    $this->list = Tabayun_keluar::all();
+    $this->list = null;
     $this->view = 'daftar';
     $this->index();
   }
@@ -115,7 +115,7 @@ class TabayunKeluar extends CI_Controller
 
   public static function resource()
   {
-    return TabayunkeluarResource::datatableResource();
+    return TabayunkeluarResource::setDatatable(request('status'))->datatableResource();
   }
 
   public function update()
@@ -224,6 +224,12 @@ class TabayunKeluar extends CI_Controller
       Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
       echo Notifikasi::swal('success', 'Data Tabayun Berhasil di Kirim');
     };
+  }
+  public function control()
+  {
+    $this->title = 'Tabayun Keluar';
+    $this->view = 'control';
+    $this->index();
   }
 }
 
