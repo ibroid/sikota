@@ -20,9 +20,8 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/plugins/animate.min.css" />
   <link href="<?= base_url('assets/backend/') ?>css/style.css" rel="stylesheet">
   <link href="<?= base_url('assets/backend/datatables/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  <link href="<?= base_url('assets/backend/datatables/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <style>
     .swal2-popup {
       font-size: 1.4rem !important;
@@ -110,7 +109,7 @@
 <!-- end: Mobile -->
 <!-- start: Javascript -->
 <script src="<?= base_url('assets/backend/') ?>js/jquery.min.js"></script>
-<script src="<?= base_url('assets/backend/') ?>js/jquery.ui.min.js"></script>
+<!-- <script src="<?= base_url('assets/backend/') ?>js/jquery.ui.min.js"></script> -->
 <script src="<?= base_url('assets/backend/') ?>js/bootstrap.min.js"></script>
 
 
@@ -158,26 +157,29 @@
 
   function datatableserver(params) {
     if ($('#tListTabayun')) {
-      const status = document.getElementById('tListTabayun').dataset.filter
-      $('#tListTabayun').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "order": [],
-        "ajax": {
-          "url": "<?= base_url('TabayunKeluar/resource?status=') ?>" + status,
-          "type": "POST",
-          "data": function(data) {
-            data.pn_tujuan_text = $('#pn_tujuan_text').val();
-            data.nomor_perkara = $('#nomor_perkara').val();
-            data.jenis_delegasi_text = $('#jenis_delegasi_text').val();
-            data.tgl_sidang = $('#tgl_sidang').val();
-          }
-        },
-        "columnDefs": [{
-          "targets": [0],
-          "orderable": false,
-        }, ],
-      });
+      const status = document.getElementById('tListTabayun')
+      if (status) {
+        const filter = status.dataset.filter
+        $('#tListTabayun').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "order": [],
+          "ajax": {
+            "url": "<?= base_url('TabayunKeluar/resource?status=') ?>" + filter,
+            "type": "POST",
+            "data": function(data) {
+              data.pn_tujuan_text = $('#pn_tujuan_text').val();
+              data.nomor_perkara = $('#nomor_perkara').val();
+              data.jenis_delegasi_text = $('#jenis_delegasi_text').val();
+              data.tgl_sidang = $('#tgl_sidang').val();
+            }
+          },
+          "columnDefs": [{
+            "targets": [0],
+            "orderable": false,
+          }, ],
+        });
+      }
     }
   }
 
@@ -202,6 +204,7 @@
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Ya, Kirim!',
+      reverseButtons: true
     })
   }
 

@@ -61,7 +61,7 @@ class TabayunKeluar extends CI_Controller
       $_POST['nomor_surat'] = Nomor_surat::tabayunKeluar();
       $this->db->insert('tabayun_keluar', array_merge(requestAll(), self::completingdata(), [
         'created_by' => event()->inputBy(),
-        'tanggal_pengiriman' => request('tgl_surat')
+        'tgl_pengiriman' => request('tgl_surat')
       ]));
       Nomor_surat::saveUpdate();
       Notifikasi::flash('success', 'Data Berhasil di Tambahkan');
@@ -72,7 +72,7 @@ class TabayunKeluar extends CI_Controller
   public static function completingdata()
   {
     $these = parent::get_instance();
-    $perkara_id = $these->SIPP->customWhere('perkara_id,jenis_perkara_text', [
+    $perkara_id = $these->SIPP->customWhere('perkara_id,jenis_perkara_text,para_pihak', [
       [
         'value' => req()->post()->nomor_perkara,
         'field' => 'nomor_perkara'
@@ -95,7 +95,9 @@ class TabayunKeluar extends CI_Controller
       'kode_satker_tujuan' => $destination[0]->kode,
       'id_pn_tujuan' => $destination[0]->id,
       'perkara_id' => $perkara_id[0]->perkara_id,
-      'jenis_perkara_text' => $perkara_id[0]->jenis_perkara_text
+      'para_pihak' => $perkara_id[0]->para_pihak,
+      'jenis_perkara_text' => $perkara_id[0]->jenis_perkara_text,
+      'status_pihak' => self::statusPihak($perkara_id[0]->jenis_perkara_text, request('status_pihak'))
     ));
   }
   public function proses($id = '')
@@ -110,6 +112,37 @@ class TabayunKeluar extends CI_Controller
       $this->view = 'proses';
       $this->data['title'] = 'Proses Tabayun keluar';
       $this->index();
+    }
+  }
+
+  public static function statusPihak($jenisPerkara, $status)
+  {
+    $SIPP = new SIPP;
+    $resultG = [];
+    foreach ($SIPP->customQuery("SELECT alur_perkara_id, jenis_perkara_id AS id,nama_lengkap AS nama
+    FROM jenis_alur_perkara AS j, jenis_perkara AS p
+    WHERE j.jenis_perkara_id = p.id AND j.alur_perkara_id = 15 ORDER BY nama_lengkap ASC")->result_array() as $each) {
+      array_push($resultG, $each['nama']);
+    }
+    $resultP = [];
+    foreach ($SIPP->customQuery("SELECT alur_perkara_id, jenis_perkara_id AS id,nama_lengkap AS nama
+    FROM jenis_alur_perkara AS j, jenis_perkara AS p
+    WHERE j.jenis_perkara_id = p.id AND j.alur_perkara_id = 16 ORDER BY nama_lengkap ASC")->result_array() as $each) {
+      array_push($resultP, $each['nama']);
+    }
+    if (in_array($jenisPerkara, $resultG)) {
+      if ($jenisPerkara === 'Cerai Talak') {
+        return $status . 'mohon';
+      } else {
+        if ($status == 'Pe') {
+          return $status . 'ngugat';
+        } else {
+          return $status . 'gugat';
+        }
+      }
+    }
+    if (in_array($jenisPerkara, $resultP)) {
+      return $status . 'mohon';
     }
   }
 
@@ -230,6 +263,10 @@ class TabayunKeluar extends CI_Controller
     $this->title = 'Tabayun Keluar';
     $this->view = 'control';
     $this->index();
+  }
+  public function debug()
+  {
+    echo self::statusPihak('Cerai Gugat', 'Pe');
   }
 }
 

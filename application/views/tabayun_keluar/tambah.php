@@ -15,20 +15,25 @@
               <h4 style="margin-left: 200px ;">Status Delegasi Kirim</h4><br>
               <div class="row">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Nomor Perkara</label>
-
-                  <div class="col-sm-6">
-                    <input type="text" id="input-perkara" required autocomplete="off" name="nomor_perkara" class="info form-control">
+                  <label class="col-sm-2 control-label text-right">Tujuan Delegasi</label>
+                  <div class="col-sm-8">
+                    <input type="text" required autocomplete="off" onblur="buttonradius()" id="perPN" value="PENGADILAN AGAMA " name="pn_tujuan_text" class="info form-control">
                   </div>
-
-                  <div class="col-md-2">
-                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" disabled class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
-                  </div>
-
                 </div>
               </div>
               <br>
-
+              <div class="row">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label text-right">Nomor Perkara</label>
+                  <div class="col-sm-6">
+                    <input type="text" id="input-perkara" required autocomplete="off" name="nomor_perkara" class="info form-control">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" disabled class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
+                  </div>
+                </div>
+              </div>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Jenis Delegasi</label>
@@ -42,25 +47,14 @@
               </div>
               <br>
 
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Tujuan Delegasi</label>
-                  <div class="col-sm-8">
-                    <input type="text" required autocomplete="off" onblur="buttonradius()" id="perPN" value="PENGADILAN AGAMA " name="pn_tujuan_text" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
               <hr>
 
               <h4 style="margin-left: 200px ;">Data Pihak Yang akan di Panggil</h4>
               <br>
-
-
+              <input type="hidden" name="status_pihak" id="status-pihak">
               <div class="row">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Nama & Agama Pihak</label>
+                  <label class="col-sm-2 control-label text-right">Pihak & Agama Pihak</label>
                   <div class="col-sm-4">
                     <input type="text" readonly name="pihak" id="nama-pihak" class="info form-control">
                   </div>
@@ -319,6 +313,7 @@
 
   function placeData(data) {
     findForm('nama-pihak', data.textContent)
+    findForm('status-pihak', data.dataset.status)
     findForm('agama-pihak', data.dataset.agama)
     findForm('pendidikan-pihak', data.dataset.pendidikan)
     findForm('pekerjaan-pihak', data.dataset.pekerjaan)

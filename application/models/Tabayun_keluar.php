@@ -84,7 +84,6 @@ class Tabayun_keluar extends Model
 
 	public static function count_all()
 	{
-		$self = new self;
 		return self::get()->num_rows();
 	}
 }

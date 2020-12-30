@@ -45,6 +45,17 @@ class FormSupport extends CI_Controller
     echo json_encode($data);
   }
 
+  public function daftar_jenis_perkara()
+  {
+    $model = $this->SIPP;
+    $jenisPerkara = $model->customLike('jenis_perkara', 'nama', request('key'), 10, 'after');
+    $data = [];
+    foreach ($jenisPerkara as $p) {
+      array_push($data, $p->nama);
+    }
+    echo json_encode($data);
+  }
+
   public function findRadius()
   {
 

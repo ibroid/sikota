@@ -45,8 +45,9 @@ class SIPP extends CI_Model
     return $these->sipp->get($table, $limit)->result();
   }
 
-  public function customQuery($table, $query, $par = [])
+  public function customQuery($query)
   {
+    return $this->sipp->query($query);
   }
 
   public function perkaraPihak($nomor_perkara, $urutan)
