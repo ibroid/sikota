@@ -113,7 +113,7 @@ class TabayunKeluar extends CI_Controller
         echo "404 - not found";
         die;
       }
-      $this->list['file'] = Tabayun_file_keluar::findOrDie(['delegasi_id' => $this->list['id']])->result_array();
+      $this->list['file'] = Tabayun_file_keluar::getWhere(['delegasi_id' => $this->list['id']])->result_array();
       $this->view = 'proses';
       $this->data['title'] = 'Proses Tabayun keluar';
       $this->index();
