@@ -72,11 +72,6 @@ class TabayunMasuk extends CI_Controller
       return Notifikasi::swal('error : ' . $hasil['status'], $hasil['message']);
     };
   }
-  public function debug()
-  {
-    $type = 'imal :gina';
-    echo strpos($type, ' :') ? explode(' :', $type)[0] : 'batok';
-  }
 }
 
 /* End of file TabayunMasuk.php */
