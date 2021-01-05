@@ -342,7 +342,11 @@
   for (let y = 0; y < hapusbtn.length; y++) {
     const element = hapusbtn[y];
     element.addEventListener('click', function() {
-      warningAlert()
+      confirmAlert({
+          title: 'Apa Anda Yakin?',
+          text: "Data Yang di Hapus Tidak akan Kembali",
+          icon: 'warning',
+        })
         .then(async (result) => {
           if (result.isConfirmed) {
             const hasil = await fetch(base_url + 'TabayunKeluar/deleteFile?id=' + this.dataset.id).then((hasil) => hasil.json())
@@ -434,11 +438,27 @@
 
   document.getElementById('siapProses').addEventListener('click', function(e) {
     const idTabayun = document.getElementById('idTabayun').value
-    confirmAlert().then(async (result) => {
+    confirmAlert({
+      title: 'Apa Anda Yakin?',
+      text: "Data Yang di Kirim Tidak Bisa di Ubah",
+      icon: 'warning',
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          const hasil = await fetch(base_url + 'TabayunKeluar/sendData?data=' + idTabayun)
+            .then((response) => response.json())
+          return hasil;
+        } catch (error) {
+          notifAlert({
+            title: 'Error',
+            icon: 'error',
+            text: 'Data Gagal di Kirim'
+          })
+        }
+      },
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const hasil = await fetch(base_url + 'TabayunKeluar/sendData?data=' + idTabayun)
-          .then((response) => response.json())
-        notifAlert(hasil).then(() => {
+        notifAlert(result.value).then(() => {
           location.href = base_url + 'TabayunKeluar/daftar'
         })
       }

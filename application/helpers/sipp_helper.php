@@ -3,7 +3,7 @@ function sippTable()
 {
   $ovj = new class
   {
-    public function getPP($par)
+    public function getPP($par = '')
     {
       $these = &get_instance();
       $these->load->model('SIPP');
@@ -13,8 +13,7 @@ function sippTable()
           'value' => $par
         ]
       ], 'perkara_penetapan');
-      return $data[0]->panitera_pengganti_text;
-      // return 'test';
+      return isset($data[0]->panitera_pengganti_text) ? $data[0]->panitera_pengganti_text :  false;
     }
   };
   return $ovj;

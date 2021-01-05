@@ -181,38 +181,51 @@
         });
       }
     }
+    if ($('#tTabayunMasuk')) {
+      const status = document.getElementById('tTabayunMasuk')
+      if (status) {
+        const filter = status.dataset.filter
+        $('#tTabayunMasuk').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "order": [],
+          "ajax": {
+            "url": "<?= base_url('TabayunMasuk/resource?status=') ?>" + filter,
+            "type": "POST",
+            "data": function(data) {
+              data.pn_asal_text = $('#pn_tujuan_text').val();
+              data.nomor_perkara = $('#nomor_perkara').val();
+              data.jenis_delegasi_text = $('#jenis_delegasi_text').val();
+              data.tgl_sidang = $('#tgl_sidang').val();
+            }
+          },
+          "columnDefs": [{
+            "targets": [0],
+            "orderable": false,
+          }, ],
+        });
+      }
+    }
   }
 
-  function warningAlert() {
-    return Swal.fire({
-      title: 'Apa Anda Yakin?',
-      text: "Data Yang di Hapus Tidak akan Kembali",
-      icon: 'warning',
+
+  function confirmAlert(params) {
+    let option = {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Ya, Hapus!',
-    })
-  }
-
-  function confirmAlert() {
-    return Swal.fire({
-      title: 'Apa Anda Yakin?',
-      text: "Data Yang di Kirim Tidak Bisa di Ubah",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ya, Kirim!',
-      reverseButtons: true
-    })
+      confirmButtonText: 'Ya, Yakin!',
+      reverseButtons: true,
+      ...params
+    }
+    return Swal.fire(option)
   }
 
   function notifAlert(params) {
     return Swal.fire({
       title: params.title,
       text: params.text,
-      icon: params.icon
+      icon: params.icon,
     })
   }
 </script>

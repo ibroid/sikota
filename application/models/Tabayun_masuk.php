@@ -57,6 +57,16 @@ class Tabayun_masuk extends Model
 		return $query->result();
 	}
 
+	public static function datatables()
+	{
+		$query = self::get();
+		$self = new self;
+		$self->_get_datatables_query();
+		if (request('length') != -1)
+			parent::instance()->db->limit(request('length'), request('start'));
+		return $query->result();
+	}
+
 	public static function count_filtered()
 	{
 		$self = new self;
@@ -67,8 +77,12 @@ class Tabayun_masuk extends Model
 
 	public static function count_all()
 	{
-		$self = new self;
-		parent::instance()->db->from($self->table);
-		return parent::instance()->db->count_all_results();
+		return self::get()->num_rows();
+	}
+
+	public static function withStatus($status)
+	{
+		self::where('status_kirim', $status);
+		return new static;
 	}
 }

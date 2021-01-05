@@ -8,11 +8,7 @@
 </head>
 
 <body>
-  <form action="<?= base_url('TabayunKeluar/debuginfo') ?>" method="post">
-
-    <input type="text" name="debug">
-    <button type="submit">ok</button>
-  </form>
+  <a href="<?= base_url('TabayunKeluar/debugging') ?>">Test</a>
 
 </body>
 

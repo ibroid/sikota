@@ -38,7 +38,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Jenis Delegasi</label>
                   <div class="col-sm-8">
-                    <select required name="jenis_delegasi_text" class="info form-control">
+                    <select required name="jenis_delegasi_text" id="jenis-delegasi" class="info form-control">
                       <?php foreach ($this->SIPP->customAll('jenis_delegasi') as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
                       <?php endforeach ?>
                     </select>
@@ -46,6 +46,23 @@
                 </div>
               </div>
               <br>
+              <div class="row" hidden id="formTglPutusan">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label text-right">Tanggal Putusan</label>
+                  <div class="col-sm-8">
+                    <input type="text" autocomplete="off" id="inputTglPutusan" disabled name="tgl_putusan" class="info form-control datepicker">
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row" hidden id="formAmarPutusan">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label text-right">Amar Putusan</label>
+                  <div class="col-sm-8">
+                    <textarea name="amar_putusan" id="inputAmarPutusan" disabled class="info form-control" cols="5" rows="4"></textarea>
+                  </div>
+                </div>
+              </div>
 
               <hr>
 
@@ -257,7 +274,7 @@
 
   var pihak = null;
 
-  const input = document.getElementById("input-perkara");
+  var input = document.getElementById("input-perkara");
   autocomplete(input, "<?= base_url() ?>FormSupport/nomor_perkara", () => {
     input.addEventListener('blur', function() {
       if (this.value != '') {
@@ -358,4 +375,41 @@
   function selectRadius(params) {
     document.getElementById('biaya').value = params
   }
+  document.getElementById('jenis-delegasi').addEventListener('change', async function() {
+    const formTglPutusan = document.getElementById('formTglPutusan');
+    const formAmarPutusan = document.getElementById('formAmarPutusan');
+    const inputTglPutusan = document.getElementById('inputTglPutusan');
+    const inputAmarPutusan = document.getElementById('inputAmarPutusan');
+    const pemberitahuan = [
+      'Pemberitahuan Putusan Pengadilan Tingkat Pertama',
+      'Pemberitahuan Putusan Pengadilan Tinggi',
+      'Pemberitahuan Putusan Mahkamah Agung (Kasasi)',
+      'Pemberitahuan Putusan Mahkamah Agung (PK)'
+    ];
+    const eval = pemberitahuan.indexOf(this.value);
+    if (eval != -1) {
+      formTglPutusan.removeAttribute('hidden');
+      formAmarPutusan.removeAttribute('hidden');
+      inputTglPutusan.removeAttribute('disabled');
+      inputAmarPutusan.removeAttribute('disabled');
+      const hasil = await fetch("<?= base_url() ?>FormSupport/getAmarPutusan", {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          data: input.value
+        })
+      }).then(response => response.json())
+      console.log(hasil)
+      inputTglPutusan.value = hasil.tanggal_putusan
+      inputAmarPutusan.value = hasil.amar_putusan
+    } else {
+      formTglPutusan.setAttribute('hidden', true);
+      formAmarPutusan.setAttribute('hidden', true);
+      inputAmarPutusan.setAttribute('disabled', true);
+      inputTglPutusan.setAttribute('disabled', true)
+    }
+  })
 </script>

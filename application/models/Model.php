@@ -19,6 +19,18 @@ class Model
     $these->db->select($select);
     return new static;
   }
+  public static function findOrDie($par = [])
+  {
+    $these = get_instance();
+    $result =  $these->db->get_where(strtolower(get_called_class()), $par);
+    if (empty($result->row_array())) {
+      header("HTTP/1.0 404 Not Found");
+      echo 'Not Found';
+      die;
+    } else {
+      return $result;
+    }
+  }
   public static function get($limit = '', $offset = '')
   {
     $these = get_instance();

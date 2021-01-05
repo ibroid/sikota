@@ -61,7 +61,7 @@ class TabayunKeluar extends CI_Controller
       $_POST['nomor_surat'] = Nomor_surat::tabayunKeluar();
       $this->db->insert('tabayun_keluar', array_merge(requestAll(), self::completingdata(), [
         'created_by' => event()->inputBy(),
-        'tgl_pengiriman' => request('tgl_surat')
+        'tgl_pengiriman' => request('tgl_surat'),
       ]));
       Nomor_surat::saveUpdate();
       Notifikasi::flash('success', 'Data Berhasil di Tambahkan');
@@ -102,13 +102,18 @@ class TabayunKeluar extends CI_Controller
   }
   public function proses($id = '')
   {
-    $this->list = Tabayun_keluar::getWhere(['id' => $id])->row_array();
+    $this->list = Tabayun_keluar::findOrDie(['id' => $id])->row_array();
     if (empty($this->list) || $id = '') {
       $this->output->set_status_header('404');
       echo "404 - not found";
       die;
     } else {
-      $this->list['file'] = Tabayun_file_keluar::getWhere(['delegasi_id' => $this->list['id']])->result_array();
+      if ($this->list['status_kirim'] == 1) {
+        $this->output->set_status_header('404');
+        echo "404 - not found";
+        die;
+      }
+      $this->list['file'] = Tabayun_file_keluar::findOrDie(['delegasi_id' => $this->list['id']])->result_array();
       $this->view = 'proses';
       $this->data['title'] = 'Proses Tabayun keluar';
       $this->index();
@@ -216,7 +221,7 @@ class TabayunKeluar extends CI_Controller
       $this->output->set_status_header('404');
       echo "404 - not found";
     } else {
-      $filename = Tabayun_file_keluar::getWhere(['id' => request('id')])->row()->file;
+      $filename = Tabayun_file_keluar::findOrDie(['id' => request('id')])->row()->file;
       Tabayun_file_keluar::delete(['id' => request('id')]);
       Files::delete('uploads/surat/keluar/', $filename);
       echo json_encode(array(
@@ -229,33 +234,23 @@ class TabayunKeluar extends CI_Controller
 
   public function sendData()
   {
-    if (!isset($_GET['data']) || !isset($_SERVER['HTTP_REFERER'])) {
-      $this->output->set_status_header(404);
-      echo 'Not found';
-      die;
-    }
-    if ($_SERVER['HTTP_REFERER'] != base_url() . 'TabayunKeluar/proses/' . request('data')) {
-      $this->output->set_status_header(404);
-      echo 'Not found <br>';
-      echo base_url() . 'TabayunKeluar/proses/' . request('data');
-      die;
-    }
-    $data = Tabayun_keluar::getWhere(['id' => request('data')])->row_array();
-    if (empty($data)) {
-      $this->output->set_status_header(404);
-      echo 'Not found';
-      die;
-    }
+    CI_Defender::noUriParameters('data')
+      ->setReferer(base_url() . 'TabayunKeluar/proses/' . request('data'))
+      ->zeroReferer()
+      ->secure();
+    $data = Tabayun_keluar::findOrDie(['id' => request('data')])->row_array();
     $data['id_from_client'] = $data['id'];
     unset($data['id']);
-    $client = new GuzzleHttp\Client(['base_uri' => 'http://sikota.online']);
-    $response = $client->post('/api/tabayun/request', [
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/request', [
       GuzzleHttp\RequestOptions::JSON => $data
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
     if ($hasil['status'] == 200) {
       Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
-      echo Notifikasi::swal('success', 'Data Tabayun Berhasil di Kirim');
+      echo Notifikasi::swal('success', $hasil['message']);
+    } else {
+      echo Notifikasi::swal('error', $hasil['message']);
     };
   }
   public function control()
@@ -263,10 +258,6 @@ class TabayunKeluar extends CI_Controller
     $this->title = 'Tabayun Keluar';
     $this->view = 'control';
     $this->index();
-  }
-  public function debug()
-  {
-    echo self::statusPihak('Cerai Gugat', 'Pe');
   }
 }
 

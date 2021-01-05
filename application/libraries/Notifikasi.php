@@ -19,7 +19,7 @@ class Notifikasi
     return json_encode(array(
       'title' => ucfirst($type),
       'text' => $text,
-      'icon' => $type,
+      'icon' => strpos($type, ' :') ? explode(' :', $type)[0] : $type,
     ));
   }
 }

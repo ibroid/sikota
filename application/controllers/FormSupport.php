@@ -7,7 +7,8 @@ class FormSupport extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('m_radius', 'radius');
+    $this->load->model('radius');
+    $this->load->model('identity');
     $this->load->model('SIPP');
   }
 
@@ -60,9 +61,22 @@ class FormSupport extends CI_Controller
   {
 
     $kode = $this->db->get_where('pengadilan_negeri', ['nama' => request('namapn')])->row_array()['kode'];
-    $model = $this->radius;
-    $data = $model->customLike('radius', 'satker_code', $kode);
+    $data = Radius::like('satker_code', $kode)->get()->result();
     Components::load('tabelradius', $data);
+  }
+  public function getAmarPutusan()
+  {
+    echo json_encode($this->SIPP->customWhere('tanggal_putusan,amar_putusan', [
+      [
+        'field' => 'perkara_id',
+        'value' => $this->SIPP->customWhere('perkara_id', [
+          [
+            'field' => 'nomor_perkara',
+            'value' => req()->json()->data
+          ]
+        ], 'perkara')[0]->perkara_id
+      ]
+    ], 'perkara_putusan')[0]);
   }
 }
 
