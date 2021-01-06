@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once APPPATH . 'resource/TabayunMasukResource.php';
+require_once APPPATH . 'models/Tabayun_masuk.php';
 class TabayunMasuk extends CI_Controller
 {
 
@@ -66,7 +67,14 @@ class TabayunMasuk extends CI_Controller
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
     if ($hasil['status'] == 200) {
-      Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
+      foreach ($hasil['data'] as $h) {
+        unset($h['pull_status']);
+        unset($h['_id']);
+        unset($h['__v']);
+        unset($h['id_from_client']);
+        Tabayun_masuk::insert($h);
+      }
+      Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
       return Notifikasi::swal('success : ' . $hasil['status'], $hasil['message']);
     } else {
       return Notifikasi::swal('error : ' . $hasil['status'], $hasil['message']);

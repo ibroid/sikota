@@ -3,6 +3,7 @@
 
   <div class="col-md-12 padding-0">
     <div class="col-md-12">
+      <?= Notifikasi::showFlash(); ?>
       <div class="panel">
         <div class="panel-heading">
           <h3>Data Tabayun Masuk</h3>
@@ -46,7 +47,10 @@
       },
     })
     cekData((result) => {
-      notifAlert(result)
+      notifAlert(result).then(() => {
+        location.reload()
+      })
+
     })
   })
 </script>

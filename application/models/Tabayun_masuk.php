@@ -59,11 +59,11 @@ class Tabayun_masuk extends Model
 
 	public static function datatables()
 	{
+		if (request('length') != -1)
+			parent::instance()->db->limit(request('length'), request('start'));
 		$query = self::get();
 		$self = new self;
 		$self->_get_datatables_query();
-		if (request('length') != -1)
-			parent::instance()->db->limit(request('length'), request('start'));
 		return $query->result();
 	}
 
