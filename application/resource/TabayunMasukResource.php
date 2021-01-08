@@ -34,7 +34,7 @@ class TabayunMasukResource
                       <li><a class='waves-effect' href='" . base_url("cetak/cetak_amplop") . "/$tbk->id" . "'>Cetak Amplop</a></li>
                       <li><a class='waves-effect' href='' target='_blank'>Cetak Wesel</a></li>      
                       <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Proses</a></li>  
-                      <li><a class='waves-effect' href='' target='_blank'>Hapus</a></li>
+                      <li><a class='waves-effect hapus' data-id='" . $tbk->id . "' href='javascript:void(0)'>Hapus</a></li>
                   </ul>
               </div>";
       $data[] = $row;

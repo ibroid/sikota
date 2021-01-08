@@ -41,16 +41,43 @@
   }
   btnCek.addEventListener('click', async function() {
     swal.fire({
-      title: 'Sdang Mengambil Data',
+      title: 'Sedang Mengambil Data',
       didOpen: () => {
         swal.showLoading()
       },
     })
     cekData((result) => {
       notifAlert(result).then(() => {
-        location.reload()
+        if (result.icon == 'success') {
+          location.reload()
+        }
       })
-
     })
+  })
+
+  document.body.addEventListener('click', function(e) {
+    if (e.target.classList.contains('hapus')) {
+      confirmAlert({
+        title: 'Apa Anda Yakin ?',
+        text: 'Data yang di Hapus Tidak akan Kembali',
+        icon: 'warning',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const doHapus = await fetch(base_url + 'TabayunMasuk/hapus', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: e.target.dataset.id
+            })
+          }).then(response => {
+            response.json()
+          })
+          console.log(doHapus)
+        }
+      })
+    }
   })
 </script>

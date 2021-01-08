@@ -54,10 +54,14 @@ class TabayunMasuk extends CI_Controller
   public function cek_tabayun_masuk()
   {
     CI_Defender::zeroReferer()->secure();
-    echo self::retriveData();
+    try {
+      echo self::retriveData();
+    } catch (\Throwable $th) {
+      echo Notifikasi::swal('error', 'Server Sedang Dalam Perbaikan');
+    }
   }
 
-  private static function retriveData()
+  public static function retriveData()
   {
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
     $response = $client->post('api/tabayun/get_request', [
@@ -66,19 +70,39 @@ class TabayunMasuk extends CI_Controller
       ]
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
-    if ($hasil['status'] == 200) {
-      foreach ($hasil['data'] as $h) {
-        unset($h['pull_status']);
-        unset($h['_id']);
-        unset($h['__v']);
-        unset($h['id_from_client']);
-        Tabayun_masuk::insert($h);
-      }
-      Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
-      return Notifikasi::swal('success : ' . $hasil['status'], $hasil['message']);
+    switch ($hasil['status']) {
+      case 200:
+        foreach ($hasil['data'] as $h) {
+          unset($h['pull_status']);
+          unset($h['_id']);
+          unset($h['__v']);
+          unset($h['id_from_client']);
+          Tabayun_masuk::insert($h);
+        }
+        Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
+        return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
+        break;
+      case 202:
+        return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
+        break;
+      default:
+        return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
+        break;
+    }
+  }
+  public function hapus()
+  {
+    echo self::delete();
+  }
+  private static function delete()
+  {
+    $res = Tabayun_masuk::getWhere(['id' => req()->json()->id])->row();
+    if (empty($res)) {
+      return Notifikasi::swal('error', 'Data Tidak Ditemukan, Silahkan Refresh');
     } else {
-      return Notifikasi::swal('error : ' . $hasil['status'], $hasil['message']);
-    };
+      Tabayun_masuk::delete(['id' => req()->json()->id]);
+      return Notifikasi::swal('success', 'Data Berhasil di Hapus');
+    }
   }
 }
 
