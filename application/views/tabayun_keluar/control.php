@@ -32,3 +32,31 @@
     </div>
   </div>
 </div>
+
+<script>
+  var base_url = '<?= base_url() ?>'
+  async function hapusTabayun() {
+    document.body.addEventListener('click', (e) => {
+      if (e.target.classList.contains('hapus')) {
+        confirmAlert({
+          title: 'Apa Anda Yakin ?',
+          text: 'Data yang di Hapus Tidak akan kembali',
+          icon: 'warning'
+        }).then(async (click) => {
+          if (click.isConfirmed) {
+            let body = new FormData()
+            body.append('id', e.target.dataset.id)
+            const result = await fetch(base_url + 'TabayunKeluar/hapus', {
+              method: 'POST',
+              body: body
+            }).then(response => {
+              return response.json()
+            })
+            notifAlert(result)
+          }
+        })
+      }
+    })
+  }
+  hapusTabayun()
+</script>

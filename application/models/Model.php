@@ -91,4 +91,10 @@ class Model
     $these = get_instance();
     $these->db->delete(strtolower(get_called_class()), $par);
   }
+  public static function insertAndGetId($data)
+  {
+    $these = get_instance();
+    $these->db->insert(strtolower(get_called_class()), $data);
+    return $these->db->insert_id();
+  }
 }

@@ -17,6 +17,7 @@ class TabayunMasuk extends CI_Controller
     $this->load->model('sub_menu');
     $this->load->model('SIPP');
     $this->load->model('identity');
+    $this->load->model('tabayun_file_masuk');
 
     if ($this->uri->segment(2) == '') {
       redirect('TabayunMasuk/tambah', 'refresh');
@@ -61,7 +62,7 @@ class TabayunMasuk extends CI_Controller
     }
   }
 
-  public static function retriveData()
+  private static function retriveData()
   {
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
     $response = $client->post('api/tabayun/get_request', [
@@ -72,12 +73,13 @@ class TabayunMasuk extends CI_Controller
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
     switch ($hasil['status']) {
       case 200:
+        $_id = $hasil['data']['_id'];
         foreach ($hasil['data'] as $h) {
           unset($h['pull_status']);
           unset($h['_id']);
           unset($h['__v']);
           unset($h['id_from_client']);
-          Tabayun_masuk::insert($h);
+          self::retriveFile($_id,   Tabayun_masuk::insertAndGetId($h));
         }
         Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
         return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
@@ -103,6 +105,23 @@ class TabayunMasuk extends CI_Controller
       Tabayun_masuk::delete(['id' => request('id')]);
       return Notifikasi::swal('success', 'Data Berhasil di Hapus');
     }
+  }
+  private static function retriveFile($_id, $id)
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/get_file_request', [
+      GuzzleHttp\RequestOptions::JSON => [
+        'tabayun_request_id' => $_id
+      ]
+    ]);
+    $hasil = json_decode($response->getBody()->getContents());
+    Tabayun_file_masuk::insert([
+      'delegasi_id' => $id,
+      'file' => $hasil->data->file_name,
+      'status_file' => 0,
+      'diinput_oleh' => event()->inputBy(),
+      'diinput_tanggal' => event()->inputAt()
+    ]);
   }
 }
 

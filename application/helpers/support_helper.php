@@ -61,6 +61,11 @@ function event()
     {
       return date("Y-m-d h:i:sa");
     }
+
+    function inputAt()
+    {
+      return date("Y-m-d h:i:sa");
+    }
   };
   return $evnt;
 }

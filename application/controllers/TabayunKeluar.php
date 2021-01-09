@@ -231,7 +231,20 @@ class TabayunKeluar extends CI_Controller
       ));
     }
   }
-
+  public function hapus()
+  {
+    echo self::delete();
+  }
+  private static function delete()
+  {
+    $res = Tabayun_keluar::getWhere(['id' => request('id')])->row();
+    if (empty($res)) {
+      return Notifikasi::swal('error', 'Data Tidak Ditemukan, Silahkan Refresh');
+    } else {
+      Tabayun_keluar::delete(['id' => request('id')]);
+      return Notifikasi::swal('success', 'Data Berhasil di Hapus');
+    }
+  }
   public function sendData()
   {
     CI_Defender::noUriParameters('data')
@@ -253,7 +266,6 @@ class TabayunKeluar extends CI_Controller
     $this->view = 'control';
     $this->index();
   }
-
   private static function requestAPI($data)
   {
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
@@ -273,7 +285,6 @@ class TabayunKeluar extends CI_Controller
       return Notifikasi::swal('error', $hasil['message']);
     };
   }
-
   private static function uploadAPI($id, $_id)
   {
     $files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
@@ -287,7 +298,7 @@ class TabayunKeluar extends CI_Controller
       ]);
     }
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
-    $client->post('api/tabayun/file_request', [
+    $client->post('api/tabayun/upload_file_request', [
       GuzzleHttp\RequestOptions::MULTIPART => $body
     ]);
   }
