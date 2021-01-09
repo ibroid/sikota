@@ -263,7 +263,7 @@ class TabayunKeluar extends CI_Controller
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
     if ($hasil['status'] == 200) {
       try {
-        // self::uploadAPI($data['id_from_client'], $hasil['data']['_id']);
+        self::uploadAPI($data['id_from_client'], $hasil['data']['_id']);
         Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
         return Notifikasi::swal('success', $hasil['message']);
       } catch (\Throwable $th) {
@@ -287,18 +287,9 @@ class TabayunKeluar extends CI_Controller
       ]);
     }
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
-    $response = $client->post('api/tabayun/file_request', [
+    $client->post('api/tabayun/file_request', [
       GuzzleHttp\RequestOptions::MULTIPART => $body
     ]);
-    if (json_decode($response->getBody()->getContents())->status == 200) {
-      return json_decode($response->getBody()->getContents())->status;
-    } else {
-      return json_decode($response->getBody()->getContents())->status;
-    }
-  }
-  public function debug()
-  {
-    echo self::uploadAPI(374, '5ff7da36c1a7b52e718c5e84');
   }
 }
 
