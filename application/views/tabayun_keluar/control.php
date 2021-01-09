@@ -46,7 +46,7 @@
           if (click.isConfirmed) {
             let body = new FormData()
             body.append('id', e.target.dataset.id)
-            const result = await fetch(base_url + 'TabayunKeluar/hapus', {
+            const result = await fetch(base_url + 'TabayunKeluar`/hapus', {
               method: 'POST',
               body: body
             }).then(response => {
