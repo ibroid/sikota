@@ -130,7 +130,7 @@
       singleDatePicker: true,
       showDropdowns: true,
       minYear: 2000,
-      maxYear: 2020,
+      maxYear: 2025,
       locale: {
         format: 'YYYY-MM-DD'
       }
