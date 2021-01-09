@@ -3,7 +3,7 @@
 
   <div class="col-md-12 padding-0">
     <div class="col-md-12">
-      <?= Notifikasi::showFlash(); ?>
+      <?= Notifikasi::showFlash('notif'); ?>
       <div class="panel">
         <div class="panel-heading">
           <h3>Data Tabayun Masuk</h3>
@@ -63,19 +63,21 @@
         icon: 'warning',
       }).then(async (result) => {
         if (result.isConfirmed) {
+          const body = new FormData();
+          body.append('id', e.target.dataset.id)
           const doHapus = await fetch(base_url + 'TabayunMasuk/hapus', {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              id: e.target.dataset.id
-            })
+            body: body
           }).then(response => {
             response.json()
           })
-          console.log(doHapus)
+          notifAlert({
+            title: "Success",
+            text: "Data Berhasil di Hapus",
+            icon: "success"
+          }).then((re) => {
+            location.reload()
+          })
         }
       })
     }

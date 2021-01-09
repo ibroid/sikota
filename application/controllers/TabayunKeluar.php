@@ -241,23 +241,64 @@ class TabayunKeluar extends CI_Controller
     $data = Tabayun_keluar::findOrDie(['id' => request('data')])->row_array();
     $data['id_from_client'] = $data['id'];
     unset($data['id']);
-    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
-    $response = $client->post('api/tabayun/request', [
-      GuzzleHttp\RequestOptions::JSON => $data
-    ]);
-    $hasil = json_decode($response->getBody()->getContents(), TRUE);
-    if ($hasil['status'] == 200) {
-      Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
-      echo Notifikasi::swal('success', $hasil['message']);
-    } else {
-      echo Notifikasi::swal('error', $hasil['message']);
-    };
+    try {
+      echo self::requestAPI($data);
+    } catch (\Throwable $th) {
+      echo Notifikasi::swal('error', 'Server Sedang dalam Perbaikan');
+    }
   }
   public function control()
   {
     $this->title = 'Tabayun Keluar';
     $this->view = 'control';
     $this->index();
+  }
+
+  private static function requestAPI($data)
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/request', [
+      GuzzleHttp\RequestOptions::JSON => $data
+    ]);
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    if ($hasil['status'] == 200) {
+      try {
+        // self::uploadAPI($data['id_from_client'], $hasil['data']['_id']);
+        Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
+        return Notifikasi::swal('success', $hasil['message']);
+      } catch (\Throwable $th) {
+        return Notifikasi::swal('warning', 'Data berhasil di Kirim Tanpa file pengantar');
+      }
+    } else {
+      return Notifikasi::swal('error', $hasil['message']);
+    };
+  }
+
+  private static function uploadAPI($id, $_id)
+  {
+    $files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
+    $body = [[
+      'name' => 'data', 'contents' => json_encode($_id)
+    ]];
+    foreach ($files as $file) {
+      array_push($body, [
+        'name' => 'doc',
+        'contents' => file_exists(FCPATH . 'uploads/surat/keluar/' . $file->file) ? fopen(FCPATH . 'uploads/surat/keluar/' . $file->file, 'r') : 'file doesnt exist in client'
+      ]);
+    }
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/file_request', [
+      GuzzleHttp\RequestOptions::MULTIPART => $body
+    ]);
+    if (json_decode($response->getBody()->getContents())->status == 200) {
+      return json_decode($response->getBody()->getContents())->status;
+    } else {
+      return json_decode($response->getBody()->getContents())->status;
+    }
+  }
+  public function debug()
+  {
+    echo self::uploadAPI(374, '5ff7da36c1a7b52e718c5e84');
   }
 }
 

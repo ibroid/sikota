@@ -96,11 +96,11 @@ class TabayunMasuk extends CI_Controller
   }
   private static function delete()
   {
-    $res = Tabayun_masuk::getWhere(['id' => req()->json()->id])->row();
+    $res = Tabayun_masuk::getWhere(['id' => request('id')])->row();
     if (empty($res)) {
       return Notifikasi::swal('error', 'Data Tidak Ditemukan, Silahkan Refresh');
     } else {
-      Tabayun_masuk::delete(['id' => req()->json()->id]);
+      Tabayun_masuk::delete(['id' => request('id')]);
       return Notifikasi::swal('success', 'Data Berhasil di Hapus');
     }
   }

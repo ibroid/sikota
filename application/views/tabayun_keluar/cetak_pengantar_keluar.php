@@ -16,6 +16,7 @@ fclose($handle);
 // print_r('<pre>');
 // print_r($template);
 // exit; 
+$hasilbaca = str_replace('pn_asal_text', $data['pn_asal_text'], $hasilbaca);
 $hasilbaca = str_replace('pengadilan', $data['pengadilan'], $hasilbaca);
 $hasilbaca = str_replace('jenis_perkara', $data['jenis_perkara'], $hasilbaca);
 $hasilbaca = str_replace('nomor_perkara', $data['nomor_perkara'], $hasilbaca);
