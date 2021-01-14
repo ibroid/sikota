@@ -28,6 +28,21 @@ function dom()
         return false;
       }
     }
+    function tahapanProses($par)
+    {
+      $these = &get_instance();
+      $tahapan = $these->db->get_where('tahapan_pelaksanaan', ['id' => $par])->row();
+      return "<span class='badge badge-" . $tahapan->color_type . "'>" . $tahapan->nama_tahapan . "</span>";
+    }
+
+    function formProsesTabayunMasuk($condition, $name, $type = 'text', $classOption = null)
+    {
+      if (empty($condition)) {
+        return 'Mohon Selesaikan Proses Sebelum Nya';
+      } else {
+        return "<input type='$type' required autocomplete='off' class='info form-control $classOption' name='$name'>";
+      }
+    }
   };
   return $dom;
 }

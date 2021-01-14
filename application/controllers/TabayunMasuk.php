@@ -18,6 +18,8 @@ class TabayunMasuk extends CI_Controller
     $this->load->model('SIPP');
     $this->load->model('identity');
     $this->load->model('tabayun_file_masuk');
+    $this->load->model('tabayun_file_keluar');
+    $this->load->model('tabayun_proses_masuk');
 
     if ($this->uri->segment(2) == '') {
       redirect('TabayunMasuk/tambah', 'refresh');
@@ -71,15 +73,15 @@ class TabayunMasuk extends CI_Controller
       ]
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
+
     switch ($hasil['status']) {
       case 200:
-        $_id = $hasil['data']['_id'];
+        $_id = $hasil['data'][0]['_id'];
         foreach ($hasil['data'] as $h) {
           unset($h['pull_status']);
           unset($h['_id']);
           unset($h['__v']);
-          unset($h['id_from_client']);
-          self::retriveFile($_id,   Tabayun_masuk::insertAndGetId($h));
+          self::retriveFile($_id, Tabayun_masuk::insertAndGetId($h));
         }
         Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
         return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
@@ -111,17 +113,102 @@ class TabayunMasuk extends CI_Controller
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
     $response = $client->post('api/tabayun/get_file_request', [
       GuzzleHttp\RequestOptions::JSON => [
-        'tabayun_request_id' => $_id
+        'tabayun_request_id' => '"' . $_id . '"'
       ]
     ]);
-    $hasil = json_decode($response->getBody()->getContents());
-    Tabayun_file_masuk::insert([
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    return Tabayun_file_masuk::insert([
       'delegasi_id' => $id,
-      'file' => $hasil->data->file_name,
+      'file' => base_api() . 'request/' . $hasil['data']['file_name'],
       'status_file' => 0,
       'diinput_oleh' => event()->inputBy(),
       'diinput_tanggal' => event()->inputAt()
     ]);
+  }
+  public function proses($id = null)
+  {
+    $this->data = Tabayun_masuk::findOrDie(['id' => $id])->row();
+    $this->data->proses = self::cekProses($this->data);
+    $this->data->files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
+    $this->title = 'Proses Tabayun Masuk';
+    $this->view = 'tabayun_masuk/proses';
+    $this->index();
+  }
+  private static function cekProses($data)
+  {
+    $cek = Tabayun_proses_masuk::getWhere(['delegasi_id' => $data->id])->row();
+    if (!$cek) {
+      Tabayun_proses_masuk::insert([
+        'delegasi_id' => $data->id,
+        'status_delegasi' => 1,
+        'diinput_oleh' => event()->inputBy(),
+        'diinput_tanggal' => event()->inputAt()
+      ]);
+    } else {
+      return $cek;
+    }
+  }
+  public function updateProses($to, $id)
+  {
+    CI_Defender::zeroReferer()->secure();
+    $oldStatus = Tabayun_proses_masuk::getWhere(['delegasi_id' => $id])->row()->status_delegasi;
+    switch ($to) {
+      case '2':
+        Tabayun_proses_masuk::update([
+          'jurusita_id' => req()->post()->jurusita_id,
+          'tgl_penunjukan_jurusita' => req()->post()->tgl_penunjukan_jurusita,
+          'jurusita_nama' => $this->SIPP->customQuery("SELECT * FROM jurusita WHERE id =" . req()->post()->jurusita_id)->row()->nama_gelar,
+        ], [
+          'delegasi_id' => $id
+        ]);
+        if ($oldStatus < $to) {
+          Tabayun_proses_masuk::update(['status_delegasi' => $to], ['delegasi_id' => $id]);
+        }
+        break;
+      case '5':
+        Tabayun_file_keluar::insert([
+          'file' => $this->uploadFileBalasan(),
+          'delegasi_id' => $id,
+          'status_file' => 2,
+          'diinput_oleh' => event()->inputBy(),
+          'diinput_tanggal' => event()->inputAt(),
+        ]);
+        if ($oldStatus < $to) {
+          Tabayun_proses_masuk::update(['status_delegasi' => $to], ['delegasi_id' => $id]);
+        }
+        break;
+      default:
+        Tabayun_proses_masuk::update(requestAll(), ['delegasi_id' => $id]);
+        if ($oldStatus < $to) {
+          Tabayun_proses_masuk::update(['status_delegasi' => $to], ['delegasi_id' => $id]);
+        }
+        break;
+    }
+    Notifikasi::flash('success', 'Delegasi Berhasil Di Proses');
+    redirect($_SERVER['HTTP_REFERER']);
+  }
+
+  public function uploadFileBalasan()
+  {
+    try {
+      $config['upload_path'] = './uploads/surat/keluar';
+      $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
+      $config['max_size'] = '2024';
+      $config['file_name'] = Ramsey\Uuid\Uuid::uuid1();
+      $this->load->library('upload', $config);
+      if (!$this->upload->do_upload('file')) {
+        Notifikasi::flash('danger', $this->upload->display_errors());
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+      } else {
+        return $this->upload->data('file_name');
+      }
+    } catch (\Throwable $th) {
+      throw $th;
+    }
+  }
+
+  public function kirimBalasan()
+  {
   }
 }
 

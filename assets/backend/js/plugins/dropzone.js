@@ -114,7 +114,7 @@
     Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "addedfile", "addedfiles", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached", "queuecomplete"];
 
     Dropzone.prototype.defaultOptions = {
-      url: null,
+      url: base_url + 'TabayunMasuk/uploadFileBalasan',
       method: "post",
       withCredentials: false,
       parallelUploads: 2,
@@ -1370,6 +1370,7 @@
     Dropzone.prototype.submitRequest = function(xhr, formData, files) {
       return xhr.send(formData);
     };
+    
 
     Dropzone.prototype._finished = function(files, responseText, e) {
       var file, _i, _len;

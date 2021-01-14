@@ -69,9 +69,9 @@ class SIPP extends CI_Model
     $this->sipp->where('perkara_pengacara.`pihak_ke`', $urutan);
     return $this->sipp->get('perkara_pengacara')->result();
   }
-  public function jurusitaaktif($nama_gelar)
+  public function jurusitaaktif()
   {
-    $this->sipp->select("jurusita.nama_gelar");
+    $this->sipp->select("jurusita.*");
     $this->sipp->where("jurusita.aktif='Y' ORDER BY nama_gelar ASC;");
     return $this->sipp->get('jurusita')->result();
   }
