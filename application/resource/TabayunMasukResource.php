@@ -23,7 +23,6 @@ class TabayunMasukResource
       $row[] = $tbk->nomor_perkara . '<br>' . $tbk->jenis_delegasi_text . '<br>' . $tbk->tgl_sidang;
       $row[] = $tbk->nomor_surat . '<br>' . $tbk->tgl_surat;
       $row[] = $tbk->pihak . '<br>' . $tbk->alamat_pihak;
-      $row[] = '<p><center>' . sippTable()->getPP($tbk->perkara_id)  .  ' </center></p>';
       $row[] = "<div class='btn-group' role='group'>
                   <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                   Pilih Aksi

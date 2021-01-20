@@ -220,7 +220,7 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <p>ok</p>
+          <strong>MOHON TUNGGU BEBERAPA DETIK. BILA DATA TIDAK KELUAR SILAHKAN REFRESH</strong>
         </div>
       </div>
     </div>

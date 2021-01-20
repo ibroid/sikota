@@ -23,6 +23,7 @@ class TabayunKeluar extends CI_Controller
     $this->load->model('SIPP');
     $this->load->model('nomor_surat');
     $this->load->model('tabayun_file_keluar');
+    $this->load->model('tabayun_proses_keluar');
     $this->load->library('components');
     $this->load->library('files');
     $this->submenu = $this->db->get_where('sub_menu', ['id_menu' => 2])->result();
@@ -206,7 +207,7 @@ class TabayunKeluar extends CI_Controller
     $config['upload_path'] = './uploads/surat/keluar';
     $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
     $config['max_size'] = '2024';
-    $config['file_name'] = Ramsey\Uuid\Uuid::uuid1();
+    $config['file_name'] = Ramsey\Uuid\Uuid::uuid4();
     $this->load->library('upload', $config);
     if (!$this->upload->do_upload($par)) {
       Notifikasi::flash('danger', $this->upload->display_errors());
@@ -237,13 +238,16 @@ class TabayunKeluar extends CI_Controller
   }
   private static function delete()
   {
-    $res = Tabayun_keluar::getWhere(['id' => request('id')])->row();
-    if (empty($res)) {
-      return Notifikasi::swal('error', 'Data Tidak Ditemukan, Silahkan Refresh');
-    } else {
-      Tabayun_keluar::delete(['id' => request('id')]);
-      return Notifikasi::swal('success', 'Data Berhasil di Hapus');
+    Tabayun_keluar::delete(['id' => request('id')]);
+    $files = Tabayun_file_keluar::getWhere(['delegasi_id' => request('id')])->result();
+    if ($files) {
+      foreach ($files as $file) {
+        Files::delete('uploads/surat/keluar/' . $file->file);
+      }
     }
+    Tabayun_file_keluar::delete(['delegasi_id' => request('id')]);
+    Tabayun_proses_keluar::delete(['delegasi_id' => request('id')]);
+    return Notifikasi::swal('success', 'Data Berhasil di Hapus');
   }
   public function sendData()
   {
@@ -288,19 +292,19 @@ class TabayunKeluar extends CI_Controller
   private static function uploadAPI($id, $_id)
   {
     $files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
-    $body = [[
-      'name' => 'data', 'contents' => json_encode($_id)
-    ]];
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
     foreach ($files as $file) {
-      array_push($body, [
-        'name' => 'doc',
-        'contents' => file_exists(FCPATH . 'uploads/surat/keluar/' . $file->file) ? fopen(FCPATH . 'uploads/surat/keluar/' . $file->file, 'r') : 'file doesnt exist in client'
+      $client->post('api/tabayun/upload_file_request', [
+        GuzzleHttp\RequestOptions::MULTIPART => [
+          [
+            'name' => 'data', 'contents' => json_encode(str_replace('"', '', $_id))
+          ], [
+            'name' => 'doc',
+            'contents' => file_exists(FCPATH . 'uploads/surat/keluar/' . $file->file) ? fopen(FCPATH . 'uploads/surat/keluar/' . $file->file, 'r') : json_encode('file doesnt exist in client')
+          ]
+        ]
       ]);
     }
-    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
-    $client->post('api/tabayun/upload_file_request', [
-      GuzzleHttp\RequestOptions::MULTIPART => $body
-    ]);
   }
 }
 

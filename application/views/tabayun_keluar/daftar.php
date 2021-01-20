@@ -32,3 +32,32 @@
     </div>
   </div>
 </div>
+<script>
+  var base_url = "<?= base_url() ?>"
+  document.body.addEventListener('click', function(e) {
+    if (e.target.classList.contains('hapus')) {
+      console.log(e.target.dataset.id)
+      confirmAlert({
+        title: "Apa Anda Yakin ?",
+        text: "Data yang dihapus tidak akan Kembali",
+        icon: "warning"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const body = new FormData()
+          body.append('id', e.target.dataset.id)
+          const connect = await fetch(base_url + 'TabayunKeluar/hapus', {
+              method: 'POST',
+              body: body
+            })
+            .then((response) => {
+              return response.json()
+            });
+          notifAlert(connect).then(() => {
+            location.reload()
+          });
+        }
+      })
+
+    }
+  })
+</script>

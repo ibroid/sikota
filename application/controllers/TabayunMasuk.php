@@ -14,6 +14,7 @@ class TabayunMasuk extends CI_Controller
     parent::__construct();
     $this->load->library('Components');
     $this->load->library('notifikasi');
+    $this->load->library('files');
     $this->load->model('sub_menu');
     $this->load->model('SIPP');
     $this->load->model('identity');
@@ -73,20 +74,14 @@ class TabayunMasuk extends CI_Controller
       ]
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
-
     switch ($hasil['status']) {
       case 200:
-        $_id = $hasil['data'][0]['_id'];
         foreach ($hasil['data'] as $h) {
           unset($h['pull_status']);
-          unset($h['_id']);
           unset($h['__v']);
-          self::retriveFile($_id, Tabayun_masuk::insertAndGetId($h));
+          self::retriveFile($h, Tabayun_masuk::insertAndGetId($h));
         }
         Notifikasi::flash('success', count($hasil['data']) . ' Data Telah Di Tambahkan');
-        return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
-        break;
-      case 202:
         return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
         break;
       default:
@@ -96,6 +91,7 @@ class TabayunMasuk extends CI_Controller
   }
   public function hapus()
   {
+    CI_Defender::zeroReferer()->secure();
     echo self::delete();
   }
   private static function delete()
@@ -105,31 +101,48 @@ class TabayunMasuk extends CI_Controller
       return Notifikasi::swal('error', 'Data Tidak Ditemukan, Silahkan Refresh');
     } else {
       Tabayun_masuk::delete(['id' => request('id')]);
+      Tabayun_file_masuk::delete(['delegasi_id' => request('id')]);
+      Tabayun_proses_masuk::delete(['delegasi_id' => request('id')]);
+      Tabayun_file_keluar::delete(['delegasi_id' => request('id')]);
+      self::deleteFileBalasan(request('id'));
       return Notifikasi::swal('success', 'Data Berhasil di Hapus');
     }
   }
-  private static function retriveFile($_id, $id)
+  private static function deleteFileBalasan($id)
+  {
+    $files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
+    foreach ($files as $no => $file) {
+      Files::delete('uploads/surat/keluar/' . $file->file);
+    }
+  }
+  private static function retriveFile($data, $id)
   {
     $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
     $response = $client->post('api/tabayun/get_file_request', [
       GuzzleHttp\RequestOptions::JSON => [
-        'tabayun_request_id' => '"' . $_id . '"'
+        'tabayun_request_id' => $data['_id']
       ]
     ]);
     $hasil = json_decode($response->getBody()->getContents(), TRUE);
-    return Tabayun_file_masuk::insert([
-      'delegasi_id' => $id,
-      'file' => base_api() . 'request/' . $hasil['data']['file_name'],
-      'status_file' => 0,
-      'diinput_oleh' => event()->inputBy(),
-      'diinput_tanggal' => event()->inputAt()
-    ]);
+    foreach ($hasil['data'] as $file) {
+      Tabayun_file_masuk::insert([
+        'delegasi_id' => $id,
+        'file' => base_api() . 'request/' . $file['file_name'],
+        'status_file' => "File Pengajuan",
+        'diinput_oleh' => event()->inputBy(),
+        'diinput_tanggal' => event()->inputAt(),
+        'id_pn_asal' => $data['id_pn_asal'],
+        'id_pn_tujuan' => $data['perkara_id']
+      ]);
+    }
   }
   public function proses($id = null)
   {
+    CI_Defender::zeroReferer()->secure();
     $this->data = Tabayun_masuk::findOrDie(['id' => $id])->row();
     $this->data->proses = self::cekProses($this->data);
-    $this->data->files = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
+    $this->data->files = Tabayun_file_masuk::getWhere(['delegasi_id' => $id])->result();
+    $this->data->hasil = Tabayun_file_keluar::getWhere(['delegasi_id' => $id])->result();
     $this->title = 'Proses Tabayun Masuk';
     $this->view = 'tabayun_masuk/proses';
     $this->index();
@@ -138,12 +151,13 @@ class TabayunMasuk extends CI_Controller
   {
     $cek = Tabayun_proses_masuk::getWhere(['delegasi_id' => $data->id])->row();
     if (!$cek) {
-      Tabayun_proses_masuk::insert([
+      $id = Tabayun_proses_masuk::insertAndGetId([
         'delegasi_id' => $data->id,
         'status_delegasi' => 1,
         'diinput_oleh' => event()->inputBy(),
         'diinput_tanggal' => event()->inputAt()
       ]);
+      return Tabayun_proses_masuk::getWhere(['id' => $id])->row();
     } else {
       return $cek;
     }
@@ -158,6 +172,8 @@ class TabayunMasuk extends CI_Controller
           'jurusita_id' => req()->post()->jurusita_id,
           'tgl_penunjukan_jurusita' => req()->post()->tgl_penunjukan_jurusita,
           'jurusita_nama' => $this->SIPP->customQuery("SELECT * FROM jurusita WHERE id =" . req()->post()->jurusita_id)->row()->nama_gelar,
+          'diperbaharui_oleh' => event()->inputBy(),
+          'diperbaharui_tanggal' => event()->inputAt()
         ], [
           'delegasi_id' => $id
         ]);
@@ -194,7 +210,7 @@ class TabayunMasuk extends CI_Controller
       $config['upload_path'] = './uploads/surat/keluar';
       $config['allowed_types'] = 'gif|jpg|png|jpeg|docx|doc|pdf|rtf';
       $config['max_size'] = '2024';
-      $config['file_name'] = Ramsey\Uuid\Uuid::uuid1();
+      $config['file_name'] = Ramsey\Uuid\Uuid::uuid4();
       $this->load->library('upload', $config);
       if (!$this->upload->do_upload('file')) {
         Notifikasi::flash('danger', $this->upload->display_errors());
@@ -209,6 +225,67 @@ class TabayunMasuk extends CI_Controller
 
   public function kirimBalasan()
   {
+    CI_Defender::zeroReferer()->setReferer(base_url('TabayunMasuk/proses/') . request('id'))->secure();
+
+    $tpm = Tabayun_proses_masuk::getWhere(['delegasi_id' => request('id')])
+      ->row_array();
+    $tm = Tabayun_masuk::getWhere(['id' => request('id')])
+      ->row_array();
+    $data = array_merge($tpm, [
+      'id_pn_asal' => Identity::take(['IDPN'])['IDPN'],
+      'id_pn_tujuan' =>  $tm['id_pn_tujuan'],
+      'id_from_client' => $tm['id_from_client']
+    ]);
+
+    try {
+      $hasil = self::sendData($data);
+      $this->sendFile(Tabayun_file_keluar::getWhere(['delegasi_id' => request('id')])->result_array(), $hasil['data']['_id']);
+      self::updateStatus(request('id'));
+      echo Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
+    } catch (\Throwable $th) {
+      echo Notifikasi::swal('error', 'Server Sedang Perbaikan');
+    }
+  }
+  private static function sendData($data)
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/response', [
+      GuzzleHttp\RequestOptions::JSON => $data
+    ]);
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    return $hasil;
+  }
+  public function hapusFileBalasan()
+  {
+    CI_Defender::zeroReferer()->setReferer(base_url('TabayunMasuk/proses/') . request('id'))->secure();
+    if (Files::delete('uploads/surat/keluar/' . request('file')) == true) {
+      Tabayun_file_keluar::delete(['file' => request('file')]);
+      Notifikasi::flash('warning', 'File Telah di Hapus');
+      redirect($_SERVER['HTTP_REFERER']);
+    } else {
+      echo Files::delete('uploads/surat/keluar/' . request('file'));
+    }
+  }
+  private function sendFile($data, $id)
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    foreach ($data as $no => $file) {
+      $client->post('api/tabayun/upload_file_response', [
+        GuzzleHttp\RequestOptions::MULTIPART =>  [
+          [
+            'name' => 'data', 'contents' => json_encode($id)
+          ],
+          [
+            'name' => 'doc',
+            'contents' => file_exists(FCPATH . 'uploads/surat/keluar/' . $file['file']) ? fopen(FCPATH . 'uploads/surat/keluar/' . $file['file'], 'r') : json_encode('file doesnt exist in client')
+          ]
+        ]
+      ]);
+    }
+  }
+  private static function updateStatus($id)
+  {
+    return Tabayun_masuk::update([['status_kirim' => 1], 'id' => $id]);
   }
 }
 

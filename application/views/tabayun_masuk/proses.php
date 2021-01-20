@@ -122,7 +122,11 @@
                                 <tr>
                                   <td scope="row">1</td>
                                   <td>Surat Permohonan Delegasi</td>
-                                  <td><a href="">Download</a></td>
+                                  <td>
+                                    <?php foreach ($data->files as $file) { ?>
+                                      <a href="http://<?= $file->file ?>" target="_blank">Download &nbsp;</a>
+                                    <?php } ?>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td scope="row">2</td>
@@ -161,6 +165,7 @@
                                   <?php if ($data->proses->jurusita_id) { ?>
                                     <option selected value="<?= $data->proses->jurusita_id ?>"><?= $data->proses->jurusita_nama; ?></option>
                                   <?php } ?>
+                                  <option selected disabled>Pilih Salah Satu</option>
                                   <?php foreach ($this->SIPP->jurusitaaktif() as $js) { ?>
                                     <option class="opsi-js" data-id="<?= $js->id ?>" value="<?= $js->id ?>"><?= $js->nama_gelar; ?></option>
                                   <?php } ?>
@@ -332,12 +337,12 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <?php foreach ($data->files as $no => $val) { ?>
+                                  <?php foreach ($data->hasil as $no => $val) { ?>
                                     <tr>
                                       <td><?= ++$no; ?></td>
                                       <td><a href=""><strong> <?= $val->file; ?></strong></a></td>
                                       <td><?= dateToText()->format_indo($val->diinput_tanggal); ?></td>
-                                      <td><a href="" class="text-danger">Hapus</a></td>
+                                      <td><a href="<?= base_url('TabayunMasuk/hapusFileBalasan?file=') . $val->file . '&id=' . $this->uri->segment(3) ?>" class="text-danger">Hapus</a></td>
                                     </tr>
                                   <?php } ?>
                                 </tbody>
@@ -348,7 +353,7 @@
                             <p class="text-center">
                               <button class="btn btn-success btn-round green"> Upload File <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
 
-                              <?php if ($data->proses->status_delegasi > 4) { ?>
+                              <?php if (!empty($data->hasil)) { ?>
                                 <button type="button" id="btn-kirim-balasan" class="btn btn-primary btn-round primary"> Kirim Balasan <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></button>
                               <?php } ?>
                             </p>
@@ -371,13 +376,16 @@
 </div>
 <script>
   var base_url = "<?= base_url() ?>";
-  document.getElementById("btn-kirim-balasan").addEventListener('click', function(e) {
+  const btnKirimBalasan = document.getElementById("btn-kirim-balasan")
+  if (btnKirimBalasan) btnKirimBalasan.addEventListener('click', function(e) {
     confirmAlert({
       title: "Data Akan di Kirim",
       text: "Pastikan Semua Data Sudah Terisi dan Benar!",
       icon: "warning"
     }).then((result) => {
-
+      if (result.isConfirmed) {
+        sendData()
+      }
     })
   })
 
@@ -386,9 +394,10 @@
     body.append('id', '<?= $this->uri->segment(3) ?>')
     const result = await fetch(base_url + 'TabayunMasuk/kirimBalasan', {
       method: 'POST',
-      data: body
+      body: body
     }).then(response => {
-
+      return response.json()
     })
+    return notifAlert(result)
   }
 </script>

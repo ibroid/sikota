@@ -19,7 +19,6 @@
                 <th class="text-center">Nomor Perkara <br> Jenis Delegasi <br> Tgl Sidang</th>
                 <th class="text-center">Nomor & <br> Tgl Surat</th>
                 <th class="text-center">Nama & <br> Alamat Pihak</th>
-                <th class="text-center">Panitera Pengganti</th>
                 <th class="text-center">Aksi</th>
               </tr>
             </thead>

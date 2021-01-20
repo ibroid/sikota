@@ -52,7 +52,7 @@
             }).then(response => {
               return response.json()
             })
-            notifAlert(result)
+            notifAlert(result).then((err) => location.reload())
           }
         })
       }

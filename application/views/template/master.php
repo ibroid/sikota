@@ -17,7 +17,6 @@
 
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/plugins/font-awesome.min.css" />
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/plugins/simple-line-icons.css" />
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend') ?>/css/plugins/dropzone.css" />
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/plugins/animate.min.css" />
   <link href="<?= base_url('assets/backend/') ?>css/style.css" rel="stylesheet">
   <link href="<?= base_url('assets/backend/datatables/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet">
@@ -112,7 +111,6 @@
 <script src="<?= base_url('assets/backend/') ?>js/jquery.min.js"></script>
 <script src="<?= base_url('assets/backend/') ?>js/bootstrap.min.js"></script>
 <!-- plugins -->
-<script src="<?= base_url('assets/backend') ?>/js/plugins/dropzone.js"></script>
 <script src="<?= base_url('assets/backend/js/plugins/moment.min.js'); ?>"></script>
 <script src="<?= base_url('assets/backend/js/plugins/jquery.datatables.min.js'); ?>"></script>
 <script src="<?= base_url('assets/backend/js/plugins/datatables.bootstrap.min.js'); ?>"></script>

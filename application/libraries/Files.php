@@ -14,6 +14,7 @@ class Files
   {
     if (file_exists(FCPATH . $path . $filename)) {
       unlink(FCPATH . $path . $filename);
+      return true;
     } else {
       return 'File Tidak Ada';
     }
