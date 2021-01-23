@@ -7,7 +7,6 @@
           <h3>Dashboard</h3>
         </div>
         <div class="panel-body">
-<p> ddddd</p>
 
         </div>
       </div>

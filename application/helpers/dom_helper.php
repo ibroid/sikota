@@ -1,5 +1,4 @@
 <?php
-
 function dom()
 {
   $dom = new class
@@ -42,6 +41,17 @@ function dom()
       } else {
         return "<input type='$type' required autocomplete='off' class='info form-control $classOption' name='$name'>";
       }
+    }
+
+    static function statusBalasan($id)
+    {
+      $these = &get_instance();
+      $cek = $these->db->get_where('tabayun_proses_keluar', ['delegasi_id' => $id])->row();
+      return !$cek ? '<span class="badge badge-danger">Belum Ada Balasan</span>' : '<span class="badge badge-primary">Sudah Ada Balasan</span>';
+    }
+    static function badge($text, $color = 'primary')
+    {
+      return "<span class=\"badge badge-$color\">$text</span>";
     }
   };
   return $dom;

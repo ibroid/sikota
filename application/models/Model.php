@@ -11,7 +11,7 @@ class Model
   public static function all()
   {
     $these = get_instance();
-    return $these->db->select('*')->order_by('id', "DESC")->get(strtolower(get_called_class()));
+    return $these->db->select('*')->get(strtolower(get_called_class()));
   }
   public static function select($select)
   {

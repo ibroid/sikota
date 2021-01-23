@@ -157,7 +157,7 @@ class TabayunMasuk extends CI_Controller
         'diinput_oleh' => event()->inputBy(),
         'diinput_tanggal' => event()->inputAt()
       ]);
-      return Tabayun_proses_masuk::getWhere(['id' => $id])->row();
+      return Tabayun_proses_masuk::getWhere(['delegasi_id' => $data->id])->row();
     } else {
       return $cek;
     }
@@ -231,6 +231,10 @@ class TabayunMasuk extends CI_Controller
       ->row_array();
     $tm = Tabayun_masuk::getWhere(['id' => request('id')])
       ->row_array();
+    if ($tm['status_kirim'] == 1) {
+      echo Notifikasi::swal('warning', 'Tabayun Ini Sudah di Kirim');
+      die;
+    }
     $data = array_merge($tpm, [
       'id_pn_asal' => Identity::take(['IDPN'])['IDPN'],
       'id_pn_tujuan' =>  $tm['id_pn_tujuan'],
@@ -285,7 +289,14 @@ class TabayunMasuk extends CI_Controller
   }
   private static function updateStatus($id)
   {
-    return Tabayun_masuk::update([['status_kirim' => 1], 'id' => $id]);
+    Tabayun_masuk::update(['status_kirim' => 1], ['id' => $id]);
+  }
+  public function control()
+  {
+    $this->title = 'Control Data Tambah Tabayun Masuk';
+    $this->view = 'tabayun_masuk/control';
+    $this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->get()->result();
+    $this->index();
   }
 }
 

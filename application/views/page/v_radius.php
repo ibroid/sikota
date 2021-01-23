@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/backend/css/plugins/datatables.bootstrap.min.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/backend/css/plugins/datatables.bootstrap.min.css') ?>" />
 <div id="content">
   <div class="panel">
     <div class="panel-body padding-0">
@@ -8,7 +8,7 @@
 
         <ul class="nav navbar-nav">
           <?php foreach ($sub_menu as $sb) { ?>
-            <li><a href="<?= base_url().$sb->link_sub  ?>"><?= $sb->nama_sub ?></a></li>
+            <li><a href="<?= base_url() . $sb->link_sub  ?>"><?= $sb->nama_sub ?></a></li>
           <?php } ?>
         </ul>
       </div>
@@ -23,51 +23,85 @@
           <h3>Konfigurasi Radius</h3>
         </div>
         <div class="panel-body">
-                  <button data-toggle="modal" data-target="#ModalRadius" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Radius</button>
-<br>
-<br>
-<!--Memulai Datatable-->
-        <div class="responsive-table">
+          <button data-toggle="modal" data-target="#ModalRadius" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Radius</button>
+          <br>
+          <br>
+          <!--Memulai Datatable-->
+          <div class="responsive-table">
             <table id="datatables-example" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                <thead>
+              <thead>
+                <tr>
+                  <th>
+                    <center>No</center>
+                  </th>
+                  <th>
+                    <center>Kode Radius</center>
+                  </th>
+                  <th>
+                    <center>Nama Radius</center>
+                  </th>
+                  <th>
+                    <center>Kelurahan</center>
+                  </th>
+                  <th>
+                    <center>Kecamatan</center>
+                  </th>
+                  <th>
+                    <center>Kab/Kota</center>
+                  </th>
+                  <th>
+                    <center>Provinsi</center>
+                  </th>
+                  <th>
+                    <center>Biaya</center>
+                  </th>
+                  <th>
+                    <center>Aksi</center>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $no = 1;
+                foreach ($radius as $r) :
+                ?>
                   <tr>
-                    <th><center>No</center></th>
-                    <th><center>Kode Radius</center></th>
-                    <th><center>Nama Radius</center></th>
-                    <th><center>Kelurahan</center></th>
-                    <th><center>Kecamatan</center></th>
-                    <th><center>Kab/Kota</center></th>
-                    <th><center>Provinsi</center></th>
-                    <th><center>Biaya</center></th>
-                    <th><center>Aksi</center></th>
-                  </tr>
-                </thead>
-                <tbody>
-                	<?php
-                        $no = 1;
-                           foreach ($radius as $r) :
-                    ?>
-                  <tr>
-                    <td><center><?= $no++; ?></center></td>
-                    <td><center><?= $r['kode_radius']; ?></center></td>
-                    <td><center><?= $r['keterangan']; ?></center></td>
-                    <td><center><?= $r['kelurahan']; ?></center></td>
-                    <td><center><?= $r['kecamatan']; ?></center></td>
-                    <td><center><?= $r['kab_kota']; ?></center></td>
-                    <td><center><?= $r['provinsi']; ?></center></td>
-                    <td><center><?= $r['biaya_panggilan']; ?></center></td>
                     <td>
-                            <!--
-                              <center><button data-toggle="modal" data-target="#modelId2" onclick="edit_user(<?= $d->id ?>,'<?= $d->nama ?>','<?= $d->foto ?>')" class="btn btn-warning"><i class="fa fa-pencil fa-xs"></i></button><button class="btn btn-danger"><i class="fa fa-trash fa-xs"></i></button></center> -->
-                            <center><button class="btn btn-warning"><i class="fa fa-pencil fa-xs"></i></button><button class="btn btn-danger"><i class="fa fa-trash fa-xs"></i></button></center>
+                      <center><?= $no++; ?></center>
                     </td>
-                  	<?php
-                       endforeach;
-                    ?>
-                </tbody>
-              </table>
-            </div>
-<!--Ahir Dari Data Table-->
+                    <td>
+                      <center><?= $r['kode_radius']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['keterangan']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['kelurahan']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['kecamatan']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['kab_kota']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['provinsi']; ?></center>
+                    </td>
+                    <td>
+                      <center><?= $r['biaya_panggilan']; ?></center>
+                    </td>
+                    <td>
+                      <!--
+                              <center><button data-toggle="modal" data-target="#modelId2" onclick="edit_user(<?= $d->id ?>,'<?= $d->nama ?>','<?= $d->foto ?>')" class="btn btn-warning"><i class="fa fa-pencil fa-xs"></i></button><button class="btn btn-danger"><i class="fa fa-trash fa-xs"></i></button></center> -->
+                      <center><button class="btn btn-warning"><i class="fa fa-pencil fa-xs"></i></button><button class="btn btn-danger"><i class="fa fa-trash fa-xs"></i></button></center>
+                    </td>
+                  <?php
+                endforeach;
+                  ?>
+              </tbody>
+            </table>
+          </div>
+          <!--Ahir Dari Data Table-->
 
         </div>
       </div>
@@ -87,9 +121,9 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          
-            <form action="">
-              <div class="container">
+
+          <form action="">
+            <div class="container">
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Kode Radius</label>
@@ -98,7 +132,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nama Radius</label>
@@ -107,7 +141,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nama Kelurahan</label>
@@ -116,7 +150,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nama Kecamatan</label>
@@ -125,7 +159,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Kab/Kota</label>
@@ -134,7 +168,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Provinsi</label>
@@ -143,7 +177,7 @@
                   </div>
                 </div>
               </div>
-<br>
+              <br>
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nominal Rp.</label>
@@ -153,16 +187,16 @@
                 </div>
               </div>
 
-            </form>
-         </div>
+          </form>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
-      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save</button>
     </div>
   </div>
+</div>
 </div>
 
 <!-- start: Javascript -->
@@ -173,13 +207,13 @@
 <!-- plugins -->
 <script src="<?php echo base_url('assets/backend/js/plugins/moment.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/backend/js/plugins/jquery.datatables.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/backend/js/plugins/datatables.bootstrap.min.js')?>"></script>
+<script src="<?php echo base_url('assets/backend/js/plugins/datatables.bootstrap.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/backend/js/plugins/jquery.nicescroll.js') ?>"></script>
 
 <!-- custom -->
 <script src="<?php echo base_url('assets/backend/js/main.js') ?>"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(document).ready(function() {
     $('#datatables-example').DataTable();
   });
 </script>

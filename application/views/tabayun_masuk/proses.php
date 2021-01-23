@@ -7,6 +7,8 @@
           <h3>Rincian Tabayun Masuk</h3>
         </div>
         <div class="panel-body">
+          <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="btn btn-secondary margin-right-2"><i class="fa fa-backward"></i> Kembali</a>
+          <br><br>
           <table class="table table-responsive">
             <thead class="bg-primary text-white">
               <tr>
@@ -165,7 +167,7 @@
                                   <?php if ($data->proses->jurusita_id) { ?>
                                     <option selected value="<?= $data->proses->jurusita_id ?>"><?= $data->proses->jurusita_nama; ?></option>
                                   <?php } ?>
-                                  <option selected disabled>Pilih Salah Satu</option>
+                                  <option disabled>Pilih Salah Satu</option>
                                   <?php foreach ($this->SIPP->jurusitaaktif() as $js) { ?>
                                     <option class="opsi-js" data-id="<?= $js->id ?>" value="<?= $js->id ?>"><?= $js->nama_gelar; ?></option>
                                   <?php } ?>
@@ -173,11 +175,13 @@
                               </div>
                             </div>
                           </div>
-                          <p class="text-center">
-                            <button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
-                          </p>
+                          <?php if ($data->status_kirim != 1) {
+                            echo " <p class=\"text-center\">
+                            <button class=\"btn btn-success btn-round green\"> Simpan Proses <span style=\"margin-left:10px;\" class=\"glyphicon glyphicon-ok\"></span></button>
+                          </p>";
+                          } ?>
                         </form>
-
+                        <br><br><br>
                       </div>
                       <div class="tab-pane fade" id="tabs-demo6-area3">
                         <h3 class="head text-center">Pelaksanaan Delegasi</h3>
@@ -232,16 +236,17 @@
                             <div class="form-group">
                               <label class="col-sm-3 control-label text-right">Catatan Pelaksanaan</label>
                               <div class="col-sm-8">
-                                <textarea name="catatan" cols="1" class="form-control info" rows="3">
-                                <?= $data->proses->catatan; ?></textarea>
+                                <input type="text" class="form-control info" name="catatan" value="<?= $data->proses->catatan; ?>">
                               </div>
                             </div>
                           </div>
                           <div class="form-group">
-                            <?php if ($data->proses->status_delegasi > 1) { ?>
-                              <p class="text-center">
-                                <button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
-                              </p>
+                            <?php if ($data->status_kirim != 1) { ?>
+                              <?php if ($data->proses->status_delegasi > 1) { ?>
+                                <p class="text-center">
+                                  <button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
+                                </p>
+                              <?php } ?>
                             <?php } ?>
                           </div>
                           <br><br>
@@ -305,10 +310,12 @@
                               </div>
                             </div>
                           </div>
-                          <?php if ($data->proses->status_delegasi > 2) { ?>
-                            <p class="text-center">
-                              <button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
-                            </p>
+                          <?php if ($data->status_kirim != 1) { ?>
+                            <?php if ($data->proses->status_delegasi > 2) { ?>
+                              <p class="text-center">
+                                <button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
+                              </p>
+                            <?php } ?>
                           <?php } ?>
                           <br><br>
                         </form>
@@ -349,14 +356,16 @@
                               </table>
                             </div>
                           </div>
-                          <?php if ($data->proses->status_delegasi > 3) { ?>
-                            <p class="text-center">
-                              <button class="btn btn-success btn-round green"> Upload File <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
+                          <?php if ($data->status_kirim != 1) { ?>
+                            <?php if ($data->proses->status_delegasi > 3) { ?>
+                              <p class="text-center">
+                                <button class="btn btn-success btn-round green"> Upload File <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
 
-                              <?php if (!empty($data->hasil)) { ?>
-                                <button type="button" id="btn-kirim-balasan" class="btn btn-primary btn-round primary"> Kirim Balasan <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></button>
-                              <?php } ?>
-                            </p>
+                                <?php if (!empty($data->hasil)) { ?>
+                                  <button type="button" id="btn-kirim-balasan" class="btn btn-primary btn-round primary"> Kirim Balasan <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></button>
+                                <?php } ?>
+                              </p>
+                            <?php } ?>
                           <?php } ?>
                           <br>
                           <br>
@@ -381,23 +390,26 @@
     confirmAlert({
       title: "Data Akan di Kirim",
       text: "Pastikan Semua Data Sudah Terisi dan Benar!",
-      icon: "warning"
+      icon: "warning",
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        const body = new FormData()
+        body.append('id', '<?= $this->uri->segment(3) ?>')
+        const result = await fetch(base_url + 'TabayunMasuk/kirimBalasan', {
+          method: 'POST',
+          body: body
+        }).then(response => {
+          return response.json()
+        })
+        return result;
+      }
     }).then((result) => {
       if (result.isConfirmed) {
-        sendData()
+        notifAlert(result.value).then((err) => {
+          if (err) console.log(err);
+          location.href = base_url + 'TabayunMasuk/control'
+        })
       }
     })
   })
-
-  async function sendData() {
-    const body = new FormData()
-    body.append('id', '<?= $this->uri->segment(3) ?>')
-    const result = await fetch(base_url + 'TabayunMasuk/kirimBalasan', {
-      method: 'POST',
-      body: body
-    }).then(response => {
-      return response.json()
-    })
-    return notifAlert(result)
-  }
 </script>

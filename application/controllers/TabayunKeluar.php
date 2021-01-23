@@ -21,8 +21,10 @@ class TabayunKeluar extends CI_Controller
   {
     parent::__construct();
     $this->load->model('SIPP');
+    $this->load->model('identity');
     $this->load->model('nomor_surat');
     $this->load->model('tabayun_file_keluar');
+    $this->load->model('tabayun_file_masuk');
     $this->load->model('tabayun_proses_keluar');
     $this->load->library('components');
     $this->load->library('files');
@@ -66,7 +68,7 @@ class TabayunKeluar extends CI_Controller
       ]));
       Nomor_surat::saveUpdate();
       Notifikasi::flash('success', 'Data Berhasil di Tambahkan');
-      redirect($_SERVER['HTTP_REFERER'], 'refresh');
+      redirect('TabayunKeluar/daftar');
     }
   }
 
@@ -268,6 +270,7 @@ class TabayunKeluar extends CI_Controller
   {
     $this->title = 'Tabayun Keluar';
     $this->view = 'control';
+    $this->list = Tabayun_keluar::getWhere(['status_kirim' => 1])->result();
     $this->index();
   }
   private static function requestAPI($data)
@@ -305,6 +308,93 @@ class TabayunKeluar extends CI_Controller
         ]
       ]);
     }
+  }
+
+  public function cek_tabayun_balasan()
+  {
+    CI_Defender::zeroReferer()->secure();
+    try {
+      $connect = self::checkData();
+      if (empty($connect['data'])) {
+        echo Notifikasi::swal("warning", "Tidak ada Balasan Baru");
+        die;
+      }
+      self::saveBalasan($connect['data']);
+      echo Notifikasi::swal($connect['icon'], $connect['text']);
+    } catch (\Throwable $th) {
+      echo Notifikasi::swal('error', 'Server Sedang Perbaikan');
+    }
+  }
+  private static function checkData()
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/get_response', [
+      GuzzleHttp\RequestOptions::JSON => [
+        'identity_id' => Identity::take(['IDPN'])['IDPN']
+      ]
+    ]);
+
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    return $hasil;
+  }
+  private static function checkFile($_id, $data)
+  {
+    $client = new GuzzleHttp\Client(['base_uri' => base_api()]);
+    $response = $client->post('api/tabayun/get_file_response', [
+      GuzzleHttp\RequestOptions::JSON => [
+        'id' => $_id
+      ]
+    ]);
+    $hasil = json_decode($response->getBody()->getContents(), TRUE);
+    foreach ($hasil['data'] as $d) {
+      Tabayun_file_masuk::insert([
+        'delegasi_id' => $data['id_from_client'],
+        'id_pn_asal' => $data['id_pn_asal'],
+        'id_pn_tujuan' => $data['id_pn_tujuan'],
+        'file' => base_api() . 'response/' . $d['file_name'],
+        'status_file' => 'File Balasan',
+        'diinput_oleh' => $data['diinput_oleh'],
+        'diinput_tanggal' => $data['diinput_tanggal'],
+        'diperbaharui_oleh' => $data['diperbaharui_oleh'],
+        'diperbaharui_tanggal' => $data['diperbaharui_tanggal']
+      ]);
+    }
+    return $hasil['data'];
+  }
+  private static function saveBalasan($data)
+  {
+    foreach ($data as $key => $val) {
+      Tabayun_proses_keluar::insert([
+        "delegasi_id" => $val['id_from_client'],
+        "tgl_surat_diterima" => $val[array_keys($val)[2]],
+        "tgl_penunjukan_jurusita" => $val[array_keys($val)[3]],
+        "tgl_pelaksanaan" => $val[array_keys($val)[4]],
+        "jurusita_nama" => $val[array_keys($val)[6]],
+        "nomor_relaas" => $val[array_keys($val)[7]],
+        "tgl_pengiriman_relaas" => $val[array_keys($val)[8]],
+        "tgl_surat_pengantar_relaas" => $val[array_keys($val)[20]],
+        "nomor_surat_pengantar_relaas" => $val[array_keys($val)[9]],
+        "status_delegasi" => 6,
+        "tgl_resi" => $val[array_keys($val)[11]],
+        "nomor_resi" => $val[array_keys($val)[12]],
+        "biaya" => $val[array_keys($val)[13]],
+        "status_pelaksanaan" => $val[array_keys($val)[14]],
+        "catatan" => $val[array_keys($val)[15]],
+        "diinput_oleh" => $val[array_keys($val)[16]],
+        "diinput_tanggal" => $val[array_keys($val)[17]],
+        "diperbaharui_oleh" => $val[array_keys($val)[18]],
+        "diperbaharui_tanggal" => $val[array_keys($val)[17]],
+      ]);
+      self::checkFile($val['_id'], $val);
+    }
+  }
+  public function balasan($id)
+  {
+    $this->list = Tabayun_keluar::findOrDie(['id' => $id])->row();
+    $this->list->proses = Tabayun_proses_keluar::getWhere(['delegasi_id' => $id])->row();
+    $this->list->files = Tabayun_file_masuk::getWhere(['delegasi_id' => $id])->result();
+    $this->view = 'balasan';
+    $this->index();
   }
 }
 

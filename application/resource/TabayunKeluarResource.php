@@ -13,6 +13,9 @@ class TabayunkeluarResource
   }
   public static function datatableResource()
   {
+
+    $these = &get_instance();
+
     $data = array();
     $no = $_POST['start'];
     foreach (self::$list as $tbk) {
@@ -23,8 +26,9 @@ class TabayunkeluarResource
       $row[] = $tbk->nomor_perkara . '<br>' . $tbk->jenis_delegasi_text . '<br>' . $tbk->tgl_sidang;
       $row[] = $tbk->nomor_surat . '<br>' . $tbk->tgl_surat;
       $row[] = $tbk->pihak . '<br>' . $tbk->alamat_pihak;
-      $row[] = '<p><center>' . sippTable()->getPP($tbk->perkara_id)  .  ' </center></p>';
-      $row[] = "<div class='btn-group' role='group'>
+      $row[] =   '<p><center>' . sippTable()->getPP($tbk->perkara_id)  .  ' </center></p>';
+      $row[] =
+        "<div class='btn-group' role='group'>
                   <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                   Pilih Aksi
                   <span class='fa fa-angle-down'></span>
@@ -36,7 +40,7 @@ class TabayunkeluarResource
                       <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Proses</a></li>  
                       <li><a data-id='" . $tbk->id . "' class='waves-effect hapus' href='javascript:void(0)'>Hapus</a></li>
                   </ul>
-              </div>";
+              </div>" ;
       $data[] = $row;
     }
     $output = array(
