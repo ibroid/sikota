@@ -396,6 +396,10 @@ class TabayunKeluar extends CI_Controller
     $this->view = 'balasan';
     $this->index();
   }
+  public function debug()
+  {
+    return Export::findFile("./rtf/template/template_pengantar_keluar.rtf")->debug();
+  }
 }
 
 /* End of file TabayunKeluar.php */

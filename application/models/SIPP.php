@@ -75,6 +75,11 @@ class SIPP extends CI_Model
     $this->sipp->where("jurusita.aktif='Y' ORDER BY nama_gelar ASC;");
     return $this->sipp->get('jurusita')->result();
   }
+  public function getLawanPihak($nomor_perkara, $pos)
+  {
+    $data = $this->sipp->get_where('perkara', ['nomor_perkara' => $nomor_perkara])->row_array();
+    return $data[$pos];
+  }
 }
 
 /* End of file SIPP.php */

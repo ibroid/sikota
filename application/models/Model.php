@@ -11,7 +11,7 @@ class Model
   public static function all()
   {
     $these = get_instance();
-    return $these->db->select('*')->get(strtolower(get_called_class()));
+    return $these->db->select('*')->order_by('id', 'desc')->get(strtolower(get_called_class()));
   }
   public static function select($select)
   {
@@ -96,5 +96,25 @@ class Model
     $these = get_instance();
     $these->db->insert(strtolower(get_called_class()), $data);
     return $these->db->insert_id();
+  }
+  public static function groupStart()
+  {
+    $these = get_instance();
+    return  $these->db->group_start();
+  }
+  public static function groupEnd()
+  {
+    $these = get_instance();
+    return  $these->db->group_end();
+  }
+  public static function orderBy($title, $align = 'desc')
+  {
+    $these = get_instance();
+    return $these->db->order_by($title, $align);
+  }
+  public static function limit($length, $start)
+  {
+    $these = get_instance();
+    return $these->db->limit($length, $start);
   }
 }
