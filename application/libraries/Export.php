@@ -5,10 +5,15 @@ class Export
 
     public static function findFile($filepath = null)
     {
-        if (file_exists($filepath)) {
-            $handle = fopen($filepath, "r+");
-            self::$read = fread($handle, filesize($filepath));
-            fclose($handle);
+        try {
+            if (file_exists($filepath)) {
+                $handle = fopen($filepath, "r+");
+                self::$read = fread($handle, filesize($filepath));
+                fclose($handle);
+            }
+        } catch (\Throwable $th) {
+            echo 'error permission or file not found';
+            die;
         }
         return new static;
     }

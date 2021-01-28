@@ -19,17 +19,17 @@ class SuratMasukResource
 			$row[] = $suratm->file;
 			$row[] = '<p>Disposisi Kpd Panitera</p>';
 			$row[] =      "<div class='btn-group'>
-											<button type='button' class='btn btn-primary waves-effect dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-													<i class='material-icons'>Aksi</i>
-											<span></span> <span class='caret'></span>
-											</button>
-											<ul class='dropdown-menu  pull-right '>
-												<li><a class='waves-effect' href='' target='_blank'>Disposisi</a></li>
-													<li><a class='waves-effect' href='' target='_blank'>Download</a></li>      
-													<li><a class='waves-effect' href='' target='_blank'>Edit</a></li>  
-													<li><a class='waves-effect' href='' target='_blank'>Hapus</a></li>
-											</ul>
-									</div>";
+							<button type='button' class='btn btn-primary waves-effect dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+									<i class='material-icons'>Aksi</i>
+							<span></span> <span class='caret'></span>
+							</button>
+							<ul class='dropdown-menu  pull-right '>
+								<li><a class='waves-effect' href='' target='_blank'>Disposisi</a></li>
+									<li><a class='waves-effect' href='' target='_blank'>Download</a></li>      
+									<li><a class='waves-effect' href='' target='_blank'>Edit</a></li>  
+									<li><a class='waves-effect' href='' target='_blank'>Hapus</a></li>
+							</ul>
+					</div>";
 			$data[] = $row;
 		}
 

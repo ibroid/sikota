@@ -298,6 +298,12 @@ class TabayunMasuk extends CI_Controller
     $this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->get()->result();
     $this->index();
   }
+  public function wesel()
+  {
+    $this->title = 'Wesel Masuk';
+    $this->view = 'tabayun_masuk/wesel';
+    return $this->index();
+  }
 }
 
 /* End of file TabayunMasuk.php */

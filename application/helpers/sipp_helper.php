@@ -38,6 +38,44 @@ function sippTable()
       $sipp = new SIPP;
       return $sipp->getLawanPihak($nomor_perkara, $pos);
     }
+    public static function pihakSebagai($pihak, $type)
+    {
+      if (isset(explode('m', $pihak)[1])) {
+        $pihak = 'm' . explode('m', $pihak)[1];
+      } else if (isset(explode('n', $pihak)[1])) {
+        if ($type == 'Pe') {
+          $pihak = 'n' . explode('ng', $pihak)[1];
+        } else {
+          $pihak = explode('ng', $pihak)[1];
+        }
+      } else {
+        $pihak = explode('r', $pihak)[1];
+      }
+      return $type . $pihak;
+    }
+    public static function whoIsIt($nomor_perkara, $who)
+    {
+      if (explode('/', $nomor_perkara)[1] == 'Pdt.G') {
+        if ($who == 'P') {
+          return 'Penggugat';
+        } else {
+          return 'Tergugat';
+        }
+      }
+      if (explode('/', $nomor_perkara)[1] == 'Pdt.P') {
+        if ($who == 'P') {
+          return 'Pemohon';
+        } else {
+          return 'Termohon';
+        }
+      }
+    }
+    public static function identityPnTujuan($nama)
+    {
+      require_once APPPATH . 'models/SIPP.php';
+      $sipp = new SIPP;
+      return $sipp->customQuery("SELECT * FROM pengadilan_negeri WHERE nama = '$nama' ")->row_array();
+    }
   };
   return $ovj;
 }

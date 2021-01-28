@@ -390,15 +390,21 @@ class TabayunKeluar extends CI_Controller
   }
   public function balasan($id)
   {
+
     $this->list = Tabayun_keluar::findOrDie(['id' => $id])->row();
     $this->list->proses = Tabayun_proses_keluar::getWhere(['delegasi_id' => $id])->row();
+    if (!$this->list->proses) {
+      Notifikasi::flash('warning', 'Belum Ada Balasan Untuk Delegasi ini');
+      redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
     $this->list->files = Tabayun_file_masuk::getWhere(['delegasi_id' => $id])->result();
     $this->view = 'balasan';
     $this->index();
   }
   public function debug()
   {
-    return Export::findFile("./rtf/template/template_pengantar_keluar.rtf")->debug();
+    $pihak = 'Termohon';
+    echo sippTable()->pihakSebagai($pihak, 'Pe');
   }
 }
 

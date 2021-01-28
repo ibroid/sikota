@@ -29,18 +29,18 @@ class TabayunkeluarResource
       $row[] =   '<p><center>' . sippTable()->getPP($tbk->perkara_id)  .  ' </center></p>';
       $row[] =
         "<div class='btn-group' role='group'>
-                  <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                  Pilih Aksi
-                  <span class='fa fa-angle-down'></span>
-                  </button>
-                  <ul class='dropdown-menu  pull-right '>
-                      <li><a class='waves-effect' href='" . base_url("cetak/cetak_pengantar_keluar") . "/$tbk->id" . "'>Cetak Pengantar</a></li>
-                      <li><a class='waves-effect' href='" . base_url("cetak/cetak_amplop") . "/$tbk->id" . "'>Cetak Amplop</a></li>
-                      <li><a class='waves-effect' href='' target='_blank'>Cetak Wesel</a></li>      
-                      <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Proses</a></li>  
-                      <li><a data-id='" . $tbk->id . "' class='waves-effect hapus' href='javascript:void(0)'>Hapus</a></li>
-                  </ul>
-              </div>" ;
+            <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+            Pilih Aksi
+            <span class='fa fa-angle-down'></span>
+            </button>
+            <ul class='dropdown-menu  pull-right '>
+                <li><a class='waves-effect' target='_blank' href='" . base_url("cetak/cetak_pengantar_keluar") . "/$tbk->id" . "'>Cetak Pengantar</a></li>
+                <li><a class='waves-effect' target='_blank' href='" . base_url("cetak/amplop_pengantar") . "/$tbk->id" . "'>Cetak Amplop</a></li>
+                <li><a class='waves-effect' href='' target='_blank'>Cetak Wesel</a></li>      
+                <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Proses</a></li>  
+                <li><a data-id='" . $tbk->id . "' class='waves-effect hapus' href='javascript:void(0)'>Hapus</a></li>
+            </ul>
+        </div>";
       $data[] = $row;
     }
     $output = array(
