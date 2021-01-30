@@ -12,6 +12,7 @@ class TabayunMasuk extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    auth()->user();
     $this->load->library('Components');
     $this->load->library('notifikasi');
     $this->load->library('files');

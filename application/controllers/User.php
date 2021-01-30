@@ -7,6 +7,7 @@ class User extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    auth()->user();
     $this->load->model('pengguna');
     $this->load->library('validation');
     $this->load->library('notifikasi');

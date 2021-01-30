@@ -43,7 +43,7 @@
                   <div class="col-sm-8">
                     <select required <?= dom()->formProses($data['jenis_delegasi_text']) ?> name="jenis_delegasi_text" class="info form-control">
                       <option><?= $data['jenis_delegasi_text']; ?></option>
-                      <?php foreach ($this->SIPP->customAll('jenis_delegasi') as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
+                      <?php foreach ($this->db->get('jenis_delegasi')->result() as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
                       <?php endforeach ?>
                     </select>
                   </div>
@@ -182,7 +182,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Nomor Resi </label>
                   <div class="col-sm-8">
-                    <input type="text" <?= dom()->formProses($data['nomor_resi']) ?> required value="<?= $data['nomor_resi'] ?>" name="nomor_resi" class="info form-control">
+                    <input type="text" <?= dom()->formProses($data['nomor_resi']) ?> value="<?= $data['nomor_resi'] ?>" name="nomor_resi" class="info form-control">
                   </div>
                 </div>
               </div>
@@ -191,7 +191,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Resi </label>
                   <div class="col-sm-8">
-                    <input type="text" <?= dom()->formProses($data['tgl_resi']) ?> required value="<?= $data['tgl_resi'] ?>" name="tgl_resi" class="info form-control datepicker">
+                    <input type="text" <?= dom()->formProses($data['tgl_resi']) ?> value="<?= $data['tgl_resi'] ?>" name="tgl_resi" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -201,9 +201,9 @@
                   <label class="col-sm-2 control-label text-right"> File Pengantar </label>
                   <div class="col-sm-8">
                     <?php if (empty($data['file'])) { ?>
-                      <input type="file" required multiple name="document[]" class="info form-control">
+                      <input type="file" multiple name="document[]" class="info form-control">
                     <?php } else { ?>
-                      <input type="file" required multiple name="document[]" class="info form-control">
+                      <input type="file" multiple name="document[]" class="info form-control">
                       <br>
                       <table class="table table-bordered table-hover">
                         <thead>

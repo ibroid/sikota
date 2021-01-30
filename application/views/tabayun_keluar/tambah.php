@@ -39,8 +39,8 @@
                   <label class="col-sm-2 control-label text-right">Jenis Delegasi</label>
                   <div class="col-sm-8">
                     <select required name="jenis_delegasi_text" id="jenis-delegasi" class="info form-control">
-                      <?php foreach ($this->SIPP->customAll('jenis_delegasi') as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
-                      <?php endforeach ?>
+                      <?php foreach ($this->db->get('jenis_delegasi')->result() as $c) : ?><option><?= $c->jenis_delegasi; ?></option>
+                      <?php endforeach; ?>
                     </select>
                   </div>
                 </div>

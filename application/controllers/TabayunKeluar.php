@@ -20,6 +20,7 @@ class TabayunKeluar extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    auth()->user();
     $this->load->model('SIPP');
     $this->load->model('identity');
     $this->load->model('nomor_surat');

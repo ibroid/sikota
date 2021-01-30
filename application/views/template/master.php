@@ -46,7 +46,7 @@
           <b>SiKoTa</b>
         </a>
         <ul class="nav navbar-nav navbar-right user-nav ">
-          <li class="user-name"><span>$user_name</span></li>
+          <li class="user-name"><span><?= $this->session->userdata('userdata')['nama_lengkap'] ?></span></li>
           <li class="dropdown avatar-dropdown mr-2">
             <img src="<?= base_url('assets/backend/') ?>img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
             <ul class="dropdown-menu user-dropdown">

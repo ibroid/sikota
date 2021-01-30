@@ -11,6 +11,8 @@ class Jurusita extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		auth()->user();
+		auth()->jurusita();
 		$this->load->model('tabayun_masuk');
 		$this->load->model('tabayun_proses_masuk');
 		$this->load->model('tabayun_file_masuk');
@@ -24,6 +26,11 @@ class Jurusita extends CI_Controller
 			redirect('Jurusita/baru', 'refresh');
 		}
 	}
+	private static function id()
+	{
+
+		return isset(get_instance()->session->userdata('jurusita')['id']) ? get_instance()->session->userdata('jurusita')['id'] : '';
+	}
 	public function index()
 	{
 		$this->templating->load('template/master', 'jurusita/' . $this->view, [
@@ -35,17 +42,15 @@ class Jurusita extends CI_Controller
 	public function baru()
 	{
 		$this->title = 'Panggilan Baru';
-		$me = 5;
 		$this->view = 'baru';
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 0)->where('jurusita_id', $me)->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 0)->where('jurusita_id', self::id())->get()->result();
 		return $this->index();
 	}
 	public function control()
 	{
 		$this->title = 'Panggilan Yang di Kirim';
-		$me = 5;
 		$this->view = 'control';
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', $me)->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', self::id())->get()->result();
 		return $this->index();
 	}
 	public function proses($id = null)
@@ -62,8 +67,7 @@ class Jurusita extends CI_Controller
 	public function biaya()
 	{
 		$this->title = 'Biaya Panggilan';
-		$me = 5;
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', $me)->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', self::id())->get()->result();
 		$this->view = 'biaya';
 		return $this->index();
 	}

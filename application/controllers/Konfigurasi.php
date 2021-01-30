@@ -15,6 +15,7 @@ class Konfigurasi extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    auth()->user();
     $this->load->library('components');
     $this->load->model('radius');
     $this->load->model('Identity');

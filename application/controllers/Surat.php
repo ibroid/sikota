@@ -14,6 +14,7 @@ class Surat extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		auth()->user();
 		$this->load->model('surat_masuk');
 		$this->load->model('sub_menu');
 		if ($this->uri->segment(2) == '') {
