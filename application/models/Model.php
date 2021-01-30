@@ -3,6 +3,11 @@
 class Model
 {
   static protected $query;
+
+  public function __construct()
+  {
+  }
+
   public static function instance()
   {
     $these = get_instance();

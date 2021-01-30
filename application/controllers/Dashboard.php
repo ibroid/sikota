@@ -8,6 +8,7 @@ class Dashboard extends CI_Controller
   {
     parent::__construct();
     auth()->user();
+    $this->load->model('sub_menu');
   }
 
 

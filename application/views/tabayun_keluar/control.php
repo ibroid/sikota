@@ -42,6 +42,7 @@
                         </button>
                         <ul class="dropdown-menu  pull-right ">
                           <li><a class="waves-effect" href="<?= base_url('TabayunKeluar/balasan/') . $val->id ?>">Lihat Balasan</a></li>
+                          <li><a class="waves-effect hapus" data-id="<?= $val->id ?>" href="javascript:void(0)">Hapus</a></li>
                         </ul>
                       </div>
                     </td>

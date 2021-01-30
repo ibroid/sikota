@@ -18,6 +18,7 @@ class Konfigurasi extends CI_Controller
     auth()->user();
     $this->load->library('components');
     $this->load->model('radius');
+    $this->load->model('SIPP');
     $this->load->model('Identity');
     $this->load->model('sub_menu');
     $this->load->model('pengguna');

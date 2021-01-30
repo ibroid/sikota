@@ -9,7 +9,6 @@ class Satker extends CI_Controller
 
   public function __construct()
   {
-    auth()->user();
     parent::__construct();
     $this->load->library('notifikasi');
     $this->load->library('files');

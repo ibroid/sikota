@@ -25,7 +25,7 @@ class Login extends CI_Controller
   {
     if ($cek) {
       if ($cek->password == hash('SHA256', $req->post('password'))) {
-        if ($cek->role == 5) {
+        if ($cek->level == 5) {
           $this->session->set_userdata([
             'jurusitadata' => $this->SIPP->customQuery("SELECT * FROM jurusita WHERE nama_gelar = '$cek->nama_lengkap'")->row_array(),
             'userdata' => $set->row_array(),

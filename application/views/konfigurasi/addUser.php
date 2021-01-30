@@ -25,7 +25,7 @@
                 <label class="col-sm-2 control-label text-right">Password (Login)</label>
                 <div class="col-sm-10">
                   <div class="input-group">
-                    <input type="password" required name="password" class="danger form-control" aria-label="Text input with multiple buttons">
+                    <input type="password" autocomplete="off" required name="password" class="danger form-control" aria-label="Text input with multiple buttons">
                     <div class="input-group-btn">
                       <button type="button" class="btn btn-danger" aria-label="Help"><span class="icons icon-eye"></span></button>
                     </div>
@@ -43,9 +43,32 @@
               </div>
               <br><br>
               <div class="form-group">
+                <label class="col-sm-2 control-label text-right">Role (Level User)</label>
+                <div class="col-sm-10">
+                  <select id="form-level-user" required name="level" required class="info form-control">
+                    <option disabled selected>Pilih Satu</option>
+                    <?php foreach (Role::all()->result() as $r) { ?>
+                      <option value="<?= $r->id ?>"><?= $r->nama_role ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+              <br><br>
+              <div class="form-group" id="row-form-nama-lengkap">
                 <label class="col-sm-2 control-label text-right">Nama Lengkap</label>
                 <div class="col-sm-10">
                   <input required name="nama_lengkap" type="text" class="info form-control">
+                </div>
+              </div>
+              <div class="form-group" id="row-form-nama-jurusita" hidden>
+                <label class="col-sm-2 control-label text-right">Nama Lengkap</label>
+                <div class="col-sm-10">
+                  <select name="nama_lengkap" id="form-nama-jurusita" class="info form-control" disabled>
+                    <option>Pilih Jurusita</option>
+                    <?php foreach ($this->SIPP->jurusitaaktif() as $js) { ?>
+                      <option><?= $js->nama_gelar; ?></option>
+                    <?php } ?>
+                  </select>
                 </div>
               </div>
               <br><br>
@@ -53,18 +76,6 @@
                 <label class="col-sm-2 control-label text-right">Nomor Telepon</label>
                 <div class="col-sm-10">
                   <input required name="nomor_telepon" type="text" class="info form-control">
-                </div>
-              </div>
-              <br><br>
-              <div class="form-group">
-                <label class="col-sm-2 control-label text-right">Role (Level User)</label>
-                <div class="col-sm-10">
-                  <select required name="level" required class="info form-control">
-                    <option disabled selected>Pilih Satu</option>
-                    <?php foreach (Role::all()->result() as $r) { ?>
-                      <option value="<?= $r->id ?>"><?= $r->nama_role ?></option>
-                    <?php } ?>
-                  </select>
                 </div>
               </div>
               <br><br>
@@ -113,4 +124,14 @@
       document.getElementById('foto').value = this.dataset.name
     }
   }
+
+  document.getElementById('form-level-user').addEventListener('change', function(e) {
+    if (this.value == 5) {
+      document.getElementById('row-form-nama-lengkap').remove()
+      document.getElementById('row-form-nama-jurusita').removeAttribute('hidden')
+      document.getElementById('form-nama-jurusita').removeAttribute('disabled')
+
+
+    }
+  })
 </script>

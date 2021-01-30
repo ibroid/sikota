@@ -56,7 +56,7 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li><a href="<?= base_url('Konfigurasi/editUser/') . $u->slug ?>">Edit</a></li>
-                          <li><a href="<?= base_url('User/delete/') . $u->slug ?>">Hapus</a></li>
+                          <li><a data-id="<?= $u->slug ?>" id="btn-hapus-user" href="javascript:void(0)">Hapus</a></li>
                         </ul>
                       </div>
                     </td>
@@ -86,3 +86,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  var base_url = '<?= base_url() ?>'
+  document.getElementById('btn-hapus-user').addEventListener('click', function(e) {
+    confirmAlert({
+      title: "Apa anda yakin ?",
+      text: "User yang di hapus tidak bisa kembali",
+      icon: "warning"
+    }).then((result) => {
+      if (result.isConfirmed) location.href = base_url + 'User/delete/' + e.target.dataset.id
+    })
+  })
+</script>

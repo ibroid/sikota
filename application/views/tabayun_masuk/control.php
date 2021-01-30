@@ -36,6 +36,7 @@
 											</button>
 											<ul class="dropdown-menu  pull-right ">
 												<li><a class="waves-effect" href="<?= base_url('TabayunMasuk/proses/' . $val->iid) ?>">Lihat Detail</a></li>
+												<li><a class="waves-effect" data-id="<?= $val->iid ?>" href="javascript:void(0)">Hapus</a></li>
 											</ul>
 										</div>
 									</td>
@@ -50,5 +51,33 @@
 </div>
 
 <script>
-
+	var base_url = '<?= base_url() ?>'
+	async function hapusTabayun() {
+		document.body.addEventListener('click', (e) => {
+			if (e.target.classList.contains('hapus')) {
+				confirmAlert({
+					title: 'Apa Anda Yakin ?',
+					text: 'Data yang di Hapus Tidak akan kembali',
+					icon: 'warning'
+				}).then(async (click) => {
+					if (click.isConfirmed) {
+						let body = new FormData()
+						body.append('id', e.target.dataset.id)
+						const result = await fetch(base_url + 'TabayunMasuk/hapus', {
+							method: 'POST',
+							body: body
+						}).then(response => {
+							return response.json()
+						})
+						notifAlert(result).then((err) => location.reload())
+					}
+				})
+			}
+		})
+	}
+	hapusTabayun()
+	async function cekData(callback) {
+		const hasil = await fetch(base_url + 'TabayunKeluar/cek_tabayun_balasan').then((result) => result.json())
+		callback(hasil)
+	}
 </script>

@@ -6,11 +6,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '',
-	'username' => '',
-	'password' => '',
-	'database' => APPPATH . '/database/sikota.sqlite',
-	'dbdriver' => 'sqlite3',
+	'hostname' => 'localhost',
+	'username' => 'kodesu',
+	'password' => 'akses#kodesu',
+	'database' => 'kodesu',
+	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
