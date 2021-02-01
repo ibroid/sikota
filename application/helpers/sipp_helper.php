@@ -76,6 +76,14 @@ function sippTable()
       $sipp = new SIPP;
       return $sipp->customQuery("SELECT * FROM pengadilan_negeri WHERE nama = '$nama' ")->row_array();
     }
+    static function jenisJurusita(String $is)
+    {
+      return $is == '1' ? 'Jurusita' : 'Jurusita Pengganti';
+    }
+    static function paraPihak(string $str)
+    {
+      return explode('<br />', $str);
+    }
   };
   return $ovj;
 }

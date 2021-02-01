@@ -285,7 +285,7 @@ class TabayunKeluar extends CI_Controller
       try {
         self::uploadAPI($data['id_from_client'], $hasil['data']['_id']);
         Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('data')]);
-        return Notifikasi::swal('success', $hasil['message'] . ':' . $hasil['data']['_id']);
+        return Notifikasi::swal('success', $hasil['message']);
       } catch (\Throwable $th) {
         return Notifikasi::swal('warning', 'Data berhasil di Kirim Tanpa file pengantar');
       }

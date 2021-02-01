@@ -13,9 +13,9 @@
             <thead class="bg-primary text-white">
               <tr>
                 <th>Pengaju</th>
-                <th>Nomor Perkara</th>
-                <th>Jenis Perkara</th>
+                <th>Nomor &<br> Jenis Perkara</th>
                 <th>Tanggal Sidang</th>
+                <th>Jenis Delegasi</th>
                 <th>Tanggal Delegasi</th>
                 <th>Biaya di Terima</th>
                 <th>Status</th>
@@ -24,9 +24,9 @@
             <tbody>
               <tr>
                 <td><?= $data->pn_asal_text; ?></td>
-                <td><?= $data->nomor_perkara; ?></td>
-                <td><?= $data->jenis_perkara_text; ?></td>
+                <td><?= $data->nomor_perkara . '<br>' . $data->jenis_perkara_text; ?></td>
                 <td><?= dateToText()->format_indo($data->tgl_sidang); ?></td>
+                <td><?= $data->jenis_delegasi_text  ?></td>
                 <td><?= dateToText()->format_indo($data->tgl_delegasi); ?></td>
                 <td><?= buatrp($data->biaya); ?></td>
                 <td><?= dom()->tahapanProses($data->proses->status_delegasi); ?></td>
@@ -132,13 +132,8 @@
                                 </tr>
                                 <tr>
                                   <td scope="row">2</td>
-                                  <td>Template Surat Pengantar</td>
-                                  <td><a href="">Download</a></td>
-                                </tr>
-                                <tr>
-                                  <td scope="row">3</td>
                                   <td>Cetak Relaas</td>
-                                  <td><a href="">Download</a></td>
+                                  <td><a href="<?= base_url('Cetak/relaas/') . $data->id ?>">Download</a></td>
                                 </tr>
                               </tbody>
                             </table>
@@ -200,7 +195,7 @@
                             <div class="form-group">
                               <label class="col-sm-3 control-label text-right">Nomor Relaas</label>
                               <div class="col-sm-8">
-                                <input type="text" value="<?= $data->proses->nomor_relaas ?>" required autocomplete="off" name="nomor_relaas" class="info form-control">
+                                <input type="text" value="<?= $data->nomor_perkara ?>" required autocomplete="off" name="nomor_relaas" class="info form-control">
                               </div>
                             </div>
                           </div>

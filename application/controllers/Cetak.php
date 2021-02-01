@@ -8,6 +8,8 @@ class Cetak extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('SIPP');
+		$this->load->model('tabayun_masuk');
+		$this->load->model('tabayun_proses_masuk');
 		$this->load->model('identity');
 	}
 	private static function perkara_pihak_replace($data)
@@ -41,6 +43,14 @@ class Cetak extends CI_Controller
 			'tgl_kirim' =>  dateToText()->tanggal_indo_monthtext($data['tgl_surat']),
 		];
 	}
+	private function jurusita_replace(array $data)
+	{
+		return [
+			'nama_jurusita' => $data['nama_gelar'],
+			'jenis_jurusita' => sippTable()::jenisJurusita($data['jabatan']),
+		];
+	}
+
 	public function cetak_pengantar_keluar($id)
 	{
 		$data = Tabayun_keluar::getWhere(['id' => $id])->row_array();
@@ -67,7 +77,8 @@ class Cetak extends CI_Controller
 		$export = array_merge(
 			self::identity_replace($data['pn_tujuan_text'], $identity),
 			[
-				'amar_putusan' => $putusan['amar_putusan'], 'tgl_putus' => dateToText()->tanggal_indo($putusan['tanggal_putusan'])
+				'amar_putusan' => $putusan['amar_putusan'],
+				'tgl_putus' => dateToText()->tanggal_indo($putusan['tanggal_putusan'])
 			],
 			self::perkara_pihak_replace($data),
 			self::surat_replace($data)
@@ -137,8 +148,63 @@ class Cetak extends CI_Controller
 		redirect($file);
 	}
 
-	public function panggilan_sidang_ikrar($data)
+	public function panggilan_sidang_ikrar(array $data)
 	{
+		$perkara_id = $data['perkara_id'];
+		$putusan = $this->SIPP->customQuery("SELECT tanggal_putusan,amar_putusan FROM perkara_putusan WHERE perkara_id = $perkara_id")->row_array();
+		$export = array_merge(
+			$this->identity_replace(
+				$data['pn_tujuan_text'],
+				Identity::take(['PanSekNama', 'AlamatPN', 'NomorTelepon', 'NamaPN', 'Website', 'Email']),
+			),
+			$this->surat_replace($data),
+			$this->perkara_pihak_replace($data),
+			[
+				'jenis_perkara' => $data['jenis_perkara_text'],
+				'hari_sidang' =>  dateToText()->format_indo($data['tgl_sidang']), 'biaya_keluar' =>  buatrp($data['biaya']),
+				'terbilang_biaya' =>  ucwords(to_word($data['biaya'])),
+				'tgl_putus' => dateToText()->tanggal_indo($putusan['tanggal_putusan'])
+
+			]
+		);
+		$file = Export::findFile("./rtf/template/pengantar_ikrar.rtf")->replace($export)->write("./rtf/hasil/hasil_pengantar_ikrar_keluar.rtf");
+		redirect($file);
+	}
+
+	public function	relaas($id)
+	{
+		$data = Tabayun_masuk::getWhere(['id' => $id])->row_array();
+		switch ($data['jenis_delegasi_text']) {
+			case 'Panggilan Sidang':
+				return $this->relaas_panggilan_sidang($data);
+				break;
+
+			default:
+
+				break;
+		}
+	}
+	public function relaas_panggilan_sidang(array $data)
+	{
+		$export =  array_merge(
+			$this->jurusita_replace($this->SIPP->get_where('jurusita', ['id' => Tabayun_proses_masuk::getWhere(['delegasi_id' => $data['id']])->row()->jurusita_id])->row_array()),
+			[
+				'pn_asal_text' => $data['pn_asal_text'],
+				'alamat_pn_asal' => sippTable()->identityPnTujuan($data['pn_asal_text'])['alamat'],
+				'jenis_perkara' => $data['jenis_perkara_text'],
+				'hari_sidang' =>  dateToText()->format_indo($data['tgl_sidang']),
+				'nama_pihak' => $data['pihak'],
+				'nama_pe' => sippTable()::paraPihak($data['para_pihak'])[1],
+				'nama_te_1' => sippTable()::paraPihak($data['para_pihak'])[3],
+				'jenis_pihak_pe' => sippTable()::paraPihak($data['para_pihak'])[0],
+				'jenis_pihak_te' => sippTable()::paraPihak($data['para_pihak'])[2],
+				'jenis_pihak' => $data['status_pihak'],
+				'nomor_perkara' => $data['nomor_perkara'],
+				'alamat_pihak' => $data['alamat_pihak']
+			]
+		);
+		$file = Export::findFile("./rtf/template/template_relaas_pertama.rtf")->replace($export)->write("./rtf/hasil/hasil_relaas_pertama.rtf");
+		redirect($file);
 	}
 }
  /* End of file Cetak.php */

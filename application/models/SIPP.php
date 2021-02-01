@@ -1,4 +1,7 @@
 <?php
+
+use phpDocumentor\Reflection\Types\Array_;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class SIPP extends CI_Model
@@ -79,6 +82,10 @@ class SIPP extends CI_Model
   {
     $data = $this->sipp->get_where('perkara', ['nomor_perkara' => $nomor_perkara])->row_array();
     return $data[$pos];
+  }
+  public function get_where(String $table, array $par)
+  {
+    return $this->sipp->get_where($table, $par);
   }
 }
 
