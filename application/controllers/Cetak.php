@@ -85,7 +85,7 @@ class Cetak extends CI_Controller
 				'amar_putusan' => $putusan['amar_putusan'],
 				'tgl_putus' => dateToText()->tanggal_indo_monthtext($putusan['tanggal_putusan']),
 				'biaya_keluar' => buatrp($data['biaya']),
-				'terbilang_biaya_keluar' => ucfirst(to_word($data['biaya']))
+				'terbilang_biaya' => ucfirst(to_word($data['biaya']))
 			],
 			self::perkara_pihak_replace($data),
 			self::surat_replace($data)
