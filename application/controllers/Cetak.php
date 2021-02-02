@@ -106,7 +106,7 @@ class Cetak extends CI_Controller
 				'terbilang_biaya' =>  ucwords(to_word($data['biaya'])),
 				'tgl_phs' =>  dateToText()->tanggal_indo($phs[0]->penetapan_hari_sidang),
 			],
-			self::identity_replace($data['pn_asal_text'], $indentity),
+			self::identity_replace($data['pn_tujuan_text'], $indentity),
 			self::perkara_pihak_replace($data),
 			self::surat_replace($data)
 		);
