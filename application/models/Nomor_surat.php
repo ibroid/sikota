@@ -15,7 +15,7 @@ class Nomor_surat extends Model
     $data = self::all()->row();
     $bulanRomawi = monthToRoman(date('m'));
     $tahun = date('Y');
-    $nomorSurat = "$data->kode_tabayun_satker/$data->nomor_surat_ahir/$data->kode_pengantar_tabayun/$bulanRomawi/$tahun";
+    $nomorSurat = "$data->kode_pengantar_tabayun/$data->nomor_surat_ahir/$data->kode_tabayun_satker/$bulanRomawi/$tahun";
     return $nomorSurat;
   }
 

@@ -29,6 +29,7 @@ class TabayunMasukResource
                   <span class='fa fa-angle-down'></span>
                   </button>
                   <ul class='dropdown-menu  pull-right '>
+                      <li><a class='waves-effect tunjuk-jurusita' data-id='" . $tbk->id . "' href='javascript:void(0)'>Tunjuk Jurusita</a></li>  
                       <li><a class='waves-effect' href='" . base_url('TabayunMasuk/proses/') . $tbk->id . "'>Proses</a></li>  
                       <li><a class='waves-effect hapus' data-id='" . $tbk->id . "' href='javascript:void(0)'>Hapus</a></li>
                   </ul>

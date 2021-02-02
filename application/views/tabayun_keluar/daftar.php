@@ -11,7 +11,7 @@
             <h3 class="text-primary">
               List Antrian Tabayun Belum Dikirim
             </h3>
-            <table id="tListTabayun" data-filter="0" class="table table-responsive table table-hover table-bordered" style="width:100%">
+            <table id="daftarTabayunKeluar" class="table table-responsive table table-hover table-bordered" style="width:100%">
               <thead>
                 <tr class="text-white" style="background: #2196f3">
                   <th class="text-center">No</th>

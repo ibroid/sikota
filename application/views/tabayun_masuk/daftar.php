@@ -11,7 +11,7 @@
         <div class="panel-body">
           <button class="btn btn-success"><i class="fa fa-unlink"></i> Cek Tabayun Masuk
           </button><br><br>
-          <table id="tTabayunMasuk" data-filter="0" class="table table-responsive table table-hover table-bordered" style="width:100%">
+          <table id="daftarTabayunMasuk" class="table table-responsive table table-hover table-bordered" style="width:100%">
             <thead>
               <tr class="text-white" style="background: #2196f3">
                 <th class="text-center">No</th>
@@ -78,6 +78,24 @@
             location.reload()
           })
         }
+      })
+    }
+  })
+  document.body.addEventListener('click', async function(e) {
+    if (e.target.classList.contains('tunjuk-jurusita')) {
+      const result = await fetch(base_url + 'Jurusita/listActive').then((response) => {
+        return response.json()
+      })
+      let daftar = []
+      result.forEach(element => {
+        daftar.push(element.nama_gelar)
+      });
+      confirmAlert({
+        title: "Silahkan Pilih Jurusita",
+        input: 'select',
+        inputOptions: daftar,
+        inputPlaceholder: 'Pilih Salah Satu',
+        showCancelButton: true,
       })
     }
   })

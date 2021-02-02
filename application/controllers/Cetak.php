@@ -16,24 +16,29 @@ class Cetak extends CI_Controller
 	{
 		return [
 			'nomor_perkara' =>  $data['nomor_perkara'],
-			'nama_pe' =>  sippTable()::lawanPihak($data['nomor_perkara'], 'pihak1_text'), 'jenis_pihak_pe' =>  sippTable()->whoIsIt($data['nomor_perkara'], 'P'), 'nama_te_1' =>  sippTable()::lawanPihak($data['nomor_perkara'], 'pihak2_text'), 'jenis_pihak_te' =>   sippTable()->whoIsIt($data['nomor_perkara'], 'T'), 'tgl_sidang' => dateToText()->tanggal_indo_monthtext($data['tgl_sidang']), 'nama_pihak' => $data['pihak'],
+			'nama_pe' =>  sippTable()::lawanPihak($data['nomor_perkara'], 'pihak1_text'), 'jenis_pihak_pe' =>  sippTable()->whoIsIt($data['nomor_perkara'], 'P'), 'nama_te_1' =>  sippTable()::lawanPihak($data['nomor_perkara'], 'pihak2_text'),
+			'jenis_pihak_te' =>   sippTable()->whoIsIt($data['nomor_perkara'], 'T'), 'tgl_sidang' => dateToText()->tanggal_indo_monthtext($data['tgl_sidang']),
+			'nama_pihak' => $data['pihak'],
 			'jenis_pihak' => $data['status_pihak'],
 			'tgl_lahir_pihak' => dateToText()::hitung_umur($data['tanggal_lahir_pihak']), 'agama_pihak' => $data['agama_pihak'],
 			'pekerjaan_pihak' => $data['pekerjaan_pihak'],
 			'alamat_pihak' => $data['alamat_pihak'],
+			'jenis_perkara' => $data['jenis_perkara_text'],
+			'hari_sidang' => dateToText()->get_hari($data['tgl_sidang'])
 		];
 	}
 	private static function identity_replace($tujuan, $identity)
 	{
 		return [
-			'pn_tujuan_text' => $tujuan,
+			'pn_tujuan_text' => ucfirst(strtolower($tujuan)),
+			'pn_asal_text_lc' => ucfirst(strtolower($identity['NamaPN'])),
 			'pn_asal_text' => $identity['NamaPN'],
 			'alamat_pn_asal' => $identity['AlamatPN'],
 			'telepon_pn_asal' => $identity['NomorTelepon'],
 			'nama_panitera_pn_asal' => $identity['PanSekNama'],
 			'web_pn_asal' => $identity['Website'],
 			'email_pn_asal' => $identity['Email'],
-			'kota_pn_asal' => str_replace('PENGADILAN AGAMA ', '', $identity['NamaPN']),
+			'kota_pn_asal' => ucfirst(strtolower(str_replace('PENGADILAN AGAMA ', '', $identity['NamaPN']))),
 		];
 	}
 	private static function surat_replace($data)

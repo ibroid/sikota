@@ -71,6 +71,11 @@ class Jurusita extends CI_Controller
 		$this->view = 'biaya';
 		return $this->index();
 	}
+	public function listActive()
+	{
+		$data = $this->SIPP->jurusitaaktif();
+		echo json_encode($data);
+	}
 }
 
 /* End of file Jurusita.php */

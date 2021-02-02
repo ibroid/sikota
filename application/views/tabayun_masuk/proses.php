@@ -67,29 +67,25 @@
                     <div class="liner"></div>
                     <ul class="nav nav-tabs nav-tabs-v5" id="tabs-demo6">
                       <li class="active">
-                        <a href="#tabs-demo6-area1" data-toggle="tab" title="welcome">
-                          <span data-toggle="tooltip" data-placement="top" title="Berkas Delegasi" class="round-tabs one">
-                            <i class="glyphicon glyphicon-file"></i>
-                          </span>
-                        </a>
-                      </li>
-
-
-                      <li>
-                        <a href="#tabs-demo6-area2" data-toggle="tab" title="profile">
+                        <a href="#tabs-demo6-area1" data-toggle="tab" title="profile">
                           <span data-toggle="tooltip" data-placement="top" title="Penunjukan Jurusita" class="round-tabs two">
                             <i class="glyphicon glyphicon-user"></i>
                           </span>
                         </a>
                       </li>
-
+                      <li>
+                        <a href="#tabs-demo6-area2" data-toggle="tab" title="welcome">
+                          <span data-toggle="tooltip" data-placement="top" title="Berkas Delegasi" class="round-tabs one">
+                            <i class="glyphicon glyphicon-file"></i>
+                          </span>
+                        </a>
+                      </li>
                       <li>
                         <a href="#tabs-demo6-area3" data-toggle="tab" title="bootsnipp goodies">
                           <span data-toggle="tooltip" data-placement="top" title="Pelaksanaan Delgasi" class="round-tabs three">
                             <i class="glyphicon glyphicon-road"></i>
                           </span> </a>
                       </li>
-
                       <li>
                         <a href="#tabs-demo6-area4" data-toggle="tab" title="blah blah">
                           <span data-toggle="tooltip" data-placement="top" title="Pengiriman Berkas Kembali" class="round-tabs four">
@@ -97,7 +93,6 @@
                           </span>
                         </a>
                       </li>
-
                       <li>
                         <a href="#tabs-demo6-area5" data-toggle="tab" title="completed">
                           <span data-toggle="tooltip" data-placement="top" title="Selesai" class="round-tabs five">
@@ -105,45 +100,11 @@
                           </span> </a>
                       </li>
                     </ul>
+
                     <div class="tab-content tab-content-v5">
                       <div class="tab-pane fade in active" id="tabs-demo6-area1">
 
-                        <h3 class="head text-center">Berkas Delegasi </h3>
-                        <div class="card text-left card-info">
-                          <div class="card-body">
-                            <h4 class="card-title">Title</h4>
-                            <table class="table table-bordered table-responsiv">
-                              <thead>
-                                <tr>
-                                  <th>No</th>
-                                  <th>Nama</th>
-                                  <th>Aksi</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td scope="row">1</td>
-                                  <td>Surat Permohonan Delegasi</td>
-                                  <td>
-                                    <?php foreach ($data->files as $file) { ?>
-                                      <a href="http://<?= $file->file ?>" target="_blank">Download &nbsp;</a>
-                                    <?php } ?>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td scope="row">2</td>
-                                  <td>Cetak Relaas</td>
-                                  <td><a href="<?= base_url('Cetak/relaas/') . $data->id ?>">Download</a></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="tab-pane fade" id="tabs-demo6-area2">
                         <h3 class="head text-center">Penunjukan Jurusita</h3>
-
                         <form action="<?= base_url('TabayunMasuk/updateProses/2/' . $data->id) ?>" method="POST">
                           <div class="row">
                             <div class="form-group">
@@ -178,19 +139,43 @@
                         </form>
                         <br><br><br>
                       </div>
+                      <div class="tab-pane fade" id="tabs-demo6-area2">
+                        <h3 class="head text-center">Berkas Delegasi </h3>
+                        <div class="card text-left card-info">
+                          <div class="card-body">
+                            <h4 class="card-title">Title</h4>
+                            <table class="table table-bordered table-responsiv">
+                              <thead>
+                                <tr>
+                                  <th>No</th>
+                                  <th>Nama</th>
+                                  <th>Aksi</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td scope="row">1</td>
+                                  <td>Surat Permohonan Delegasi</td>
+                                  <td>
+                                    <?php foreach ($data->files as $file) { ?>
+                                      <a href="http://<?= $file->file ?>" target="_blank">Download &nbsp;</a>
+                                    <?php } ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td scope="row">2</td>
+                                  <td>Cetak Relaas</td>
+                                  <td><a href="<?= base_url('Cetak/relaas/') . $data->id ?>">Download</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                      </div>
                       <div class="tab-pane fade" id="tabs-demo6-area3">
                         <h3 class="head text-center">Pelaksanaan Delegasi</h3>
-
                         <form action="<?= base_url('TabayunMasuk/updateProses/3/') . $data->id ?>" method="POST">
-                          <div class="row">
-                            <div class="form-group">
-                              <label class="col-sm-3 control-label text-right">Tanggal diterima</label>
-                              <div class="col-sm-8">
-                                <input type="text" value="<?= $data->proses->tgl_surat_diterima ?>" required name="tgl_surat_diterima" autocomplete="off" class="info form-control datepicker">
-                              </div>
-                            </div>
-                          </div>
-                          <br>
                           <div class="row">
                             <div class="form-group">
                               <label class="col-sm-3 control-label text-right">Nomor Relaas</label>
@@ -250,7 +235,6 @@
                       </div>
                       <div class="tab-pane fade" id="tabs-demo6-area4">
                         <h3 class="head text-center">Pengiriman Berkas Kembali!</h3>
-
                         <form action="<?= base_url('TabayunMasuk/updateProses/4/') . $data->id ?>" method="POST">
                           <div class="row">
                             <div class="form-group">
@@ -265,7 +249,7 @@
                             <div class="form-group">
                               <label class="col-sm-3 control-label text-right">Nomor Surat Pengantar</label>
                               <div class="col-sm-8">
-                                <input type="text" value="<?= $data->proses->nomor_surat_pengantar_relaas ?>" required autocomplete="off" name="nomor_surat_pengantar_relaas" class="info form-control">
+                                <input type="text" value="<?= !$data->proses->nomor_surat_pengantar_relaas ? Nomor_surat::tabayunKeluar() : $data->proses->nomor_surat_pengantar_relaas  ?>" required autocomplete="off" name="nomor_surat_pengantar_relaas" class="info form-control">
                               </div>
                             </div>
                           </div>

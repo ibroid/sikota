@@ -28,10 +28,10 @@ $db['default'] = array(
 
 $db['sipp'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '192.168.0.222',
 	'username' => 'kodesu',
 	'password' => 'akses#kodesu',
-	'database' => 'sipppaju_backup',
+	'database' => 'sipppaju',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -13,7 +13,7 @@
             </h3>
             <button class="btn btn-success" id="btn-cek-balasan"><i class="fa fa-recycle fa-xs fa-fw"></i> Cek Balasan</button>
             <br><br>
-            <table class="table table-responsive table table-hover table-bordered" style="width:100%">
+            <table id="datatables-example" class="table table-responsive table table-hover table-bordered" style="width:100%">
               <thead>
                 <tr class="text-white" style="background: #2196f3">
                   <th class="text-center">No</th>

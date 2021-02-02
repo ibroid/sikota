@@ -62,9 +62,9 @@ class Tabayun_keluar extends Model
 	{
 		if (request('length') != -1)
 			parent::instance()->db->limit(request('length'), request('start'));
-		$query = self::get();
 		$self = new self;
 		$self->_get_datatables_query();
+		$query = self::get();
 		return $query->result();
 	}
 

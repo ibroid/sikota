@@ -226,6 +226,51 @@
       icon: params.icon,
     })
   }
+
+  if ($('#daftarTabayunMasuk')) {
+    $('#daftarTabayunMasuk').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "order": [],
+      "ajax": {
+        "url": "<?= base_url('TabayunMasuk/resource?status=0') ?>",
+        "type": "POST",
+        "data": function(data) {
+          data.pn_asal_text = $('#pn_tujuan_text').val();
+          data.nomor_perkara = $('#nomor_perkara').val();
+          data.jenis_delegasi_text = $('#jenis_delegasi_text').val();
+          data.tgl_sidang = $('#tgl_sidang').val();
+        }
+      },
+      "columnDefs": [{
+        "targets": [0],
+        "orderable": false,
+      }, ],
+    });
+
+  }
+  if ($('#daftarTabayunKeluar')) {
+    $('#daftarTabayunKeluar').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "order": [],
+      "ajax": {
+        "url": "<?= base_url('TabayunKeluar/resource?status=0') ?>",
+        "type": "POST",
+        "data": function(data) {
+          data.pn_asal_text = $('#pn_tujuan_text').val();
+          data.nomor_perkara = $('#nomor_perkara').val();
+          data.jenis_delegasi_text = $('#jenis_delegasi_text').val();
+          data.tgl_sidang = $('#tgl_sidang').val();
+        }
+      },
+      "columnDefs": [{
+        "targets": [0],
+        "orderable": false,
+      }, ],
+    });
+
+  }
 </script>
 </body>
 

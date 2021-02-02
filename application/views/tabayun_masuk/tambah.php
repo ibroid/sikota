@@ -8,13 +8,13 @@
           <h3>Tambah Data Tabayun Masuk Baru</h3>
         </div>
         <div class="panel-body">
-          <form action="<?= base_url() ?>TabayunKeluar/update" method="POST" enctype="multipart/form-data">
+          <form action="<?= base_url() ?>TabayunMasuk/save" method="POST" enctype="multipart/form-data">
             <h4 style="margin-left: 200px ;">Status Delegasi Masuk</h4><br>
             <div class="row">
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right">Asal Delegasi</label>
                 <div class="col-sm-8">
-                  <input type="text" required autocomplete="off" id="asalPA" value="PENGADILAN AGAMA " name="pn_tujuan_text" class="info form-control">
+                  <input type="text" required autocomplete="off" id="asalPA" value="PENGADILAN AGAMA " name="pn_asal_text" class="info form-control">
                 </div>
               </div>
             </div>
@@ -32,7 +32,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right">Jenis Perkara</label>
                 <div class="col-sm-8">
-                  <input type="text" name="jenis_perkara_text" class="info form-control" id="jenisPerkara">
+                  <input type="text" autocomplete="off" name="jenis_perkara_text" class="info form-control" id="jenisPerkara">
                 </div>
               </div>
             </div>
@@ -159,20 +159,6 @@
               </div>
             </div>
             <br>
-
-            <!-- <br> -->
-            <!-- <div class="row">
-              <div class="form-group">
-                <label class="col-sm-2 control-label text-right"> Biaya Delegasi </label>
-                <div class="col-sm-6">
-                  <input type="text" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
-                </div>
-                <div class="col-sm-4">
-
-                </div>
-              </div>
-            </div> -->
-            <!-- <br> -->
             <div class="row">
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right"> Catatan </label>
@@ -181,24 +167,6 @@
                 </div>
               </div>
             </div>
-            <!-- <br> -->
-            <!-- <div class="row">
-              <div class="form-group">
-                <label class="col-sm-2 control-label text-right"> Nomor Resi </label>
-                <div class="col-sm-8">
-                  <input type="text" required name="nomor_resi" class="info form-control">
-                </div>
-              </div>
-            </div> -->
-            <!-- <br>
-            <div class="row">
-              <div class="form-group">
-                <label class="col-sm-2 control-label text-right"> Tanggal Resi </label>
-                <div class="col-sm-8">
-                  <input type="text" required name="tgl_resi" class="info form-control datepicker">
-                </div>
-              </div>
-            </div> -->
             <br>
             <div class="row">
               <div class="form-group">
@@ -207,7 +175,12 @@
                   <input type="file" multiple class="info form-control" name="document[]">
                 </div>
               </div>
-              <br>
+            </div>
+            <br><br>
+            <center>
+              <button class="btn btn-primary margin-right-2"><i class="fa fa-folder-open"></i> Referensi Surat</button>
+              <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+            </center>
 
           </form>
 

@@ -19,6 +19,7 @@ class TabayunMasuk extends CI_Controller
     $this->load->model('sub_menu');
     $this->load->model('SIPP');
     $this->load->model('identity');
+    $this->load->model('nomor_surat');
     $this->load->model('tabayun_file_masuk');
     $this->load->model('tabayun_file_keluar');
     $this->load->model('tabayun_proses_masuk');
@@ -89,6 +90,12 @@ class TabayunMasuk extends CI_Controller
         return Notifikasi::swal($hasil['icon'] . ' : ' . $hasil['status'], $hasil['message']);
         break;
     }
+  }
+  public function save()
+  {
+    Tabayun_masuk::insert(requestAll());
+    Notifikasi::flash('success', 'Data Tabayun Masuk baru telah ditambahkan');
+    redirect('TabayunMasuk/daftar', 'refresh');
   }
   public function hapus()
   {

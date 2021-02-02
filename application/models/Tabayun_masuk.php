@@ -80,7 +80,7 @@ class Tabayun_masuk extends Model
 		return self::get()->num_rows();
 	}
 
-	public static function withStatus($status)
+	public static function withStatus(int $status)
 	{
 		self::where('status_kirim', $status);
 		return new static;
