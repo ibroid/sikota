@@ -83,7 +83,7 @@ class Cetak extends CI_Controller
 			self::identity_replace($data['pn_tujuan_text'], $identity),
 			[
 				'amar_putusan' => $putusan['amar_putusan'],
-				'tgl_putus' => dateToText()->tanggal_indo($putusan['tanggal_putusan'])
+				'tgl_putus' => dateToText()->tanggal_indo_monthtext($putusan['tanggal_putusan'])
 			],
 			self::perkara_pihak_replace($data),
 			self::surat_replace($data)
@@ -168,7 +168,7 @@ class Cetak extends CI_Controller
 				'jenis_perkara' => $data['jenis_perkara_text'],
 				'hari_sidang' =>  dateToText()->format_indo($data['tgl_sidang']), 'biaya_keluar' =>  buatrp($data['biaya']),
 				'terbilang_biaya' =>  ucwords(to_word($data['biaya'])),
-				'tgl_putus' => dateToText()->tanggal_indo($putusan['tanggal_putusan'])
+				'tgl_putus' => dateToText()->tanggal_indo_monthtext($putusan['tanggal_putusan'])
 
 			]
 		);
