@@ -30,15 +30,15 @@ class Cetak extends CI_Controller
 	private static function identity_replace($tujuan, $identity)
 	{
 		return [
-			'pn_tujuan_text' => ucfirst(strtolower($tujuan)),
-			'pn_asal_text_lc' => ucfirst(strtolower($identity['NamaPN'])),
+			'pn_tujuan_text' => ucwords(strtolower($tujuan)),
+			'pn_asal_text_lc' => ucwords(strtolower($identity['NamaPN'])),
 			'pn_asal_text' => $identity['NamaPN'],
 			'alamat_pn_asal' => $identity['AlamatPN'],
 			'telepon_pn_asal' => $identity['NomorTelepon'],
 			'nama_panitera_pn_asal' => $identity['PanSekNama'],
 			'web_pn_asal' => $identity['Website'],
 			'email_pn_asal' => $identity['Email'],
-			'kota_pn_asal' => ucfirst(strtolower(str_replace('PENGADILAN AGAMA ', '', $identity['NamaPN']))),
+			'kota_pn_asal' => ucwords(strtolower(str_replace('PENGADILAN AGAMA ', '', $identity['NamaPN']))),
 		];
 	}
 	private static function surat_replace($data)
@@ -85,7 +85,7 @@ class Cetak extends CI_Controller
 				'amar_putusan' => $putusan['amar_putusan'],
 				'tgl_putus' => dateToText()->tanggal_indo_monthtext($putusan['tanggal_putusan']),
 				'biaya_keluar' => buatrp($data['biaya']),
-				'terbilang_biaya' => ucfirst(to_word($data['biaya']))
+				'terbilang_biaya' => ucwords(to_word($data['biaya']))
 			],
 			self::perkara_pihak_replace($data),
 			self::surat_replace($data)
