@@ -51,19 +51,21 @@ class Tabayun_masuk extends Model
 	{
 		$self = new self;
 		$self->_get_datatables_query();
-		if (request('length') != -1)
-			parent::instance()->db->limit(request('length'), request('start'));
+		if (request('length') != -1) parent::instance()->db->limit(request('length'), request('start'));
 		$query = self::get();
 		return $query->result();
 	}
-
-	public static function datatables()
+	public static function init($grid)
 	{
-		if (request('length') != -1)
-			parent::instance()->db->limit(request('length'), request('start'));
-		$query = self::get();
 		$self = new self;
 		$self->_get_datatables_query();
+		self::where('status_kirim', $grid);
+		return $self;
+	}
+	public static function datatables()
+	{
+		if (request('length') != -1) parent::instance()->db->limit(request('length'), request('start'));
+		$query = self::get();
 		return $query->result();
 	}
 
@@ -80,7 +82,7 @@ class Tabayun_masuk extends Model
 		return self::get()->num_rows();
 	}
 
-	public static function withStatus(int $status)
+	public static function withStatus($status)
 	{
 		self::where('status_kirim', $status);
 		return new static;

@@ -32,6 +32,21 @@ function sippTable()
           break;
       }
     }
+    public static function cekPenunjukanJs($id)
+    {
+      $these = &get_instance();
+      $these->load->model('tabayun_proses_masuk');
+      $cek = Tabayun_proses_masuk::getWhere(['delegasi_id' => $id])->row();
+      if ($cek) {
+        if ($cek->status_delegasi >= 2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    }
+
+
     public static function lawanPihak($nomor_perkara, $pos)
     {
       require_once APPPATH . 'models/SIPP.php';
@@ -83,6 +98,19 @@ function sippTable()
     static function paraPihak(string $str)
     {
       return explode('<br />', $str);
+    }
+    public function signPenunjukanJs($id)
+    {
+      $these = &get_instance();
+      $these->load->model('tabayun_proses_masuk');
+      $cek = Tabayun_proses_masuk::getWhere(['delegasi_id' => $id])->row();
+      if ($cek) {
+        if ($cek->status_delegasi >= 2) {
+          return "class=\"text-primary\"";
+        } else {
+          return "";
+        }
+      }
     }
   };
   return $ovj;

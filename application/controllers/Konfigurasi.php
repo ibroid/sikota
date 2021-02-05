@@ -58,7 +58,7 @@ class Konfigurasi extends CI_Controller
       );
     }
     $data['sub_menu'] = $this->db->get_where('sub_menu', ['id_menu' => 5],)->result();
-    $this->templating->load('template/master', 'page/v_nomor_surat', $data);
+    $this->templating->load('template/master', 'konfigurasi/penomoran', $data);
   }
 
   public function tambah_nomor_surat()
@@ -133,7 +133,7 @@ class Konfigurasi extends CI_Controller
     }
 
     $data['sub_menu'] = $this->db->get_where('sub_menu', ['id_menu' => 5],)->result();
-    $this->templating->load('template/master', 'page/v_saldo_awal', $data);
+    $this->templating->load('template/master', 'konfigurasi/saldo', $data);
   }
 
   public function tambah_saldo_awal()

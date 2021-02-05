@@ -7,7 +7,7 @@
         <span class="bottom"></span>
       </div>
       <a href="index.html" class="navbar-brand">
-        <b>SiKoTa</b>
+        <b>Genesis</b>
       </a>
 
       <ul class="nav navbar-nav search-nav">

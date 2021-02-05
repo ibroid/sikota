@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta name="description" content="Miminium Admin Template v.1">
-  <meta name="author" content="Isna Nur Azis">
+  <meta name="author" content="Maliki">
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sikota-Login</title>
@@ -30,15 +30,13 @@
 </head>
 
 <body id="mimin" class="dashboard form-signin-wrapper">
-
   <div class="container">
-
     <form class="form-signin" action="<?= base_url('login/proccess') ?>" method="POST">
       <?= $this->session->flashdata('notif'); ?>
       <div class="panel periodic-login">
-        <span class="atomic-number">2020</span>
+        <span class="atomic-number"> 1.0.4</span>
         <div class="panel-body text-center">
-          <h4 class="atomic-symbol">KT</h4>
+          <h4 class="atomic-symbol">SKT</h4>
           <p class="atomic-mass">Login</p>
           <p class="element-name">Pengguna</p>
 
@@ -48,12 +46,12 @@
             <label>Username</label>
           </div>
           <div class="form-group form-animate-text" style="margin-top:40px !important;">
-            <input type="password" class="form-text" name="password" required>
+            <input password-field type="password" class="form-text" name="password" required>
             <span class="bar"></span>
             <label>Password</label>
           </div>
           <label class="pull-left">
-            <input type="checkbox" class="icheck pull-left" name="checkbox1" /> Show Password
+            <input type="checkbox" id="icheck" class="icheck pull-left" name="checkbox1" /> Show Password
           </label>
           <button class="btn col-md-12 btn-danger">Log In</button>
         </div>
@@ -63,6 +61,11 @@
     </form>
 
   </div>
+  <footer>
+    <center>
+      <p class="text-white">Copyrights &#169; <?= date('Y') ?> MIT Liscense By Zein & Maliki</p>
+    </center>
+  </footer>
 
   <!-- end: Content -->
   <!-- start: Javascript -->
@@ -81,6 +84,8 @@
         checkboxClass: 'icheckbox_flat-aero',
         radioClass: 'iradio_flat-aero'
       });
+
+
     });
   </script>
   <!-- end: Javascript -->

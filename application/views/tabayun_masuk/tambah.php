@@ -102,7 +102,7 @@
                   <input type="text" name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
                 </div>
                 <div class="col-sm-4">
-                  <input type="text" name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
+                  <input type="text" name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control datepicker">
                 </div>
               </div>
             </div>
@@ -172,7 +172,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right"> File Pengantar </label>
                 <div class="col-sm-8">
-                  <input type="file" multiple class="info form-control" name="document[]">
+                  <input type="file" multiple class="info form-control" name="file">
                 </div>
               </div>
             </div>

@@ -8,11 +8,15 @@ class Login extends CI_Controller
   {
     parent::__construct();
     $this->load->model('SIPP');
+    $this->load->model('identity');
   }
 
   public function index()
   {
-    $this->load->view('login');
+    if ($this->session->userdata('guard')) redirect('Dashboard', 'refresh');
+    $this->load->view('login', [
+      'logo' => Identity::take(['Logo'])
+    ]);
   }
   public function proccess()
   {

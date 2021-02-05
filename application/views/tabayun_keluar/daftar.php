@@ -1,6 +1,5 @@
 <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/autocomplete.css">
 <div id="content">
-
   <?= Components::load('panel') ?>
   <div class="col-md-12 padding-0">
     <div class="col-md-12">

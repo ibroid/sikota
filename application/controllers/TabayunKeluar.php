@@ -6,7 +6,6 @@ require 'vendor/autoload.php';
 require_once APPPATH . 'libraries/Validation.php';
 require_once APPPATH . 'libraries/Notifikasi.php';
 require_once APPPATH . 'models/Tabayun_keluar.php';
-require_once APPPATH . 'models/Cetak_model.php';
 require_once APPPATH . 'resource/TabayunKeluarResource.php';
 
 class TabayunKeluar extends CI_Controller
@@ -250,6 +249,7 @@ class TabayunKeluar extends CI_Controller
     }
     Tabayun_file_keluar::delete(['delegasi_id' => request('id')]);
     Tabayun_proses_keluar::delete(['delegasi_id' => request('id')]);
+    Notifikasi::flash('success', 'Berhasil di Hapus');
     return Notifikasi::swal('success', 'Data Berhasil di Hapus');
   }
   public function sendData()

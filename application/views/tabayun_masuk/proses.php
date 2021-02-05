@@ -7,7 +7,7 @@
           <h3>Rincian Tabayun Masuk</h3>
         </div>
         <div class="panel-body">
-          <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="btn btn-secondary margin-right-2"><i class="fa fa-backward"></i> Kembali</a>
+          <a href="<?= base_url('TabayunMasuk/control') ?>" class="btn btn-secondary margin-right-2"><i class="fa fa-backward"></i> Kembali</a>
           <br><br>
           <table class="table table-responsive">
             <thead class="bg-primary text-white">

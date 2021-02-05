@@ -7,7 +7,7 @@ class TabayunMasukResource
 
   public static function setDatatable($grid = 0)
   {
-    self::$list = Tabayun_masuk::withStatus($grid)->datatables();
+    self::$list = Tabayun_masuk::init($grid)->datatables();
     self::$status = $grid;
     return new static;
   }
@@ -19,7 +19,7 @@ class TabayunMasukResource
       $no++;
       $row = array();
       $row[] = $no;
-      $row[] = $tbk->pn_asal_text;
+      $row[] = "<strong " . sippTable()->signPenunjukanJs($tbk->id) . " >" . $tbk->pn_asal_text . "<strong>";
       $row[] = $tbk->nomor_perkara . '<br>' . $tbk->jenis_delegasi_text . '<br>' . $tbk->tgl_sidang;
       $row[] = $tbk->nomor_surat . '<br>' . $tbk->tgl_surat;
       $row[] = $tbk->pihak . '<br>' . $tbk->alamat_pihak;
@@ -29,8 +29,9 @@ class TabayunMasukResource
                   <span class='fa fa-angle-down'></span>
                   </button>
                   <ul class='dropdown-menu  pull-right '>
-                      <li><a class='waves-effect tunjuk-jurusita' data-id='" . $tbk->id . "' href='javascript:void(0)'>Tunjuk Jurusita</a></li>  
+                      <li><a class='waves-effect tunjuk-jurusita' data-id='" . $tbk->id . "' href='javascript:void(0)' data-cek='" . sippTable()::cekPenunjukanJs($tbk->id) . "' >Tunjuk Jurusita</a></li>  
                       <li><a class='waves-effect' href='" . base_url('TabayunMasuk/proses/') . $tbk->id . "'>Proses</a></li>  
+                      <li><a class='' href='" . base_url('TabayunMasuk/edit/' . $tbk->id) . "'>Edit</a></li>
                       <li><a class='waves-effect hapus' data-id='" . $tbk->id . "' href='javascript:void(0)'>Hapus</a></li>
                   </ul>
               </div>";

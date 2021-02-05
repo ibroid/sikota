@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once APPPATH . 'resource/TabayunMasukResource.php';
 require_once APPPATH . 'models/Tabayun_masuk.php';
@@ -93,10 +94,35 @@ class TabayunMasuk extends CI_Controller
   }
   public function save()
   {
-    Tabayun_masuk::insert(requestAll());
-    Notifikasi::flash('success', 'Data Tabayun Masuk baru telah ditambahkan');
+    if ($_FILES['file']['name'] != null) $filename =  $this->upload($_FILES);
+    Tabayun_file_masuk::insert([
+      'delegasi_id' => Tabayun_masuk::insertAndGetId(requestAll()),
+      'file' => isset($filename) ? $filename : 'imal',
+      'status_file' => 'File Pengajuan',
+      'diinput_oleh' => event()->inputBy(),
+      'diinput_tanggal' => event()->inputBy()
+    ]);
+    Notifikasi::flash('success', 'Data Tabayun Masuk baru telah ditambahkan', 'notif');
     redirect('TabayunMasuk/daftar', 'refresh');
   }
+
+  private function upload()
+  {
+
+    $config['upload_path'] = './uploads/surat/masuk/';
+    $config['max_width']  = '2048';
+    $config['allowed_types'] = '*';
+    $config['file_name'] = Ramsey\Uuid\Uuid::uuid4();
+    $this->load->library('upload', $config);
+
+    if (!$this->upload->do_upload('file')) {
+      Notifikasi::flash('danger',  $this->upload->display_errors(), 'file');
+      redirect($_SERVER['HTTP_REFERER']);
+    } else {
+      return $this->upload->data('file_name');
+    }
+  }
+
   public function hapus()
   {
     CI_Defender::zeroReferer()->secure();
@@ -311,6 +337,39 @@ class TabayunMasuk extends CI_Controller
     $this->title = 'Wesel Masuk';
     $this->view = 'tabayun_masuk/wesel';
     return $this->index();
+  }
+  public function edit($id = null)
+  {
+    if ($id == null) redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    CI_Defender::zeroReferer()->secure();
+    $this->data = Tabayun_masuk::findOrDie(['id' => $id])->row();
+    $this->data->file = Tabayun_file_masuk::getWhere(['delegasi_id' => $id])->result();
+    $this->title = 'Edit Tabayun Masuk';
+    $this->view = 'tabayun_masuk/edit';
+    return $this->index();
+  }
+
+  public function hapusFilePengantar()
+  {
+    Files::delete('uploads/surat/masuk/', request('filename'));
+    Tabayun_file_masuk::delete(['file' => request('filename')]);
+    echo Notifikasi::swal('success', 'File Berhasil di Hapus');
+  }
+  public function update()
+  {
+    if ($_FILES['file']['name'] != null) {
+      $filename =  $this->upload($_FILES);
+      Tabayun_file_masuk::insert([
+        'delegasi_id' => request('id'),
+        'file' => isset($filename) ? $filename : 'imal',
+        'status_file' => 'File Pengajuan',
+        'diinput_oleh' => event()->inputBy(),
+        'diinput_tanggal' => event()->inputBy()
+      ]);
+    }
+    Tabayun_masuk::update(requestAll(), ['id' => request('id')]);
+    Notifikasi::flash('success', 'Data Tabayun Masuk baru telah di Perbaharui', 'notif');
+    redirect('TabayunMasuk/daftar', 'refresh');
   }
 }
 

@@ -35,7 +35,7 @@
 												<span class="fa fa-angle-down"></span>
 											</button>
 											<ul class="dropdown-menu  pull-right ">
-												<li><a class="waves-effect" href="<?= base_url('TabayunMasuk/proses/' . $val->iid) ?>">Lihat Detail</a></li>
+												<li><a class="waves-effect" href="<?= base_url('TabayunMasuk/proses/' . $val->iid) ?>">Proses</a></li>
 												<li><a class="waves-effect" data-id="<?= $val->iid ?>" href="javascript:void(0)">Hapus</a></li>
 											</ul>
 										</div>

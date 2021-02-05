@@ -48,22 +48,28 @@ class Tabayun_keluar extends Model
 			parent::instance()->db->order_by(key($order), $order[key($order)]);
 		}
 	}
-	public static function get_datatables()
+	public static function init($grid)
 	{
 		$self = new self;
 		$self->_get_datatables_query();
-		if (request('length') != -1)
-			parent::instance()->db->limit(request('length'), request('start'));
-		$query = self::where('status_kirim', 0)->get();
+		self::where('status_kirim', $grid);
+		return $self;
+	}
+	public static function get_datatables()
+	{
+		// $self = new self;
+		// $self->_get_datatables_query();
+		if (request('length') != -1) parent::instance()->db->limit(request('length'), request('start'));
+		$query = self::get();
 		return $query->result();
 	}
 
 	public static function datatables()
 	{
+		// $self = new self;
+		// $self->_get_datatables_query();
 		if (request('length') != -1)
 			parent::instance()->db->limit(request('length'), request('start'));
-		$self = new self;
-		$self->_get_datatables_query();
 		$query = self::get();
 		return $query->result();
 	}

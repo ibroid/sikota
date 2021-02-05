@@ -7,7 +7,7 @@ class TabayunkeluarResource
 
   public static function setDatatable($grid = 0)
   {
-    self::$list = Tabayun_keluar::withStatus($grid)->datatables();
+    self::$list = Tabayun_keluar::init($grid)->datatables();
     self::$status = $grid;
     return new static;
   }

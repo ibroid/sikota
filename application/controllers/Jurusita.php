@@ -28,7 +28,6 @@ class Jurusita extends CI_Controller
 	}
 	private static function id()
 	{
-
 		return isset(get_instance()->session->userdata('jurusita')['id']) ? get_instance()->session->userdata('jurusita')['id'] : '';
 	}
 	public function index()
@@ -53,6 +52,21 @@ class Jurusita extends CI_Controller
 		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', self::id())->get()->result();
 		return $this->index();
 	}
+	private static function cekProses($id)
+	{
+		$cek = Tabayun_proses_masuk::getWhere(['delegasi_id' => $id])->row();
+		if (!$cek) {
+			$id = Tabayun_proses_masuk::insertAndGetId([
+				'delegasi_id' => $id,
+				'status_delegasi' => 1,
+				'diinput_oleh' => event()->inputBy(),
+				'diinput_tanggal' => event()->inputAt()
+			]);
+			return Tabayun_proses_masuk::getWhere(['delegasi_id' => $id])->row();
+		} else {
+			return $cek;
+		}
+	}
 	public function proses($id = null)
 	{
 		CI_Defender::zeroReferer()->secure();
@@ -74,7 +88,27 @@ class Jurusita extends CI_Controller
 	public function listActive()
 	{
 		$data = $this->SIPP->jurusitaaktif();
-		echo json_encode($data);
+		$cangkang = [];
+		foreach ($data as $d) {
+			$cangkang[$d->id] = $d->nama_gelar;
+		}
+		echo json_encode($cangkang);
+	}
+	public function setJurusita()
+	{
+		self::cekProses(req()->post()->delegasi_id);
+		Tabayun_proses_masuk::update([
+			'jurusita_id' => req()->post()->id_js,
+			'tgl_penunjukan_jurusita' => event()->inputAt(),
+			'jurusita_nama' => $this->SIPP->customQuery("SELECT * FROM jurusita WHERE id =" . req()->post()->id_js)->row()->nama_gelar,
+			'diperbaharui_oleh' => event()->inputBy(),
+			'diperbaharui_tanggal' => event()->inputAt()
+		], [
+			'delegasi_id' => req()->post()->delegasi_id
+		]);
+		Tabayun_proses_masuk::update(['status_delegasi' => 2], ['delegasi_id' => req()->post()->delegasi_id]);
+		Notifikasi::flash('success', 'Jurusita Telah di Tunjuk');
+		echo Notifikasi::swal('success', 'Jurusita Berhasil di Tunjuk');
 	}
 }
 

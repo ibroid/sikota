@@ -2,6 +2,7 @@
 .pdf
 application/cache/*
 application/config/database.php
+uploads
 !application/cache/index.html
 
 application/logs/*

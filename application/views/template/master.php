@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta name="description" content="Miminium Admin Template v.1">
-  <meta name="author" content="Isna Nur Azis">
+  <meta name="author" content="Maliki">
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SiKoTa</title>
@@ -43,12 +43,12 @@
           <span class="bottom"></span>
         </div>
         <a href="index.html" class="navbar-brand">
-          <b>SiKoTa</b>
+          <b>Genesis</b>
         </a>
         <ul class="nav navbar-nav navbar-right user-nav ">
-          <li class="user-name"><span><?= $this->session->userdata('userdata')['nama_lengkap'] ?></span></li>
+          <li class="user-name"><span><?= auth()::$nama_lengkap  ?></span></li>
           <li class="dropdown avatar-dropdown mr-2">
-            <img src="<?= base_url('assets/backend/') ?>img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
+            <img src="<?= base_url('assets/backend/img/' . auth()::$foto) ?>" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
             <ul class="dropdown-menu user-dropdown">
               <li><a href="#"><span class="fa fa-user"></span> My Profile</a></li>
               <li><a href="#"><span class="fa fa-calendar"></span> My Calendar</a></li>
@@ -101,6 +101,9 @@
 
     <!-- end: right menu -->
   </div>
+
+
+
 
 </body>
 <!-- start: Mobile -->
