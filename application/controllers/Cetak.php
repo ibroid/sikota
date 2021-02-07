@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once APPPATH . 'models/Tabayun_keluar.php';
 require_once APPPATH . 'libraries/Export.php';
+require_once APPPATH . 'libraries/Components.php';
 class Cetak extends CI_Controller
 {
 	public function __construct()
@@ -291,8 +292,20 @@ class Cetak extends CI_Controller
 	}
 	public function amplop_relaas($id)
 	{
+		$identity = Identity::take(['Logo', 'AlamatPN', 'NamaPN']);
 		$data = Tabayun_masuk::getWhere(['id' => $id])->row_array();
+		$export = [
+			'logo_pn_asal' => Components::load('logo', $identity),
+			'pn_asal_text' => $identity['NamaPN'],
+			'alamat_pn_asal' => $identity['AlamatPN'],
+			'nama_pihak' => $data['pihak'],
+			'alamat_pihak' => $data['alamat_pihak'],
+			'nomor_perkara' => $data['nomor_perkara']
+		];
+		$file = Export::findFile("./rtf/template/template_amplop_jspluar.rtf")->replace($export)->write("./rtf/hasil/hasil_amplop_luar.rtf");
+		redirect($file);
 	}
 }
+
  /* End of file Cetak.php */
  /* Location: ./application/controllers/Cetak.php */
