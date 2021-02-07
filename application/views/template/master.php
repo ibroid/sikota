@@ -152,6 +152,10 @@
     }
   }
 
+  function dataTableReference(params) {
+    $('#tblRef').dataTable();
+  }
+
   function datatableradius() {
     $('#trad').dataTable();
   }
@@ -209,6 +213,9 @@
     }
   }
 
+  function closeModal(selector) {
+    $(selector).modal('hide');
+  }
 
   function confirmAlert(params) {
     let option = {

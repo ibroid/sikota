@@ -402,10 +402,27 @@ class TabayunKeluar extends CI_Controller
     $this->view = 'balasan';
     $this->index();
   }
-  public function debug()
+  public function proses_mandiri($id = null)
   {
-    $pihak = 'Termohon';
-    echo sippTable()->pihakSebagai($pihak, 'Pe');
+    CI_Defender::zeroReferer()->secure();
+    $this->list = Tabayun_keluar::findOrDie(['id' => $id])->row();
+    $this->title = 'Proses Mandiri Tabayun Keluar';
+    $this->view = 'proses_mandiri';
+    $this->index();
+  }
+  public function update_mandiri()
+  {
+    Tabayun_file_masuk::insert([
+      'delegasi_id' => request('delegasi_id'),
+      'file' => $this->upload('file'),
+      'status_file' => 'File Balasan',
+      'diinput_oleh' => event()->inputBy(),
+      'diinput_tanggal' => event()->inputAt()
+    ]);
+    Tabayun_proses_keluar::insert(requestAll());
+    Tabayun_keluar::update(['status_kirim' => 1], ['id' => request('delegasi_id')]);
+    Notifikasi::flash('success', 'Proses Mandiri Berhasil');
+    redirect('TabayunKeluar/daftar');
   }
 }
 

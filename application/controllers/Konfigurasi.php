@@ -139,7 +139,8 @@ class Konfigurasi extends CI_Controller
   public function tambah_saldo_awal()
   {
     $data = array(
-      'saldo_awal' => $this->input->post('saldo_awal')
+      'saldo_awal' => $this->input->post('saldo_awal'),
+      'saldo_ahir' => $this->input->post('saldo_ahir')
     );
     $id = $this->db->get('saldo_awal')->row_array();
     if (!empty($id)) {

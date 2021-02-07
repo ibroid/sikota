@@ -24,6 +24,7 @@
 				</div>
 				<div class="panel-body">
 					<br>
+					<h5 class="text-danger">Perhatian: Mengubah Saldo Awal akan Mengubah Saldo Berjalan</h5>
 					<div class="container">
 						<form action="<?php echo base_url() . 'Konfigurasi/tambah_saldo_awal'; ?>" method="post">
 							<div class="row">
@@ -48,7 +49,8 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label text-right"></label>
 									<div class="col-sm-6">
-										<button class="btn btn-success btn pull-right" type="submit"><i class="fa fa-save"></i> Simpan</button>
+										<button class="btn btn-success btn" id="btn-save" disabled type="submit"><i class="fa fa-save"></i> Simpan</button>
+										<button type="button" onclick="document.getElementById('btn-save').removeAttribute('disabled')" class="btn btn-danger btn" type="submit"><i class="fa fa-warning"></i> Buka</button>
 									</div>
 								</div>
 							</div>

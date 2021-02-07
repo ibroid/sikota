@@ -10,6 +10,7 @@ class FormSupport extends CI_Controller
     $this->load->model('radius');
     $this->load->model('identity');
     $this->load->model('SIPP');
+    $this->load->model('tabayun_masuk');
   }
 
   public function nomor_perkara()
@@ -77,6 +78,11 @@ class FormSupport extends CI_Controller
         ], 'perkara')[0]->perkara_id
       ]
     ], 'perkara_putusan')[0]);
+  }
+  public function tabayunMasukReference()
+  {
+    $data = Tabayun_masuk::like('pn_asal_text', request('pn_asal_text'))->get()->result();
+    Components::load('referenceTabayunMasuk', $data);
   }
 }
 

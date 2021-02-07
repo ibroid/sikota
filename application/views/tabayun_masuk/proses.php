@@ -158,7 +158,12 @@
                                   <td>Surat Permohonan Delegasi</td>
                                   <td>
                                     <?php foreach ($data->files as $file) { ?>
-                                      <a href="http://<?= $file->file ?>" target="_blank">Download &nbsp;</a>
+                                      <?php if ($data->_id != '') {
+                                        echo "<a href=\"http://$file->file\" target=\"_blank\">Download &nbsp;</a>";
+                                      } else {
+                                        echo "<a href=\"" . base_url('uploads/surat/masuk/' . $file->file) . "\" target=\"_blank\">Download &nbsp;</a>";
+                                      } ?>
+
                                     <?php } ?>
                                   </td>
                                 </tr>
@@ -166,6 +171,11 @@
                                   <td scope="row">2</td>
                                   <td>Cetak Relaas</td>
                                   <td><a href="<?= base_url('Cetak/relaas/') . $data->id ?>">Download</a></td>
+                                </tr>
+                                <tr>
+                                  <td scope="row">3</td>
+                                  <td>Amplop Relaas</td>
+                                  <td><a href="<?= base_url('Cetak/amplop_relaas/') . $data->id ?>">Download</a></td>
                                 </tr>
                               </tbody>
                             </table>

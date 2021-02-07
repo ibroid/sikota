@@ -32,7 +32,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right">Jenis Perkara</label>
                 <div class="col-sm-8">
-                  <input type="text" autocomplete="off" name="jenis_perkara_text" class="info form-control" id="jenisPerkara">
+                  <input type="text" autocomplete="off" required name="jenis_perkara_text" class="info form-control" id="jenisPerkara">
                 </div>
               </div>
             </div>
@@ -172,7 +172,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label text-right"> File Pengantar </label>
                 <div class="col-sm-8">
-                  <input type="file" multiple class="info form-control" name="file">
+                  <input type="file" required multiple class="info form-control" name="file">
                 </div>
               </div>
             </div>

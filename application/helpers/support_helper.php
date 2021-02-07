@@ -54,7 +54,7 @@ function event()
   {
     function inputBy()
     {
-      return 'Web Master';
+      return auth()::$nama_lengkap;
     }
 
     function updatedAt()
@@ -68,4 +68,19 @@ function event()
     }
   };
   return $evnt;
+}
+function post()
+{
+  return new class
+  {
+
+    public function __construct()
+    {
+      if (isset($_POST)) {
+        foreach (array_keys($_POST) as $p) {
+          $this->$p = $_POST[$p];
+        }
+      }
+    }
+  };
 }

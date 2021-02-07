@@ -19,6 +19,8 @@ class TabayunMasuk extends CI_Controller
     $this->load->library('files');
     $this->load->model('sub_menu');
     $this->load->model('SIPP');
+    $this->load->model('wesel');
+    $this->load->model('saldo_awal');
     $this->load->model('identity');
     $this->load->model('nomor_surat');
     $this->load->model('tabayun_file_masuk');
@@ -334,6 +336,7 @@ class TabayunMasuk extends CI_Controller
   }
   public function wesel()
   {
+    $this->data = Wesel::all()->result();
     $this->title = 'Wesel Masuk';
     $this->view = 'tabayun_masuk/wesel';
     return $this->index();
