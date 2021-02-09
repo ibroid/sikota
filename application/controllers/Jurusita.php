@@ -12,7 +12,7 @@ class Jurusita extends CI_Controller
 	{
 		parent::__construct();
 		auth()->user();
-		auth()->jurusita();
+		// auth()->jurusita();
 		$this->load->model('tabayun_masuk');
 		$this->load->model('tabayun_proses_masuk');
 		$this->load->model('tabayun_file_masuk');
@@ -26,9 +26,9 @@ class Jurusita extends CI_Controller
 			redirect('Jurusita/baru', 'refresh');
 		}
 	}
-	private static function id()
+	private function id()
 	{
-		return isset(get_instance()->session->userdata('jurusita')['id']) ? get_instance()->session->userdata('jurusita')['id'] : '';
+		return isset($this->session->userdata('jurusitadata')['id']) ? $this->session->userdata('jurusitadata')['id'] : '';
 	}
 	public function index()
 	{
@@ -40,16 +40,22 @@ class Jurusita extends CI_Controller
 	}
 	public function baru()
 	{
+
 		$this->title = 'Panggilan Baru';
 		$this->view = 'baru';
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 0)->where('jurusita_id', self::id())->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')
+			->where('tabayun_proses_masuk.status_delegasi <', '4', FALSE)
+			->where('jurusita_id', $this->id())->get()->result();
 		return $this->index();
 	}
 	public function control()
 	{
+
 		$this->title = 'Panggilan Yang di Kirim';
 		$this->view = 'control';
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', self::id())->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')
+			->where('tabayun_proses_masuk.status_delegasi', 5)
+			->where('jurusita_id', $this->id())->get()->result();
 		return $this->index();
 	}
 	private static function cekProses($id)
@@ -81,7 +87,7 @@ class Jurusita extends CI_Controller
 	public function biaya()
 	{
 		$this->title = 'Biaya Panggilan';
-		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', self::id())->get()->result();
+		$this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->where('jurusita_id', $this->id())->get()->result();
 		$this->view = 'biaya';
 		return $this->index();
 	}

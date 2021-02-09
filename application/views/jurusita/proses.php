@@ -74,15 +74,6 @@
 												</a>
 											</li>
 
-
-											<li>
-												<a href="#tabs-demo6-area2" data-toggle="tab" title="profile">
-													<span data-toggle="tooltip" data-placement="top" title="Penunjukan Jurusita" class="round-tabs two">
-														<i class="glyphicon glyphicon-user"></i>
-													</span>
-												</a>
-											</li>
-
 											<li>
 												<a href="#tabs-demo6-area3" data-toggle="tab" title="bootsnipp goodies">
 													<span data-toggle="tooltip" data-placement="top" title="Pelaksanaan Delgasi" class="round-tabs three">
@@ -90,13 +81,6 @@
 													</span> </a>
 											</li>
 
-											<li>
-												<a href="#tabs-demo6-area4" data-toggle="tab" title="blah blah">
-													<span data-toggle="tooltip" data-placement="top" title="Pengiriman Berkas Kembali" class="round-tabs four">
-														<i class="glyphicon glyphicon-level-up"></i>
-													</span>
-												</a>
-											</li>
 
 											<li>
 												<a href="#tabs-demo6-area5" data-toggle="tab" title="completed">
@@ -126,76 +110,40 @@
 																	<td>Surat Permohonan Delegasi</td>
 																	<td>
 																		<?php foreach ($data->files as $file) { ?>
-																			<a href="http://<?= $file->file ?>" target="_blank">Download &nbsp;</a>
+																			<?php if ($data->_id != '') {
+																				echo "<a href=\"http://$file->file\" target=\"_blank\">Download &nbsp;</a>";
+																			} else {
+																				echo "<a href=\"" . base_url('uploads/surat/masuk/' . $file->file) . "\" target=\"_blank\">Download &nbsp;</a>";
+																			} ?>
+
 																		<?php } ?>
 																	</td>
 																</tr>
 																<tr>
 																	<td scope="row">2</td>
-																	<td>Template Surat Pengantar</td>
-																	<td><a href="">Download</a></td>
+																	<td>Cetak Relaas</td>
+																	<td><a href="<?= base_url('Cetak/relaas/') . $data->id ?>">Download</a></td>
 																</tr>
 																<tr>
 																	<td scope="row">3</td>
-																	<td>Cetak Relaas</td>
-																	<td><a href="">Download</a></td>
+																	<td>Amplop Relaas</td>
+																	<td><a href="<?= base_url('Cetak/amplop_relaas/') . $data->id ?>">Download</a></td>
 																</tr>
 															</tbody>
 														</table>
 													</div>
 												</div>
+
 											</div>
 
-											<div class="tab-pane fade" id="tabs-demo6-area2">
-												<h3 class="head text-center">Penunjukan Jurusita</h3>
-
-												<form action="<?= base_url('TabayunMasuk/updateProses/2/' . $data->id) ?>" method="POST">
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Tanggal Penunjukan</label>
-															<div class="col-sm-8">
-																<input type="text" name="tgl_penunjukan_jurusita" required autocomplete="off" value="<?= $data->proses->tgl_penunjukan_jurusita ?>" class="info form-control datepicker">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Nama Jurusita</label>
-															<div class="col-sm-8">
-																<select name="jurusita_id" class="form-control info" required>
-																	<?php if ($data->proses->jurusita_id) { ?>
-																		<option selected value="<?= $data->proses->jurusita_id ?>"><?= $data->proses->jurusita_nama; ?></option>
-																	<?php } ?>
-																	<option disabled>Pilih Salah Satu</option>
-																	<?php foreach ($this->SIPP->jurusitaaktif() as $js) { ?>
-																		<option class="opsi-js" data-id="<?= $js->id ?>" value="<?= $js->id ?>"><?= $js->nama_gelar; ?></option>
-																	<?php } ?>
-																</select>
-															</div>
-														</div>
-													</div>
-												</form>
-												<br><br><br>
-											</div>
 											<div class="tab-pane fade" id="tabs-demo6-area3">
 												<h3 class="head text-center">Pelaksanaan Delegasi</h3>
-
 												<form action="<?= base_url('TabayunMasuk/updateProses/3/') . $data->id ?>" method="POST">
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Tanggal diterima</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->tgl_surat_diterima ?>" required name="tgl_surat_diterima" autocomplete="off" class="info form-control datepicker">
-															</div>
-														</div>
-													</div>
-													<br>
 													<div class="row">
 														<div class="form-group">
 															<label class="col-sm-3 control-label text-right">Nomor Relaas</label>
 															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->nomor_relaas ?>" required autocomplete="off" name="nomor_relaas" class="info form-control">
+																<input type="text" value="<?= $data->nomor_perkara ?>" required autocomplete="off" name="nomor_relaas" class="info form-control">
 															</div>
 														</div>
 													</div>
@@ -248,73 +196,7 @@
 												</form>
 
 											</div>
-											<div class="tab-pane fade" id="tabs-demo6-area4">
-												<h3 class="head text-center">Pengiriman Berkas Kembali!</h3>
 
-												<form action="<?= base_url('TabayunMasuk/updateProses/4/') . $data->id ?>" method="POST">
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Tanggal Pengiriman Relaas Kembali</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->tgl_pengiriman_relaas ?>" required autocomplete="off" name="tgl_pengiriman_relaas" class="info datepicker form-control">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Nomor Surat Pengantar</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->nomor_surat_pengantar_relaas ?>" required autocomplete="off" name="nomor_surat_pengantar_relaas" class="info form-control">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Tanggal Surat Pengantar</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->tgl_surat_pengantar_relaas ?>" required autocomplete="off" name="tgl_surat_pengantar_relaas" class="info datepicker form-control">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Tanggal Resi</label>
-															<div class="col-sm-8">
-																<input type="text" required autocomplete="off" value="<?= $data->proses->tgl_resi ?>" name="tgl_resi" class="info datepicker form-control">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Nomor Resi</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->nomor_resi ?>" required autocomplete="off" name="nomor_resi" class="info form-control">
-															</div>
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="form-group">
-															<label class="col-sm-3 control-label text-right">Biaya Pengiriman</label>
-															<div class="col-sm-8">
-																<input type="text" value="<?= $data->proses->biaya ?>" required autocomplete="off" name="biaya" class="info form-control">
-															</div>
-														</div>
-													</div>
-													<?php if ($data->status_kirim != 1) { ?>
-														<?php if ($data->proses->status_delegasi > 2) { ?>
-															<p class="text-center">
-																<button class="btn btn-success btn-round green"> Simpan Proses <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
-															</p>
-														<?php } ?>
-													<?php } ?>
-													<br><br>
-												</form>
-											</div>
 											<div class="tab-pane fade" id="tabs-demo6-area5">
 												<div class="text-center">
 													<i class="img-intro icon-checkmark-circle"></i>
@@ -344,24 +226,16 @@
 																			<td><?= ++$no; ?></td>
 																			<td><a href=""><strong> <?= $val->file; ?></strong></a></td>
 																			<td><?= dateToText()->format_indo($val->diinput_tanggal); ?></td>
-																			<td><a href="<?= base_url('TabayunMasuk/hapusFileBalasan?file=') . $val->file . '&id=' . $this->uri->segment(3) ?>" class="text-danger">Hapus</a></td>
+																			<td><a href="#" class="text-danger">Hapus</a></td>
 																		</tr>
 																	<?php } ?>
 																</tbody>
 															</table>
 														</div>
 													</div>
-													<?php if ($data->status_kirim != 1) { ?>
-														<?php if ($data->proses->status_delegasi > 3) { ?>
-															<p class="text-center">
-																<button class="btn btn-success btn-round green"> Upload File <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
-
-																<?php if (!empty($data->hasil)) { ?>
-																	<button type="button" id="btn-kirim-balasan" class="btn btn-primary btn-round primary"> Kirim Balasan <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></button>
-																<?php } ?>
-															</p>
-														<?php } ?>
-													<?php } ?>
+													<p class="text-center">
+														<button class="btn btn-success btn-round green"> Upload File <span style="margin-left:10px;" class="glyphicon glyphicon-ok"></span></button>
+													</p>
 													<br>
 													<br>
 												</form>

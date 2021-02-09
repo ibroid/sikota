@@ -43,7 +43,7 @@ function auth()
       require_once APPPATH . 'libraries/Notifikasi.php';
       $these = get_instance();
       if ($these->session->userdata('userdata')['level'] != 1) {
-        if (!$these->session->userdata('jurusita')) {
+        if (!$these->session->userdata('jurusitadata')) {
           Notifikasi::flash('danger', 'Silahkan Login Sebagai Jurusita', 'notif');
           return redirect($_SERVER['HTTP_REFERER']);
         }

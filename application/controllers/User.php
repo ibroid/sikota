@@ -77,7 +77,12 @@ class User extends CI_Controller
       $this->output->set_status_header('404');
       echo "404 - not found";
     } else {
-      Pengguna::delete(['slug' => $par]);
+      if ($par == 'Web-Master') {
+        Notifikasi::flash('danger', 'Tidak Bisa Menghapus Admin');
+        redirect($_SERVER['HTTP_REFERER']);
+      } else {
+        Pengguna::delete(['slug' => $par]);
+      }
     }
     Notifikasi::flash('success', 'User Berhasil di Hapus');
     redirect($_SERVER['HTTP_REFERER']);

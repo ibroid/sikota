@@ -298,6 +298,23 @@
                                 <input type="text" value="<?= $data->proses->biaya ?>" required autocomplete="off" name="biaya" class="info form-control">
                               </div>
                             </div>
+                          </div><br>
+                          <div class="row">
+                            <div class="form-group">
+                              <label class="col-sm-3 control-label text-right">Berkas Balasan</label>
+                              <div class="col-sm-8">
+                                <table class="table table-bordered table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th><a href="<?= base_url('Cetak/surat_pengantar_balasan/' . $data->id) ?>">Surat Pengantar Balasan</a></th>
+                                    </tr>
+                                    <tr>
+                                      <th> <a href="">Amplop Pengantar Balasan</a></th>
+                                    </tr>
+                                  </thead>
+                                </table>
+                              </div>
+                            </div>
                           </div>
                           <?php if ($data->status_kirim != 1) { ?>
                             <?php if ($data->proses->status_delegasi > 2) { ?>

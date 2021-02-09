@@ -82,9 +82,10 @@
             <h1 class="animated fadeInLeft"><?= date('H:i') ?></h1>
             <p class="animated fadeInRight"><?= date('d, D F Y') ?></p>
           </li>
-          <?php foreach ($this->menu->menu() as $m) : ?>
+          <?php foreach (Menu::access(auth()::$level)->show() as $m) : ?>
             <li class="ripple"><a href="<?= base_url() . $m->link_menu ?>"><span class="icons <?= $m->logo_menu ?>"></span><?= $m->nama_menu ?></a></li>
           <?php endforeach; ?>
+
 
         </ul>
       </div>

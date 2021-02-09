@@ -9,7 +9,7 @@
         <div class="panel-body">
           <div class="table-responsive">
             <h3 class="text-primary">
-              List Antrian Tabayun Belum Dikirim
+              List Antrian Tabayun Dalam Proses
             </h3>
             <table data-filter="0" class="table table-responsive table table-hover table-bordered" style="width:100%">
               <thead>
@@ -39,7 +39,6 @@
                           <span class="fa fa-angle-down"></span>
                         </button>
                         <ul class="dropdown-menu  pull-right ">
-                          <li><a class="waves-effect" href="<?= base_url('') ?>">Cetak Wesel</a></li>
                           <li><a class="waves-effect" href="<?= base_url('Jurusita/proses/' . $d->iid) ?>">Proses</a></li>
                         </ul>
                       </div>

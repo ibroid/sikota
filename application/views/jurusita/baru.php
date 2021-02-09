@@ -39,7 +39,6 @@
                           <span class="fa fa-angle-down"></span>
                         </button>
                         <ul class="dropdown-menu  pull-right ">
-                          <li><a class="waves-effect" href="<?= base_url('') ?>">Cetak Wesel</a></li>
                           <li><a class="waves-effect" href="<?= base_url('Jurusita/proses/' . $d->iid) ?>">Proses</a></li>
                         </ul>
                       </div>

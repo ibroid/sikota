@@ -12,6 +12,7 @@ class Cetak extends CI_Controller
 		$this->load->model('tabayun_masuk');
 		$this->load->model('tabayun_proses_masuk');
 		$this->load->model('identity');
+		$this->load->model('nomor_surat');
 	}
 	private static function perkara_pihak_replace($data)
 	{
@@ -303,6 +304,23 @@ class Cetak extends CI_Controller
 			'nomor_perkara' => $data['nomor_perkara']
 		];
 		$file = Export::findFile("./rtf/template/template_amplop_jspluar.rtf")->replace($export)->write("./rtf/hasil/hasil_amplop_luar.rtf");
+		redirect($file);
+	}
+	public function surat_pengantar_balasan($id = null)
+	{
+		$identity = Identity::take(['NamaPN', 'AlamatPN', 'Website', 'Email', 'PanSekNama']);
+		$data = Tabayun_masuk::getWhere(['id' => $id])->row_array();
+		$file = Export::findFile("./rtf/template/template_pengantar_menjawab_bantuan.rtf.rtf")->replace([
+			'pn_asal_text' => $identity['NamaPN'],
+			'alamat_pn_asal' => $identity['AlamatPN'],
+			'web_pn_asal' => $identity['Website'],
+			'email_pn_asal' => $identity['Email'],
+			'pn_tujuan_text' => $data['pn_asal_text'],
+			'nomor_surat_balasan' => Nomor_surat::tabayunKeluar(),
+			'nama_panitera_asal' => $identity['PanSekNama'],
+			'hari_sidang' => dateToText()->format_indo($data['tgl_sidang']),
+
+		])->write("./rtf/hasil/template_pengantar_menjawab_bantuan.rtf.rtf");
 		redirect($file);
 	}
 }

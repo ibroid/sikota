@@ -87,6 +87,9 @@ class SIPP extends CI_Model
   {
     return $this->sipp->get_where($table, $par);
   }
+  public function pengadilan()
+  {
+  }
 }
 
 /* End of file SIPP.php */
