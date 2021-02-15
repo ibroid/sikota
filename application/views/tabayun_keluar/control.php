@@ -12,6 +12,7 @@
               List Antrian Tabayun Yang Sudah Dikirim
             </h3>
             <button class="btn btn-success" id="btn-cek-balasan"><i class="fa fa-recycle fa-xs fa-fw"></i> Cek Balasan</button>
+            <button class="btn btn-warning" id="btn-cari-tgl-sidang"><i class="fa fa-search fa-xs fa-fw"></i> Cari Tanggal Sidang</button>
             <br><br>
             <table id="datatables-example" class="table table-responsive table table-hover table-bordered" style="width:100%">
               <thead>
@@ -100,6 +101,29 @@
           location.reload()
         }
       })
+    })
+  })
+
+  document.getElementById('btn-cari-tgl-sidang').addEventListener('click', function() {
+    Swal.fire({
+      title: 'Masukan Periode Tanggal',
+      html: '<form method="POST" target="popup" action="' + base_url + 'TabayunKeluar/tglSidang" id="form-tgl-sidang"><input name="date" class="swal2-input" id="field-tgl-sidang"></form>',
+      showCancelButton: true,
+      didOpen: function() {
+        $('#field-tgl-sidang').daterangepicker({
+          autoApply: true,
+          showDropdowns: true,
+          minYear: 2015,
+          maxYear: 2025,
+          locale: {
+            format: 'YYYY-MM-DD'
+          }
+        });
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('form-tgl-sidang').submit()
+      }
     })
   })
 </script>

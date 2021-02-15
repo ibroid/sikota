@@ -52,10 +52,10 @@ class Model
     $these->db->where($field, $value, $str);
     return new static;
   }
-  public static function orWhere($field, $value)
+  public static function orWhere($field, $value, $str = TRUE)
   {
     $these = get_instance();
-    $these->db->or_where($field, $value);
+    $these->db->or_where($field, $value, $str);
     return new static;
   }
   public static function like($key, $like)

@@ -131,7 +131,7 @@
       autoApply: true,
       singleDatePicker: true,
       showDropdowns: true,
-      minYear: 2000,
+      minYear: 1960,
       maxYear: 2025,
       locale: {
         format: 'YYYY-MM-DD'

@@ -162,7 +162,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label text-right">Tanggal diterima</label>
 															<div class="col-sm-8">
-																<input type="text" value="<?= dateToText()->format_indo($data->proses->tgl_surat_diterima) ?>" required disabled autocomplete="off" class="primary form-control">
+																<input type="text" value="<?= isset($data->proses->tgl_surat_diterima) ? dateToText()->format_indo($data->proses->tgl_surat_diterima) : '' ?>" required disabled autocomplete="off" class="primary form-control">
 															</div>
 														</div>
 													</div>
@@ -214,7 +214,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label text-right">Tanggal Pengiriman Relaas Kembali</label>
 															<div class="col-sm-8">
-																<input type="text" value="<?= dateToText()->format_indo($data->proses->tgl_pengiriman_relaas) ?>" required autocomplete="off" disabled class="primary form-control">
+																<input type="text" value="<?= isset($data->proses->tgl_pengiriman_relaas) ? dateToText()->format_indo($data->proses->tgl_pengiriman_relaas) : '' ?>" required autocomplete="off" disabled class="primary form-control">
 															</div>
 														</div>
 													</div>
@@ -232,7 +232,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label text-right">Tanggal Surat Pengantar</label>
 															<div class="col-sm-8">
-																<input type="text" value="<?= dateTotext()->format_indo($data->proses->tgl_surat_pengantar_relaas) ?>" required autocomplete="off" disabled class="primary datepicker form-control">
+																<input type="text" value="<?= isset($data->proses->tgl_surat_pengantar_relaas) ? dateTotext()->format_indo($data->proses->tgl_surat_pengantar_relaas) : '' ?>" required autocomplete="off" disabled class="primary datepicker form-control">
 															</div>
 														</div>
 													</div>
@@ -241,7 +241,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label text-right">Tanggal Resi</label>
 															<div class="col-sm-8">
-																<input type="text" required autocomplete="off" value="<?= dateToText()->format_indo($data->proses->tgl_resi) ?>" disabled class="primary datepicker form-control">
+																<input type="text" required autocomplete="off" value="<?= isset($data->proses->tgl_resi) ? dateToText()->format_indo($data->proses->tgl_resi) : '' ?>" disabled class="primary datepicker form-control">
 															</div>
 														</div>
 													</div>

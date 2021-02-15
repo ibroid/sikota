@@ -424,6 +424,16 @@ class TabayunKeluar extends CI_Controller
     Notifikasi::flash('success', 'Proses Mandiri Berhasil');
     redirect('TabayunKeluar/daftar');
   }
+  public function tglSidang()
+  {
+    $awal = explode(' - ', request('date'))[0];
+    $akhir = explode(' - ', request('date'))[1];
+    $this->list = Tabayun_keluar::where('tgl_sidang <=', "'$awal'", FALSE)
+      ->where('tgl_sidang >=', "'$akhir'", FALSE)->get()->result();
+    $this->view = 'filter';
+    $this->title = 'Hasil Pencarian Berdasarkan Tanggal Sidang';
+    return $this->index();
+  }
 }
 
 /* End of file TabayunKeluar.php */

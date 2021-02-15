@@ -89,6 +89,7 @@ class SIPP extends CI_Model
   }
   public function pengadilan()
   {
+    return $this->sipp->get('pengadilan_tinggi')->result_array();
   }
 }
 
