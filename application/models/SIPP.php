@@ -87,9 +87,11 @@ class SIPP extends CI_Model
   {
     return $this->sipp->get_where($table, $par);
   }
-  public function pengadilan()
+  public function pengadilan_agama()
   {
-    return $this->sipp->get('pengadilan_tinggi')->result_array();
+    $this->sipp->order_by('nama', 'asc');
+
+    return $this->sipp->get_where('pengadilan_negeri', ['nama LIKE' => "PENGADILAN AGAMA%"], FALSE)->result();
   }
 }
 
