@@ -27,6 +27,7 @@
 
                   <div class="col-sm-6">
                     <input <?= dom()->formProses($data['nomor_perkara']) ?> type="text" id="input-perkara" required autocomplete="off" value="<?= $data['nomor_perkara'] ?>" name="nomor_perkara" class="info form-control">
+                    test
                   </div>
 
                   <div class="col-md-2">
@@ -60,54 +61,6 @@
                 </div>
               </div>
               <br>
-
-              <hr>
-
-              <h4 style="margin-left: 200px ;">Data Pihak Yang akan di Panggil</h4>
-              <br>
-
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Nama & Agama Pihak</label>
-                  <div class="col-sm-4">
-                    <input type="text" value="<?= $data['pihak'] ?>" <?= dom()->formProses($data['pihak']) ?> name="pihak" id="nama-pihak" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" <?= dom()->formProses($data['agama_pihak']) ?> name="agama_pihak" value="<?= $data['agama_pihak'] ?>" id="agama-pihak" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Tempat & Tanggal Lahir </label>
-                  <div class="col-sm-4">
-                    <input type="text" <?= dom()->formProses($data['tempat_lahir_pihak']) ?> value="<?= $data['tempat_lahir_pihak'] ?>" name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" <?= dom()->formProses($data['tanggal_lahir_pihak']) ?> value="<?= $data['tanggal_lahir_pihak'] ?>" name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Pendidikan & Pekerjaan</label>
-                  <div class="col-sm-4">
-                    <input type="text" <?= dom()->formProses($data['pendidikan_pihak']) ?> value="<?= $data['pendidikan_pihak'] ?>" name="pendidikan_pihak" id="pendidikan-pihak" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" <?= dom()->formProses($data['pekerjaan_pihak']) ?> name="pekerjaan_pihak" value="pekerjaan_pihak" id="pekerjaan-pihak" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Alamat Pihak </label>

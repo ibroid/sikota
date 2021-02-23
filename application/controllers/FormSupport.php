@@ -7,10 +7,21 @@ class FormSupport extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    $this->load->library('request');
+
     $this->load->model('radius');
     $this->load->model('identity');
     $this->load->model('SIPP');
     $this->load->model('tabayun_masuk');
+  }
+
+  public function cari_tgl_sidang()
+  {
+    $req = request('nomor_perkara');
+    echo json_encode([
+      'tgl_sidang' => $this->SIPP->customQuery("SELECT tanggal_sidang FROM perkara_penetapan_hari_sidang JOIN perkara USING(perkara_id) WHERE nomor_perkara = '$req'")->row()
+    ]);
+    echo json_encode($req);
   }
 
   public function nomor_perkara()
@@ -26,12 +37,14 @@ class FormSupport extends CI_Controller
 
   public function pilih_pihak()
   {
+    $noper = request('value');
     $model = $this->SIPP;
     $parapihak = [
       'pihak1' => $model->perkaraPihak(request('value'), 1),
       'pihak2' => $model->perkaraPihak(request('value'), 2),
       'pengacara1' => $model->perkaraPengacara(request('value'), 1),
       'pengacara2' => $model->perkaraPengacara(request('value'), 2),
+      'tgl_sidang' => $model->customQuery("SELECT tanggal_sidang FROM perkara_penetapan_hari_sidang JOIN perkara USING(perkara_id) WHERE nomor_perkara = '$noper'")->row_array()['tanggal_sidang']
     ];
     Components::load('tabelpihak', $parapihak);
   }

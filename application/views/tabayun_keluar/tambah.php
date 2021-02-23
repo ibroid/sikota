@@ -25,11 +25,26 @@
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nomor Perkara</label>
-                  <div class="col-sm-6">
-                    <input type="text" id="input-perkara" required autocomplete="off" name="nomor_perkara" class="info form-control">
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <input type="text" id="input-perkara" required autocomplete="off" name="nomor_perkara" class="info form-control">
+                      <div class="input-group-btn">
+                        <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" disabled class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-2">
-                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" disabled class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label text-right">Nama Pihak</label>
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <input type="text" class="info form-control" name="pihak" id="nama-pihak" aria-label="Text input with multiple buttons">
+                      <div class="input-group-btn">
+                        <button type="button" data-toggle="modal" data-target="#modelIdPihak" class="btn bg-blue text-white" aria-label="Help"><span class="fa fa-eye"></span>&nbsp; Lihat Data Lengkap</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -46,6 +61,69 @@
                 </div>
               </div>
               <br>
+              <div class="modal fade" id="modelIdPihak" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Data Pihak</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container-fluid">
+                        <input type="hidden" name="status_pihak" id="status-pihak">
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label text-right">Agama Pihak</label>
+                            <div class="col-sm-8">
+                              <input type="text" readonly name="agama_pihak" id="agama-pihak" class="info form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label text-right"> Tempat & Tanggal Lahir </label>
+                            <div class="col-sm-4">
+                              <input type="text" readonly name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
+                            </div>
+                            <div class="col-sm-4">
+                              <input type="text" readonly name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label text-right">Pendidikan & Pekerjaan</label>
+                            <div class="col-sm-4">
+                              <input type="text" readonly name="pendidikan_pihak" id="pendidikan-pihak" class="info form-control">
+                            </div>
+                            <div class="col-sm-4">
+                              <input type="text" readonly name="pekerjaan_pihak" id="pekerjaan-pihak" class="info form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label text-right"> Alamat Pihak </label>
+                            <div class="col-sm-8">
+                              <textarea cols="10" readonly id="alamat-pihak" name="alamat_pihak" class="form-control info" rows="3"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row" hidden id="formTglPutusan">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Tanggal Putusan</label>
@@ -64,61 +142,7 @@
                 </div>
               </div>
 
-              <hr>
 
-              <h4 style="margin-left: 200px ;">Data Pihak Yang akan di Panggil</h4>
-              <br>
-              <input type="hidden" name="status_pihak" id="status-pihak">
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Pihak & Agama Pihak</label>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="pihak" id="nama-pihak" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="agama_pihak" id="agama-pihak" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Tempat & Tanggal Lahir </label>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="tempat_lahir_pihak" id="tempat-lahir" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="tanggal_lahir_pihak" id="tanggal-lahir" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right">Pendidikan & Pekerjaan</label>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="pendidikan_pihak" id="pendidikan-pihak" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" readonly name="pekerjaan_pihak" id="pekerjaan-pihak" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br>
-
-
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Alamat Pihak </label>
-                  <div class="col-sm-8">
-                    <textarea cols="10" readonly id="alamat-pihak" name="alamat_pihak" class="form-control info" rows="3"></textarea>
-                  </div>
-                </div>
-              </div>
-              <hr>
               <h4 style="margin-left: 200px ;">Data Delegasi Kirim</h4>
               <br>
 
@@ -154,7 +178,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Tanggal Sidang </label>
                   <div class="col-sm-8">
-                    <input type="text" required autocomplete="off" name="tgl_sidang" class="info form-control datepicker">
+                    <input type="text" required autocomplete="off" name="tgl_sidang" id="tgl_sidang" class="info form-control datepicker">
                   </div>
                 </div>
               </div>
@@ -162,38 +186,22 @@
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Biaya Delegasi </label>
-                  <div class="col-sm-6">
-                    <input type="text" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
-                  </div>
-                  <div class="col-sm-4">
-                    <button disabled onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <input type="text" required name="biaya" autocomplete="off" id="biaya" class="warning form-control">
+                      <div class="input-group-btn">
+                        <button disabled onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <br>
-              <!-- <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Nomor Resi </label>
-                  <div class="col-sm-8">
-                    <input type="text" class="info form-control">
-                  </div>
-                </div>
-              </div>
-              <br> -->
-              <!-- <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Tanggal Resi </label>
-                  <div class="col-sm-8">
-                    <input type="text" class="info form-control datepicker">
-                  </div>
-                </div>
-              </div>
-              <br> -->
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Catatan </label>
                   <div class="col-sm-8">
-                    <textarea required name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"></textarea>
+                    <textarea name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"></textarea>
                   </div>
                 </div>
               </div>
@@ -208,9 +216,8 @@
   </div>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Silahkan Pilih Pihak yang akan di Panggil</h5>
@@ -220,12 +227,17 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <strong>MOHON TUNGGU BEBERAPA DETIK. BILA DATA TIDAK KELUAR SILAHKAN REFRESH</strong>
+          <div id="place-pilih-pihak">
+            <strong>MOHON TUNGGU BEBERAPA DETIK. BILA DATA TIDAK KELUAR SILAHKAN REFRESH</strong>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+
 
 
 <!-- Modal -->
@@ -280,8 +292,10 @@
       if (this.value != '') {
         document.querySelector('button.btn.bg-blue.text-white.margin-right-2').removeAttribute('disabled')
       }
+
     })
   });
+
 
   autocomplete(document.getElementById('perPN'), "<?= base_url() ?>FormSupport/daftar_pn", () => {})
 
@@ -300,7 +314,7 @@
   }
 
   function placing(element, callback) {
-    const target = document.querySelector('div div.container-fluid')
+    const target = document.getElementById('place-pilih-pihak')
     target.innerHTML = element
     afterplacing()
   }
@@ -310,7 +324,9 @@
     const everypihak = document.getElementsByClassName('pihak')
     for (let item of everypihak) {
       item.onclick = function() {
-        placeData(this)
+        placeData(this, (data) => {
+          document.getElementById('tgl_sidang').value = data
+        })
       }
     }
   }
@@ -328,7 +344,7 @@
     }
   }
 
-  function placeData(data) {
+  function placeData(data, callback) {
     findForm('nama-pihak', data.textContent)
     findForm('status-pihak', data.dataset.status)
     findForm('agama-pihak', data.dataset.agama)
@@ -337,7 +353,7 @@
     findForm('alamat-pihak', data.dataset.alamat)
     findForm('tempat-lahir', data.dataset.tempatlahir)
     findForm('tanggal-lahir', data.dataset.tanggallahir)
-    findForm('biodata-pihak', data.textContent + ',' + ' ' + data.dataset.tempatlahir + ',' + ' ' + data.dataset.tanggallahir + ',' + ' ' + data.dataset.agama + ',' + ' ' + data.dataset.pendidikan + ',' + ' ' + data.dataset.pekerjaan + ',' + ' ' + data.dataset.alamat)
+    callback(data.dataset.tgl_sidang)
   }
 
 
