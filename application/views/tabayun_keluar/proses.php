@@ -25,14 +25,16 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right">Nomor Perkara</label>
 
-                  <div class="col-sm-6">
-                    <input <?= dom()->formProses($data['nomor_perkara']) ?> type="text" id="input-perkara" required autocomplete="off" value="<?= $data['nomor_perkara'] ?>" name="nomor_perkara" class="info form-control">
-                    test
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <input <?= dom()->formProses($data['nomor_perkara']) ?> type="text" id="input-perkara" required autocomplete="off" value="<?= $data['nomor_perkara'] ?>" name="nomor_perkara" class="info form-control">
+                      <div class="input-group-btn">
+                        <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" <?= dom()->formProses($data['nomor_perkara']) ?> class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="col-md-2">
-                    <button type="button" onclick="pilihpihak()" data-toggle="modal" data-target="#modelId" <?= dom()->formProses($data['nomor_perkara']) ?> class="btn bg-blue text-white margin-right-2"><i class="icons icon-user-following"></i></i> Pilih Pihak</button>
-                  </div>
+
 
                 </div>
               </div>
@@ -61,14 +63,6 @@
                 </div>
               </div>
               <br>
-              <div class="row">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label text-right"> Alamat Pihak </label>
-                  <div class="col-sm-8">
-                    <textarea cols="10" <?= dom()->formProses($data['alamat_pihak']) ?> id="alamat-pihak" name="alamat_pihak" class="form-control info" rows="3"><?= $data['alamat_pihak']; ?></textarea>
-                  </div>
-                </div>
-              </div>
               <hr>
               <h4 style="margin-left: 200px ;">Data Delegasi Kirim</h4>
               <br>
@@ -113,12 +107,15 @@
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Biaya Delegasi </label>
-                  <div class="col-sm-6">
-                    <input type="text" <?= dom()->formProses($data['biaya']) ?> value="<?= $data['biaya'] ?>" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <input type="text" <?= dom()->formProses($data['biaya']) ?> value="<?= $data['biaya'] ?>" required name="biaya" autocomplete="off" id="biaya" class="info form-control">
+                      <div class="input-group-btn">
+                        <button <?= dom()->formProses($data['biaya']) ?> onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-sm-4">
-                    <button <?= dom()->formProses($data['biaya']) ?> onclick="setRadius()" data-toggle="modal" data-target="#modelIdR" type="button" class="btn btn-warning"><i class="icons icon-list"></i> Daftar Radius</button>
-                  </div>
+
                 </div>
               </div>
               <br>
