@@ -2,7 +2,8 @@
 .pdf
 application/cache/*
 application/config/database.php
-uploads
+uploads/masuk/*
+uploads/keluar/*
 !application/cache/index.html
 
 application/logs/*
