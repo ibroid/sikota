@@ -42,7 +42,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right">Nomor Surat</label>
@@ -51,7 +51,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right"> Tanggal Surat </label>
@@ -60,7 +60,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right"> Tanggal Catat </label>
@@ -69,7 +69,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right">Perihal</label>
@@ -78,7 +78,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right">Isi Ringkas</label>
@@ -87,7 +87,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right">Keterangan</label>
@@ -96,7 +96,7 @@
 											</div>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="form-group">
 											<label class="col-sm-2 control-label text-right">Upload File</label>

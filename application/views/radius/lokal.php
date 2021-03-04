@@ -7,6 +7,7 @@
 					<h3>Daftar Radius Lokal</h3>
 				</div>
 				<div class="panel-body">
+					<button id="btn-sinkron" class="btn btn-primary"><i class="fa fa-link"></i> Sinkron</button><br><br>
 					<table id="datatables-example" class="table table-striped table-inverse table-responsive">
 						<thead class="thead-inverse">
 							<tr>
@@ -33,3 +34,18 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.getElementById('btn-sinkron').addEventListener('click', async function() {
+		const radius = await fetch("http://komdanas.mahkamahagung.go.id/jsons/radius04.json").then(
+			response => response.json()
+		)
+		let body = []
+		radius.filter(element => {
+			if (element.satker_code == "<?= $data['kode_satker'] ?>") {
+				body.push(element)
+			}
+		})
+
+	})
+</script>

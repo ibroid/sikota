@@ -30,9 +30,11 @@ class District extends CI_Controller
 
 	public function lokal()
 	{
+		$kode_satker = Identity::take(['kode_satker'])['kode_satker'];
 		$this->view = 'radius/lokal';
 		$this->title =  'Radius Lokal';
-		$this->data =  Radius::getWhere(['satker_code' => Identity::take(['kode_satker'])['kode_satker']])->result();
+		$this->data =  Radius::getWhere(['satker_code' => $kode_satker])->result();
+		$this->data['kode_satker'] = $kode_satker;
 		return $this->index();
 	}
 	public function nasional()
