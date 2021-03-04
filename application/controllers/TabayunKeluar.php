@@ -434,6 +434,13 @@ class TabayunKeluar extends CI_Controller
     $this->title = 'Hasil Pencarian Berdasarkan Tanggal Sidang';
     return $this->index();
   }
+  public function laporan()
+  {
+    $this->title = 'Laporan Tabayun Keluar';
+    $this->list = null;
+    $this->view = 'laporan';
+    $this->index();
+  }
 }
 
 /* End of file TabayunKeluar.php */

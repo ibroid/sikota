@@ -57,36 +57,5 @@
         }
       })
     }
-
-
-    if (e.target.classList.contains('btn-block')) {
-      Swal.mixin({
-        confirmButtonText: 'Simpan dan Lanjutkan;',
-        showCancelButton: true,
-        progressSteps: ['1', '2', '3'],
-        didOpen: () => {
-          console.log(document.getElementById('ok'))
-        },
-      }).queue([{
-          title: 'Masukan Nomor Resi',
-          input: 'text'
-        },
-        {
-          title: 'Masukan Tanggal Resi',
-          html: '<input type="date" name="tgl_resi" class="swal2-input">',
-          customClass: 'swal-custom-width',
-        },
-        {
-          title: "Masukan File",
-          input: "file",
-          id: "ok"
-        }
-      ]).then((result) => {
-        if (result.value) {
-          const answers = JSON.stringify(result.value)
-          console.log(result)
-        }
-      })
-    }
   })
 </script>

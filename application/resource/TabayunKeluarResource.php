@@ -37,11 +37,10 @@ class TabayunkeluarResource
                 <li><a class='waves-effect' target='_blank' href='" . base_url("cetak/cetak_pengantar_keluar") . "/$tbk->id" . "'>Cetak Pengantar</a></li>
                 <li><a class='waves-effect' target='_blank' href='" . base_url("cetak/amplop_pengantar") . "/$tbk->id" . "'>Cetak Amplop</a></li>
                 <li><a class='waves-effect' href='" . base_url('Cetak/wesel/') . $tbk->id . "' target='_blank'>Cetak Wesel</a></li>      
-                <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Edit</a></li>  
+                <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses/') . $tbk->id . "'>Proses</a></li>  
                 <li><a class='waves-effect' href='" . base_url('TabayunKeluar/proses_mandiri/') . $tbk->id . "'>Proses Mandiri</a></li>  
                 <li><a data-id='$tbk->id' class='waves-effect hapus' href='javascript:void(0)'>Hapus</a></li>
-            </ul><br><br>
-            <button type=\"button\" data-id='$tbk->id' class=\"btn btn-success btn-block\"><i class=\"fa fa-paper-plane\"></i>  Kirim</button>
+            </ul>
         </div>";
       $data[] = $row;
     }

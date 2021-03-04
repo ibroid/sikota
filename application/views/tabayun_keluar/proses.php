@@ -123,7 +123,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label text-right"> Catatan </label>
                   <div class="col-sm-8">
-                    <textarea required <?= dom()->formProses($data['catatan']) ?> name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"><?= $data['catatan']; ?></textarea>
+                    <textarea <?= dom()->formProses($data['catatan']) ?> name="catatan" autocomplete="off" class="info form-control" cols="10" rows="3"><?= $data['catatan']; ?></textarea>
                   </div>
                 </div>
               </div>

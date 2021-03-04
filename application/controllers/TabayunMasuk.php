@@ -374,6 +374,12 @@ class TabayunMasuk extends CI_Controller
     Notifikasi::flash('success', 'Data Tabayun Masuk baru telah di Perbaharui', 'notif');
     redirect('TabayunMasuk/daftar', 'refresh');
   }
+  public function laporan()
+  {
+    $this->title = 'Laporan Tabayun Masuk';
+    $this->view = 'tabayun_masuk/laporan';
+    $this->index();
+  }
 }
 
 /* End of file TabayunMasuk.php */
