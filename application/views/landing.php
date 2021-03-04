@@ -191,20 +191,10 @@
 
 					<!-- Card -->
 					<div class="card">
-						<img class="card-image" src="<?php echo base_url('assets/halaman_publik/web/images/services-icon-1.svg') ?>" alt="alternative">
-						<div class="card-body">
-							<h4 class="card-title">$total_surat_umum</h4>
-							<p>Hingga Saat Ini, Tercatat Sebanyak $total_surat_umum Surat Masuk Dan Keluar Dari Berbagai Instansi Baik Keperkaraan Maupun Non Keperkaraan</p>
-						</div>
-					</div>
-					<!-- end of card -->
-
-					<!-- Card -->
-					<div class="card">
 						<img class="card-image" src="<?php echo base_url('assets/halaman_publik/web/images/services-icon-2.svg" alt="alternative') ?>">
 						<div class="card-body">
-							<h4 class="card-title">$total_delegasi_keluar</h4>
-							<p>Hingga Saat Ini, Tercatat Sebanyak $total_delegasi_keluar Bantuan Delegasi Dari <?= ucwords(strtolower($identity['NamaPN']))  ?> ke Pengadilan Agama Lain</p>
+							<h4 class="card-title"><?= $total_delegasi_keluar['total_del_keluar'] ?></h4>
+							<p>Hingga Saat Ini, Tercatat Sebanyak <?= $total_delegasi_keluar['total_del_keluar'] ?> Bantuan Delegasi Dari <?= ucwords(strtolower($identity['NamaPN']))  ?> ke Pengadilan Agama Lain</p>
 						</div>
 					</div>
 					<!-- end of card -->
@@ -213,8 +203,8 @@
 					<div class="card">
 						<img class="card-image" src="<?php echo base_url('assets/halaman_publik/web/images/services-icon-3.svg" alt="alternative') ?>">
 						<div class="card-body">
-							<h4 class="card-title">$total_delegasi_masuk</h4>
-							<p>Hingga Saat Ini, Tercatat Sebanyak $total_delegasi_masuk Bantuan Delegasi Ke <?= ucwords(strtolower($identity['NamaPN']))  ?> Dari Pengadilan Agama Lain</p>
+							<h4 class="card-title"><?= $total_delegasi_masuk['total_del_masuk'] ?></h4>
+							<p>Hingga Saat Ini, Tercatat Sebanyak <?= $total_delegasi_masuk['total_del_masuk'] ?> Bantuan Delegasi Ke <?= ucwords(strtolower($identity['NamaPN']))  ?> Dari Pengadilan Agama Lain</p>
 						</div>
 					</div>
 					<!-- end of card -->

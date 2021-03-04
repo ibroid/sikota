@@ -14,7 +14,9 @@ class Landing extends CI_Controller
 	{
 
 		$this->load->view('landing', [
-			'identity' => Identity::take(['NamaPN', 'kode_satker'])
+			'identity' => Identity::take(['NamaPN', 'kode_satker']),
+			'total_delegasi_masuk' => $this->db->query("SELECT COUNT(id) AS total_del_masuk FROM tabayun_masuk ")->row_array(),
+			'total_delegasi_keluar' => $this->db->query("SELECT COUNT(id) AS total_del_keluar FROM tabayun_keluar")->row_array(),
 		]);
 	}
 	public function debug()
