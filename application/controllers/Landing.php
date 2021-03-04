@@ -7,11 +7,15 @@ class Landing extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('SIPP');
+		$this->load->model('identity');
 	}
 
 	public function index()
 	{
-		$this->load->view('landing');
+
+		$this->load->view('landing', [
+			'identity' => Identity::take(['NamaPN', 'kode_satker'])
+		]);
 	}
 	public function debug()
 	{

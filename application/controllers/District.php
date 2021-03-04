@@ -40,10 +40,8 @@ class District extends CI_Controller
 		$this->view = 'radius/nasional';
 		$this->title =  'Radius Nasional';
 		$this->data =  $this->SIPP->pengadilan_agama();
-
 		return $this->index();
 	}
-
 	public function komdanas()
 	{
 		echo "<pre>";
@@ -60,10 +58,10 @@ class District extends CI_Controller
 		$this->delete_before();
 		foreach (json_decode(file_get_contents("http://komdanas.mahkamahagung.go.id/jsons/radius04.json")) as $d) {
 			$this->db->insert('radius', $d);
-			echo $no++. ". Insert Data Success <br>";
+			echo $no++ . ". Insert Data Success <br>";
 		}
 		redirect("Radius/nasional");
-	} 
+	}
 }
 
 /* End of file Radius.php */
