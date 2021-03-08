@@ -274,7 +274,8 @@ class TabayunMasuk extends CI_Controller
     $data = array_merge($tpm, [
       'id_pn_asal' => Identity::take(['IDPN'])['IDPN'],
       'id_pn_tujuan' =>  $tm['id_pn_tujuan'],
-      'id_from_client' => $tm['id_from_client']
+      'id_from_client' => $tm['id_from_client'],
+      '_id' => $tm['_id']
     ]);
 
     try {
@@ -331,7 +332,7 @@ class TabayunMasuk extends CI_Controller
   {
     $this->title = 'Control Data Tambah Tabayun Masuk';
     $this->view = 'tabayun_masuk/control';
-    $this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->get()->result();
+    $this->data = Tabayun_masuk::select('tabayun_masuk.id as iid,tabayun_masuk.*,tabayun_proses_masuk.*')->join('tabayun_proses_masuk', 'delegasi_id = tabayun_masuk.id', 'LEFT')->where('status_kirim', 1)->get()->result();
     $this->index();
   }
   public function wesel()
