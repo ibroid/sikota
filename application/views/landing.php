@@ -130,41 +130,19 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h5>Digunakan Oleh</h5>
-
+					<?php $logo  = ['403.jpg', '404.jpg', '405.jpg', '406.jpg', '407.jpg'] ?>
 					<!-- Image Slider -->
 					<div class="slider-container">
 						<div class="swiper-container image-slider">
 							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
+								<?php foreach ($logo as $d) { ?>
+									<div class="swiper-slide">
+										<div class="image-container">
+											<img class="img-responsive" src="<?php echo base_url('assets/logo/') . $d ?>" width="100" height="120" alt="alternative">
+										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="image-container">
-										<img class="img-responsive" src="<?php echo base_url('assets/halaman_publik/web/images/logojakut.png') ?>" width="100" height="120" alt="alternative">
-									</div>
-								</div>
+								<?php } ?>
+
 							</div> <!-- end of swiper-wrapper -->
 						</div> <!-- end of swiper container -->
 					</div> <!-- end of slider-container -->

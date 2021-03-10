@@ -20,6 +20,8 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/backend/') ?>css/plugins/animate.min.css" />
   <link href="<?= base_url('assets/backend/') ?>css/style.css" rel="stylesheet">
   <link href="<?= base_url('assets/backend/datatables/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet">
+  <link href="<?= base_url() ?>assets/backend/chartjs/Chart.css" rel="stylesheet" />
+  <link href="<?= base_url() ?>assets/backend/chartjs/Chart.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <style>
@@ -28,7 +30,8 @@
     }
   </style>
   <!-- end: Css -->
-
+  <script src="<?= base_url() ?>assets/backend/chartjs/Chart.bundle.js" type="text/javascript"></script>
+  <script src="<?= base_url() ?>assets/backend/chartjs/Chart.bundle.min.js" type="text/javascript"></script>
   <link rel="shortcut icon" href="<?= base_url('assets/backend/') ?>img/logomi.png">
 </head>
 
@@ -43,7 +46,7 @@
           <span class="bottom"></span>
         </div>
         <a href="index.html" class="navbar-brand">
-          <b>Genesis</b>
+          <b>SiKoTa</b>
         </a>
         <ul class="nav navbar-nav navbar-right user-nav ">
           <li class="user-name"><span><?= auth()::$nama_lengkap  ?></span></li>
