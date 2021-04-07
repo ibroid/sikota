@@ -273,7 +273,7 @@ class TabayunMasuk extends CI_Controller
     }
     $data = array_merge($tpm, [
       'id_pn_asal' => Identity::take(['IDPN'])['IDPN'],
-      'id_pn_tujuan' =>  $tm['id_pn_tujuan'],
+      'id_pn_tujuan' =>  $tm['id_pn_asal'],
       'id_from_client' => $tm['id_from_client'],
       '_id' => $tm['_id']
     ]);
