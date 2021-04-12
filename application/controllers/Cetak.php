@@ -103,7 +103,7 @@ class Cetak extends CI_Controller
 				'value' => $data['perkara_id']
 			]
 		], 'perkara_penetapan');
-		$indentity = Identity::take(['PanSekNama', 'AlamatPN', 'NomorTelepon', 'NamaPN']);
+		$indentity = Identity::take(['PanSekNama', 'AlamatPN', 'NomorTelepon', 'NamaPN', 'Website', 'Email']);
 		$export = array_merge(
 			[
 				'hari_sidang' =>  dateToText()->format_indo($data['tgl_sidang']), 'biaya_keluar' =>  buatrp($data['biaya']),
