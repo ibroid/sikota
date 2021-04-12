@@ -164,7 +164,7 @@ class Cetak extends CI_Controller
 		$export = array_merge(
 			$this->identity_replace(
 				$data['pn_tujuan_text'],
-				Identity::take(['PanSekNama', 'AlamatPN', 'NomorTelepon', 'NamaPN', 'Website', 'Email']),
+				Identity::take(['PanSekNama', 'AlamatPN', 'NomorTelepon', 'NamaPN', 'Website', 'Email'])
 			),
 			$this->surat_replace($data),
 			$this->perkara_pihak_replace($data),
